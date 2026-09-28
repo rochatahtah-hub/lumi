@@ -1,0 +1,100 @@
+import type { Lesson } from '../../types'
+
+const BNCC = { title: 'Base Nacional Comum Curricular (BNCC) — Ciências da Natureza', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' } as const
+const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
+
+export const cicloAgua: Lesson = {
+  id: 'cie-ciclo-da-agua',
+  subject: 'ciencias',
+  title: 'Ciclo da água',
+  levels: ['fund1', 'fund2'],
+  grade: '3º ao 6º ano',
+  aliases: ['ciclo da agua', 'ciclo hidrologico', 'evaporacao', 'condensacao', 'precipitacao', 'chuva', 'estados fisicos da agua', 'como a chuva se forma'],
+  summary: 'Veja como a água viaja entre o mar, o céu e a terra: evaporação, condensação, precipitação e infiltração.',
+  intro: 'A água da chuva de hoje pode ter estado no oceano semana passada. Vamos acompanhar essa viagem!',
+  skills: { evaporacao: 'Evaporação e transpiração', condensacao: 'Condensação e nuvens', precipitacao: 'Precipitação', retorno: 'Infiltração e escoamento' },
+  blocks: [
+    { id: 'b1', skill: 'evaporacao', title: 'A água sobe: evaporação', text: 'O calor do Sol aquece a água de mares, rios e lagos, e ela passa do estado líquido para o gasoso (vapor), subindo para a atmosfera. As plantas também liberam vapor pelas folhas: é a transpiração.', example: 'Uma roupa molhada seca no varal porque a água evapora.', variants: { simples: 'O Sol esquenta a água, e ela vira vapor, que sobe para o céu. Invisível!' } },
+    { id: 'b2', skill: 'condensacao', title: 'As nuvens se formam: condensação', text: 'Lá em cima o ar é mais frio. O vapor esfria e volta a virar gotinhas de água líquida, que se juntam e formam as nuvens.', example: 'Um copo com água gelada fica "suado" por fora: o vapor do ar condensa no vidro frio.', variants: { simples: 'No alto é frio. O vapor vira gotinhas, e muitas gotinhas juntas formam as nuvens.' } },
+    { id: 'b3', skill: 'precipitacao', title: 'A água cai: precipitação', text: 'Quando as gotinhas das nuvens ficam grandes e pesadas, caem como chuva. Em lugares muito frios, podem cair como neve ou granizo.', example: 'Nuvens escuras e carregadas costumam anunciar chuva forte.', variants: { simples: 'Quando as gotas ficam pesadas, caem: é a chuva.' } },
+    { id: 'b4', skill: 'retorno', title: 'A água volta: infiltração e escoamento', text: 'Parte da chuva infiltra no solo e forma a água subterrânea (lençol freático). Outra parte escorre pela superfície até rios, lagos e mares. E o ciclo recomeça.', example: 'Em cidades com muito asfalto, a água não infiltra e escorre pelas ruas, causando enchentes.', variants: { simples: 'A chuva entra na terra ou escorre até os rios e o mar. Depois tudo começa de novo.' } },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'evaporacao', prompt: 'O que faz a água dos rios e mares evaporar?', options: ['O frio', 'O calor do Sol', 'O vento sozinho', 'A Lua'], answer: 1, hints: ['A evaporação precisa de energia.', 'Essa energia vem do céu de dia.', 'Ela esquenta a água.'], explanation: 'O calor do Sol transforma a água líquida em vapor.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'condensacao', prompt: 'Como as nuvens se formam?', options: ['O vapor esfria e vira gotinhas', 'A fumaça das fábricas', 'A água do mar voa', 'O Sol cria nuvens'], answer: 0, hints: ['Lá em cima é mais frio.', 'O que acontece com o vapor no frio?', 'Ele vira líquido de novo.'], explanation: 'O vapor condensa em gotinhas que formam as nuvens.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'precipitacao', prompt: 'A chuva é um tipo de precipitação.', answer: true, hints: ['Precipitação = água caindo do céu.', 'A chuva cai do céu?', 'Sim.'], explanation: 'Verdadeiro. Neve e granizo também são precipitação.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'condensacao', prompt: 'A passagem do vapor para gotinhas de água se chama ________.', answers: ['condensacao', 'condensação'], hints: ['Acontece quando o vapor esfria.', 'Forma as nuvens.', 'Conden…'], explanation: 'Condensação.' },
+    { id: 'q5', type: 'match', difficulty: 2, skill: 'retorno', prompt: 'Ligue cada etapa ao que acontece.', pairs: [['Evaporação', 'Água vira vapor e sobe'], ['Condensação', 'Vapor forma nuvens'], ['Precipitação', 'Água cai como chuva'], ['Infiltração', 'Água entra no solo']], hints: ['Sobe, forma nuvem, cai, entra na terra.', 'Precipitação = cair.', 'Infiltrar = entrar.'], explanation: 'Evaporação → condensação → precipitação → infiltração.' },
+    { id: 'q6', type: 'tf', difficulty: 2, skill: 'evaporacao', prompt: 'As plantas também liberam vapor de água para a atmosfera.', answer: true, hints: ['Pense nas folhas.', 'Esse processo se chama transpiração.', 'Ele faz parte do ciclo.'], explanation: 'Verdadeiro: é a transpiração das plantas.' },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'condensacao', prompt: 'Por que um copo com água gelada fica molhado por fora?', options: ['A água atravessa o vidro', 'O vapor do ar condensa no vidro frio', 'O copo derrete', 'A água evapora de dentro'], answer: 1, hints: ['O vidro está frio.', 'O ar tem vapor invisível.', 'Vapor + frio = ?'], explanation: 'O vapor do ar esfria no vidro e condensa.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'retorno', prompt: 'Por que cidades com muito asfalto têm mais enchentes?', options: ['Porque chove mais nas cidades', 'Porque a água não consegue infiltrar no solo', 'Porque o asfalto produz água', 'Porque não há evaporação'], answer: 1, hints: ['Asfalto deixa a água entrar na terra?', 'Não deixa.', 'Então ela escorre.'], explanation: 'Sem infiltração, a água escorre toda pela superfície.' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'retorno', prompt: 'A água que infiltra e fica guardada no subsolo forma o lençol ________.', answers: ['freatico', 'freático'], hints: ['Fica embaixo da terra.', 'De onde vêm os poços.', 'Lençol frea…'], explanation: 'Lençol freático.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'precipitacao', prompt: 'Explique com suas palavras como a água do mar pode virar chuva em outro lugar.', modelAnswer: 'O Sol aquece o mar e a água evapora. O vapor sobe, esfria e condensa formando nuvens. O vento leva as nuvens, e quando as gotas ficam pesadas elas caem como chuva em outro lugar.', keywords: ['evapora', 'vapor', 'nuvem', 'condensa', 'chuva', 'sol', 'vento'], hints: ['Comece pelo Sol.', 'Depois fale das nuvens.', 'Termine com a chuva caindo.'], explanation: 'Evaporação → condensação → transporte pelo vento → precipitação.' },
+  ],
+  review: ['Evaporação: o Sol transforma água em vapor', 'Condensação: vapor esfria e forma nuvens', 'Precipitação: chuva, neve, granizo', 'Infiltração e escoamento devolvem a água'],
+  sources: [BNCC, AUTORAL],
+}
+
+export const sistemaDigestorio: Lesson = {
+  id: 'cie-sistema-digestorio',
+  subject: 'ciencias',
+  title: 'Sistema digestório',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano',
+  aliases: ['sistema digestorio', 'digestao', 'aparelho digestivo', 'estomago', 'intestino', 'corpo humano', 'como digerimos os alimentos'],
+  summary: 'Acompanhe o caminho dos alimentos: da boca ao intestino, e o papel de cada órgão.',
+  intro: 'Um lanche leva horas viajando pelo seu corpo. Vamos seguir esse caminho!',
+  skills: { conceito: 'O que é digestão', boca_estomago: 'Boca, esôfago e estômago', intestinos: 'Intestino delgado e grosso', anexos: 'Fígado e pâncreas' },
+  blocks: [
+    { id: 'b1', skill: 'conceito', title: 'Para que serve a digestão', text: 'Digestão é a transformação dos alimentos em partes muito pequenas (nutrientes) que o corpo consegue absorver e usar para ter energia, crescer e se recuperar.', example: 'O pão tem amido, que é quebrado até virar glicose, uma fonte de energia.' },
+    { id: 'b2', skill: 'boca_estomago', title: 'Da boca ao estômago', text: 'Na boca, os dentes trituram o alimento e a saliva começa a digerir o amido. O alimento passa pela faringe e pelo esôfago até o estômago, onde o suco gástrico, muito ácido, digere as proteínas.', example: 'Mastigar bem facilita todo o resto da digestão.' },
+    { id: 'b3', skill: 'intestinos', title: 'Os intestinos', text: 'No intestino delgado a digestão termina e os nutrientes são absorvidos para o sangue. No intestino grosso, grande parte da água é absorvida e se formam as fezes, eliminadas pelo ânus.', example: 'O intestino delgado de um adulto tem vários metros de comprimento, dobrado dentro da barriga.' },
+    { id: 'b4', skill: 'anexos', title: 'Os órgãos anexos', text: 'O fígado produz a bile, que ajuda a digerir as gorduras (ela fica guardada na vesícula biliar). O pâncreas produz o suco pancreático, com enzimas que atuam no intestino delgado.', example: 'Uma refeição muito gordurosa exige mais bile para ser digerida.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'boca_estomago', prompt: 'Onde começa a digestão?', options: ['No estômago', 'Na boca', 'No intestino', 'No fígado'], answer: 1, hints: ['É onde o alimento entra.', 'Lá há dentes e saliva.', 'É na…'], explanation: 'A digestão começa na boca, com a mastigação e a saliva.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'conceito', prompt: 'A digestão transforma os alimentos em nutrientes que o corpo pode absorver.', answer: true, hints: ['Para que serve a digestão?', 'O corpo precisa de partes pequenas.', 'Essas partes são os nutrientes.'], explanation: 'Verdadeiro.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'boca_estomago', prompt: 'Qual órgão liga a boca (faringe) ao estômago?', options: ['Intestino', 'Esôfago', 'Pâncreas', 'Traqueia'], answer: 1, hints: ['É um tubo.', 'Fica atrás da traqueia.', 'Começa com E.'], explanation: 'O esôfago leva o alimento ao estômago.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'intestinos', prompt: 'A maior parte dos nutrientes é absorvida no intestino ________.', answers: ['delgado'], hints: ['São dois intestinos.', 'Não é o grosso.', 'É o mais fino e comprido.'], explanation: 'No intestino delgado.' },
+    { id: 'q5', type: 'match', difficulty: 2, skill: 'anexos', prompt: 'Ligue cada órgão à sua função.', pairs: [['Estômago', 'Digere proteínas com suco ácido'], ['Fígado', 'Produz a bile'], ['Intestino grosso', 'Absorve água e forma as fezes'], ['Pâncreas', 'Produz o suco pancreático']], hints: ['A bile vem de um órgão grande do lado direito.', 'O intestino grosso cuida da água.', 'O suco ácido fica no estômago.'], explanation: 'Estômago → proteínas · fígado → bile · intestino grosso → água · pâncreas → suco pancreático.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'anexos', prompt: 'A bile ajuda a digerir principalmente:', options: ['Gorduras', 'Água', 'Vitaminas', 'Sais minerais'], answer: 0, hints: ['Pense em frituras.', 'A bile "quebra" gotas grandes.', 'Gotas de gordura.'], explanation: 'A bile emulsiona as gorduras.' },
+    { id: 'q7', type: 'tf', difficulty: 2, skill: 'intestinos', prompt: 'O intestino grosso absorve grande parte da água.', answer: true, hints: ['O que sobra depois do delgado?', 'Resto de alimento com muita água.', 'O grosso recupera essa água.'], explanation: 'Verdadeiro.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'boca_estomago', prompt: 'Qual é a sequência correta do caminho do alimento?', options: ['Boca → estômago → esôfago → intestinos', 'Boca → faringe → esôfago → estômago → intestino delgado → intestino grosso', 'Boca → intestino → estômago → esôfago', 'Esôfago → boca → estômago → intestinos'], answer: 1, hints: ['Começa na boca.', 'O esôfago vem antes do estômago.', 'O delgado vem antes do grosso.'], explanation: 'Boca → faringe → esôfago → estômago → delgado → grosso.' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'anexos', prompt: 'A bile fica armazenada na vesícula ________.', answers: ['biliar'], hints: ['Vem da palavra bile.', 'Bil…', 'Termina em -ar.'], explanation: 'Vesícula biliar.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'conceito', prompt: 'Por que é importante mastigar bem os alimentos?', modelAnswer: 'Porque a mastigação quebra o alimento em pedaços menores e mistura com a saliva, que já começa a digestão. Isso facilita o trabalho do estômago e dos intestinos.', keywords: ['pedacos', 'menores', 'saliva', 'facilita', 'digestao', 'estomago', 'triturar'], hints: ['O que os dentes fazem?', 'O que a saliva faz?', 'Como isso ajuda os outros órgãos?'], explanation: 'Mastigar tritura o alimento e facilita a digestão.' },
+  ],
+  review: ['Digestão = transformar alimento em nutrientes', 'Boca → faringe → esôfago → estômago → intestinos', 'Delgado absorve nutrientes · grosso absorve água', 'Fígado (bile) e pâncreas (suco pancreático)'],
+  sources: [BNCC, AUTORAL],
+}
+
+export const cadeiasAlimentares: Lesson = {
+  id: 'bio-cadeias-alimentares',
+  subject: 'biologia',
+  title: 'Cadeias alimentares',
+  levels: ['fund1', 'fund2', 'medio'],
+  grade: '5º ao 7º ano',
+  aliases: ['cadeia alimentar', 'teia alimentar', 'ecologia', 'produtores consumidores decompositores', 'niveis troficos', 'quem come quem'],
+  summary: 'Entenda como a energia passa dos produtores aos consumidores e o papel dos decompositores.',
+  intro: 'Na natureza, todo mundo depende de alguém para se alimentar. Vamos montar essa corrente!',
+  skills: { produtores: 'Produtores', consumidores: 'Consumidores', decompositores: 'Decompositores', teias: 'Teias alimentares e energia' },
+  blocks: [
+    { id: 'b1', skill: 'produtores', title: 'Os produtores', text: 'Produtores são seres que fabricam o próprio alimento, como as plantas e as algas, usando a luz na fotossíntese. Eles são sempre o começo da cadeia alimentar.', example: 'O capim é produtor: faz o próprio alimento com a luz do Sol.', variants: { simples: 'As plantas fazem a própria comida. Por isso ficam no começo da corrente.' } },
+    { id: 'b2', skill: 'consumidores', title: 'Os consumidores', text: 'Consumidores se alimentam de outros seres. Os primários comem produtores (herbívoros). Os secundários comem os primários, e assim por diante.', example: 'Capim → gafanhoto (primário) → sapo (secundário) → cobra (terciário).', variants: { simples: 'Quem come planta é consumidor primário. Quem come esse bicho é o secundário.' } },
+    { id: 'b3', skill: 'decompositores', title: 'Os decompositores', text: 'Fungos e bactérias decompõem restos de seres mortos, fezes e folhas caídas, devolvendo nutrientes ao solo. Eles atuam em todos os níveis da cadeia.', example: 'Uma fruta esquecida fica mofada: são fungos decompondo.', variants: { simples: 'Fungos e bactérias "reciclam" o que morre e devolvem alimento para a terra.' } },
+    { id: 'b4', skill: 'teias', title: 'Teias e energia', text: 'Na natureza as cadeias se cruzam formando teias alimentares, porque um animal come vários tipos de alimento. A cada nível, parte da energia é gasta, por isso há menos energia disponível no topo.', example: 'O sapo come gafanhotos e moscas; e pode ser comido por cobras ou garças.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'produtores', prompt: 'Qual destes é um produtor?', options: ['Gafanhoto', 'Capim', 'Cobra', 'Fungo'], answer: 1, hints: ['Produtor faz o próprio alimento.', 'Usa a luz do Sol.', 'É uma planta.'], explanation: 'O capim é uma planta, produtor.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'produtores', prompt: 'Toda cadeia alimentar começa com um produtor.', answer: true, hints: ['De onde vem a primeira energia?', 'Da luz captada pelas plantas.', 'Plantas são produtoras.'], explanation: 'Verdadeiro.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'decompositores', prompt: 'Quem são os decompositores?', options: ['Leões e onças', 'Fungos e bactérias', 'Plantas', 'Pássaros'], answer: 1, hints: ['Eles fazem o mofo.', 'São muito pequenos.', 'Reciclam restos de seres vivos.'], explanation: 'Fungos e bactérias.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'consumidores', prompt: 'Na cadeia capim → gafanhoto → sapo, o gafanhoto é consumidor ________.', answers: ['primario', 'primário'], hints: ['Ele come o produtor.', 'É o primeiro a consumir.', 'Primeiro = …'], explanation: 'Consumidor primário.' },
+    { id: 'q5', type: 'match', difficulty: 2, skill: 'consumidores', prompt: 'Na cadeia capim → gafanhoto → sapo → cobra, ligue cada ser ao seu papel.', pairs: [['Capim', 'Produtor'], ['Gafanhoto', 'Consumidor primário'], ['Sapo', 'Consumidor secundário'], ['Cobra', 'Consumidor terciário']], hints: ['Comece pelo produtor.', 'Quem come o capim?', 'Depois conte os níveis.'], explanation: 'Produtor → primário → secundário → terciário.' },
+    { id: 'q6', type: 'tf', difficulty: 2, skill: 'decompositores', prompt: 'Os decompositores devolvem nutrientes ao solo.', answer: true, hints: ['O que acontece com uma folha caída?', 'Ela se decompõe.', 'Vira adubo.'], explanation: 'Verdadeiro.' },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'consumidores', prompt: 'Um animal que se alimenta apenas de plantas é chamado de:', options: ['Carnívoro', 'Herbívoro', 'Decompositor', 'Produtor'], answer: 1, hints: ['"Herba" lembra erva.', 'Come plantas.', 'Herbí…'], explanation: 'Herbívoro.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'teias', prompt: 'Por que há menos energia disponível no topo da cadeia alimentar?', options: ['Porque os predadores comem pouco', 'Porque em cada nível parte da energia é gasta pelos seres', 'Porque o Sol não chega lá', 'Porque os decompositores roubam energia'], answer: 1, hints: ['Todo ser vivo gasta energia para viver.', 'Respirar, se mover…', 'Nem tudo passa adiante.'], explanation: 'Cada nível usa parte da energia; só uma fração passa ao seguinte.' },
+    { id: 'q9', type: 'tf', difficulty: 3, skill: 'teias', prompt: 'Uma teia alimentar é formada por várias cadeias alimentares interligadas.', answer: true, hints: ['Um animal come um só tipo de alimento?', 'Não, come vários.', 'As cadeias se cruzam.'], explanation: 'Verdadeiro.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'teias', prompt: 'O que poderia acontecer com uma cadeia alimentar se todos os sapos desaparecessem?', modelAnswer: 'Os gafanhotos, que eram comidos pelos sapos, poderiam aumentar muito e comer mais capim. Já as cobras, que comiam sapos, teriam menos alimento e poderiam diminuir. O equilíbrio seria afetado.', keywords: ['aumentar', 'diminuir', 'gafanhoto', 'cobra', 'equilibrio', 'alimento'], hints: ['Pense em quem os sapos comiam.', 'E em quem comia os sapos.', 'Um aumenta, outro diminui.'], explanation: 'Presas aumentam, predadores diminuem: desequilíbrio.' },
+  ],
+  review: ['Produtores fazem o próprio alimento', 'Consumidores: primário, secundário, terciário', 'Decompositores reciclam nutrientes', 'Teias = cadeias interligadas; energia diminui a cada nível'],
+  sources: [BNCC, AUTORAL],
+}

@@ -1,0 +1,15 @@
+project_id = "khmozcolgdpkvlgctqgk"
+
+[auth]
+site_url = "https://lumi.synex.workers.dev"
+additional_redirect_urls = ["https://lumi.synex.workers.dev/conta", "http://localhost:5173/conta", "http://localhost:4173/conta"]
+enable_signup = true
+
+[auth.email]
+enable_confirmations = true
+
+[functions.lumi-ai]
+verify_jwt = true
+
+[functions.kb-admin]
+verify_jwt = true

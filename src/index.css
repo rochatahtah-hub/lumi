@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-grafite: #1B2430;
+  --color-grafite-2: #252F3D;
+  --color-grafite-3: #334155;
+  --color-laranja: #FF8A1F;
+  --color-laranja-escuro: #E6700A;
+  --color-laranja-claro: #FFB347;
+  --color-laranja-suave: #FFF3E6;
+  --color-cinza: #E5E7EB;
+  --color-cinza-texto: #64748B;
+  --color-offwhite: #F8FAFC;
+  --color-sucesso: #22A06B;
+  --color-sucesso-suave: #E7F7EF;
+  --color-erro: #E5484D;
+  --color-erro-suave: #FDECEC;
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-offwhite text-grafite font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--color-laranja-claro); outline-offset: 2px; }
+}
+
+@utility safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+@utility safe-top { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+
+@keyframes pop { 0% { transform: scale(.6); opacity: 0 } 70% { transform: scale(1.08) } 100% { transform: scale(1); opacity: 1 } }
+@keyframes rise { from { transform: translateY(8px); opacity: 0 } to { transform: none; opacity: 1 } }
+@utility animate-pop { animation: pop .45s ease-out both; }
+@utility animate-rise { animation: rise .3s ease-out both; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

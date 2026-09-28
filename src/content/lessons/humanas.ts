@@ -1,0 +1,162 @@
+import type { Lesson } from '../../types'
+
+const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
+
+export const revolucaoFrancesa: Lesson = {
+  id: 'his-revolucao-francesa',
+  subject: 'historia',
+  title: 'Revolução Francesa',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano e 2ª série',
+  aliases: ['revolucao francesa', 'queda da bastilha', 'bastilha', 'robespierre', 'periodo do terror', 'jacobinos', 'girondinos', 'luis xvi', 'liberdade igualdade fraternidade', '1789'],
+  summary: 'Entenda por que a França entrou em revolução em 1789, suas fases e o que ela deixou para o mundo.',
+  intro: 'Em 1789, o povo francês derrubou um sistema que existia havia séculos. Vamos entender como isso aconteceu.',
+  skills: { contexto: 'A França antes da revolução', inicio: 'O início (1789)', ideias: 'Ideias e direitos', fases: 'Fases da revolução', legado: 'Legado' },
+  blocks: [
+    {
+      id: 'b1', skill: 'contexto', title: 'A França antes de 1789',
+      text: 'A França era uma monarquia absolutista: o rei Luís XVI concentrava o poder. A sociedade era dividida em três estados: o clero (1º), a nobreza (2º) e o Terceiro Estado (burguesia, camponeses e trabalhadores urbanos). O Terceiro Estado era a imensa maioria e pagava quase todos os impostos.',
+      example: 'Um camponês pagava impostos ao rei, à Igreja e ao senhor da terra, enquanto muitos nobres e membros do clero tinham isenções.',
+      variants: {
+        simples: 'Na França havia três grupos: padres, nobres e o povo. O povo era quem mais trabalhava e quem pagava os impostos. O rei mandava em tudo.',
+        exemplo: 'Imagine uma escola em que só uma turma paga a cantina de todas as outras e ainda não pode opinar em nada. Era assim que o Terceiro Estado se sentia.',
+        outra: 'Três ingredientes explodiram juntos: um país endividado (guerras e gastos da corte), fome (colheitas ruins e pão caro) e ideias novas do Iluminismo, que diziam que o poder não vinha de Deus, e sim do povo.',
+        detalhado: 'Esse modelo é chamado de Antigo Regime. O Iluminismo, com pensadores como Rousseau, Montesquieu e Voltaire, criticava o absolutismo, os privilégios e defendia razão, liberdade e separação dos poderes. A burguesia, rica mas sem privilégios políticos, liderou a contestação.',
+      },
+    },
+    {
+      id: 'b2', skill: 'inicio', title: 'O início: 1789',
+      text: 'Para resolver a crise, o rei convocou os Estados Gerais em 1789. O Terceiro Estado se declarou Assembleia Nacional e jurou criar uma Constituição. Em 14 de julho de 1789, o povo de Paris tomou a Bastilha, prisão que simbolizava o poder do rei.',
+      example: 'O 14 de julho é até hoje o feriado nacional da França.',
+      variants: {
+        simples: 'Em 1789 o povo se revoltou. No dia 14 de julho, invadiu uma prisão chamada Bastilha. Esse é o símbolo do começo da revolução.',
+        exemplo: 'Nos Estados Gerais cada estado tinha um voto. Clero e nobreza sempre se uniam e ganhavam por 2 a 1 do Terceiro Estado, mesmo ele representando quase toda a população.',
+        outra: 'Pense em três passos: o rei chama uma reunião (Estados Gerais) → o povo cria a própria assembleia → Paris toma a Bastilha. A partir daí, não tinha mais volta.',
+        detalhado: 'O impasse era o voto por estado × voto por cabeça. Com o Juramento da Sala do Jogo da Pela, os deputados do Terceiro Estado prometeram não se separar até dar uma Constituição à França. A tomada da Bastilha foi seguida por revoltas camponesas no campo (o "Grande Medo").',
+      },
+    },
+    {
+      id: 'b3', skill: 'ideias', title: 'Liberdade, Igualdade, Fraternidade',
+      text: 'Em agosto de 1789 foi aprovada a Declaração dos Direitos do Homem e do Cidadão, afirmando que todos nascem livres e iguais em direitos. O lema da revolução ficou famoso: Liberdade, Igualdade, Fraternidade.',
+      example: 'A ideia de que a lei vale igualmente para todos, sem privilégios de nascimento, vem desse período.',
+      variants: {
+        simples: 'Os revolucionários escreveram um documento dizendo que todas as pessoas têm direitos. O lema era: Liberdade, Igualdade, Fraternidade.',
+        exemplo: 'Antes, um nobre podia ser julgado de forma diferente de um camponês. A Declaração dizia que a lei deve ser a mesma para todos.',
+        outra: 'Liberdade = poder pensar e agir sem opressão. Igualdade = mesmas leis para todos. Fraternidade = união entre os cidadãos.',
+        detalhado: 'A Declaração garantia direitos como liberdade, propriedade, segurança e resistência à opressão, e afirmava a soberania da nação. Ela tinha limites: não incluía as mulheres na mesma condição — Olympe de Gouges escreveu em resposta a Declaração dos Direitos da Mulher e da Cidadã (1791).',
+      },
+    },
+    {
+      id: 'b4', skill: 'fases', title: 'As fases da revolução',
+      text: '1) Monarquia constitucional (1789–1792): o rei continua, mas limitado por uma Constituição. 2) Convenção e República (1792–1795): o rei Luís XVI é executado em 1793; os jacobinos, liderados por Robespierre, promovem o período do Terror. 3) Diretório (1795–1799): governo da alta burguesia, que termina com o golpe de Napoleão Bonaparte, o 18 de Brumário, em 1799.',
+      example: 'No Terror, milhares de pessoas acusadas de serem inimigas da revolução foram executadas na guilhotina.',
+      variants: {
+        simples: 'Primeiro o rei perdeu poder. Depois foi morto e a França virou república, com uma fase violenta chamada Terror. No fim, Napoleão tomou o poder em 1799.',
+        exemplo: 'É como uma história em três capítulos: "o rei com regras", "a república radical" e "a burguesia no comando", terminando com Napoleão.',
+        outra: 'Grupos disputavam o rumo: os girondinos (alta burguesia, mais moderados) e os jacobinos (pequena burguesia, mais radicais, apoiados pelos sans-culottes). Cada fase mostra quem estava vencendo essa disputa.',
+        detalhado: 'Os jacobinos criaram o Comitê de Salvação Pública e tomaram medidas como a Lei do Máximo (teto de preços). Com a queda de Robespierre (1794), a reação termidoriana abriu caminho para o Diretório. A instabilidade e as guerras externas favoreceram o golpe do 18 de Brumário.',
+      },
+    },
+    {
+      id: 'b5', skill: 'legado', title: 'O que ela deixou',
+      text: 'A Revolução Francesa pôs fim ao Antigo Regime na França, espalhou ideias de cidadania e direitos, e inspirou movimentos em vários países, inclusive na América. Por isso, ela é usada como marco do início da Idade Contemporânea.',
+      example: 'Conceitos que usamos hoje, como "direitos do cidadão" e "direita e esquerda" na política, ganharam força nessa época.',
+      variants: {
+        simples: 'Ela mudou o mundo porque espalhou a ideia de que as pessoas têm direitos e que o poder vem do povo.',
+        exemplo: 'Os termos "direita" e "esquerda" vêm da posição em que os grupos se sentavam na Assembleia francesa.',
+        outra: 'Antes: poder do rei e privilégios de nascimento. Depois: cidadãos com direitos e leis iguais. Essa virada é o legado.',
+        detalhado: 'A revolução consolidou a ascensão política da burguesia, influenciou constituições liberais e movimentos de independência, e fez circular o conceito moderno de nação. A historiografia usa 1789 como marco da Idade Contemporânea.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'inicio', prompt: 'Em que ano começou a Revolução Francesa?', options: ['1500', '1789', '1822', '1917'], answer: 1, hints: ['É no século XVIII.', 'Mesmo ano da Queda da Bastilha.', 'Termina em 89.'], explanation: 'A Revolução Francesa começou em 1789.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'ideias', prompt: 'Qual era o lema da Revolução Francesa?', options: ['Ordem e Progresso', 'Liberdade, Igualdade, Fraternidade', 'Terra e Liberdade', 'Paz, Pão e Terra'], answer: 1, hints: ['São três palavras.', 'Uma delas é "Liberdade".', 'Outra é "Igualdade".'], explanation: 'Liberdade, Igualdade, Fraternidade.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'inicio', prompt: 'A Queda da Bastilha, em 14 de julho de 1789, é símbolo do início da revolução.', answer: true, hints: ['A Bastilha era uma prisão.', 'Ela representava o poder do rei.', 'Hoje o 14 de julho é feriado na França.'], explanation: 'Verdadeiro. A tomada da Bastilha simboliza o início da revolução.' },
+    { id: 'q4', type: 'match', difficulty: 2, skill: 'contexto', prompt: 'Ligue cada estado ao grupo que o formava.', pairs: [['Primeiro Estado', 'Clero'], ['Segundo Estado', 'Nobreza'], ['Terceiro Estado', 'Burguesia e povo']], hints: ['A Igreja vinha primeiro.', 'Depois vinham os nobres.', 'O resto da população era o Terceiro.'], explanation: '1º: clero · 2º: nobreza · 3º: burguesia, camponeses e trabalhadores.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'contexto', prompt: 'O movimento de ideias que defendia a razão e criticava o absolutismo se chama ________.', answers: ['iluminismo'], hints: ['Tem a ver com "luz".', 'A "luz" era a razão.', 'Ilumin…'], explanation: 'O Iluminismo.' },
+    { id: 'q6', type: 'tf', difficulty: 2, skill: 'contexto', prompt: 'O clero e a nobreza pagavam a maior parte dos impostos.', answer: false, hints: ['Quem tinha privilégios?', 'Clero e nobreza tinham muitas isenções.', 'O peso caía sobre a maioria.'], explanation: 'Falso. Quem pagava quase todos os impostos era o Terceiro Estado.' },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'ideias', prompt: 'Qual documento de 1789 afirmava que todos nascem livres e iguais em direitos?', options: ['Constituição dos EUA', 'Declaração dos Direitos do Homem e do Cidadão', 'Carta Magna', 'Lei Áurea'], answer: 1, hints: ['Foi aprovado na França.', 'Fala em "direitos" e em "cidadão".', 'Foi em agosto de 1789.'], explanation: 'A Declaração dos Direitos do Homem e do Cidadão.' },
+    { id: 'q8', type: 'mc', difficulty: 2, skill: 'contexto', prompt: 'Quem fazia parte do Terceiro Estado?', options: ['Apenas o rei e a rainha', 'Bispos e padres', 'Burguesia, camponeses e trabalhadores urbanos', 'Somente nobres'], answer: 2, hints: ['Era a maioria da população.', 'Não tinha privilégios.', 'Incluía ricos comerciantes e pobres.'], explanation: 'Burguesia, camponeses e trabalhadores urbanos (sans-culottes).' },
+    { id: 'q9', type: 'mc', difficulty: 3, skill: 'fases', prompt: 'Como ficou conhecido o período de execuções liderado por Robespierre?', options: ['Diretório', 'Terror', 'Consulado', 'Restauração'], answer: 1, hints: ['Foi uma fase muito violenta.', 'Usava muito a guilhotina.', 'O nome lembra medo.'], explanation: 'O período do Terror (1793–1794), sob os jacobinos.' },
+    { id: 'q10', type: 'fill', difficulty: 3, skill: 'fases', prompt: 'O rei francês guilhotinado em 1793 foi Luís ____. (algarismo romano)', answers: ['xvi', '16'], hints: ['Ele era o rei em 1789.', 'É um número entre 15 e 17.', 'Em romanos: X + V + I.'], explanation: 'Luís XVI foi executado em 1793.' },
+    { id: 'q11', type: 'mc', difficulty: 3, skill: 'fases', prompt: 'Como a Revolução Francesa terminou, em 1799?', options: ['Com a volta do absolutismo', 'Com o golpe do 18 de Brumário, de Napoleão', 'Com a independência dos EUA', 'Com a Primeira Guerra Mundial'], answer: 1, hints: ['Um general tomou o poder.', 'Ele depois virou imperador.', 'O golpe tem nome de mês do calendário revolucionário.'], explanation: 'Napoleão Bonaparte deu o golpe do 18 de Brumário e encerrou o Diretório.' },
+    { id: 'q12', type: 'open', difficulty: 3, skill: 'legado', prompt: 'Por que a Revolução Francesa é considerada o marco do início da Idade Contemporânea?', modelAnswer: 'Porque acabou com o Antigo Regime e o absolutismo na França, espalhou ideias de direitos, cidadania, liberdade e igualdade, e influenciou governos e movimentos no mundo todo.', keywords: ['absolutismo', 'antigo regime', 'direitos', 'cidadao', 'cidadania', 'igualdade', 'liberdade', 'burguesia'], hints: ['O que ela derrubou?', 'Que ideias ela espalhou?', 'Fale de direitos ou do fim do poder absoluto do rei.'], explanation: 'Ela encerrou o Antigo Regime e difundiu direitos e cidadania pelo mundo.' },
+  ],
+  review: ['Antigo Regime: rei absoluto + 3 estados', 'Terceiro Estado pagava os impostos', '1789: Estados Gerais, Assembleia, Bastilha (14/07)', 'Declaração dos Direitos do Homem e do Cidadão', 'Fases: monarquia constitucional → República/Terror → Diretório → Napoleão (1799)'],
+  sources: [{ title: 'Base Nacional Comum Curricular (BNCC) — História', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' }, AUTORAL],
+}
+
+export const coordenadas: Lesson = {
+  id: 'geo-coordenadas',
+  subject: 'geografia',
+  title: 'Coordenadas geográficas',
+  levels: ['fund2', 'medio'],
+  grade: '6º ano',
+  aliases: ['coordenadas geograficas', 'latitude', 'longitude', 'paralelos', 'meridianos', 'linha do equador', 'greenwich', 'hemisferios', 'localizacao'],
+  summary: 'Aprenda latitude, longitude, paralelos e meridianos — o "endereço" de qualquer lugar do planeta.',
+  intro: 'Como o GPS sabe exatamente onde você está? Com um sistema de linhas imaginárias. Vamos conhecê-lo.',
+  skills: { latitude: 'Paralelos e latitude', longitude: 'Meridianos e longitude', coordenadas: 'Coordenadas', hemisferios: 'Hemisférios e o Brasil' },
+  blocks: [
+    {
+      id: 'b1', skill: 'latitude', title: 'Paralelos e latitude',
+      text: 'Paralelos são linhas imaginárias horizontais que dão a volta na Terra. O principal é a Linha do Equador (0°), que divide o planeta em Norte e Sul. Latitude é a distância, em graus, de um lugar até o Equador: vai de 0° a 90°, Norte (N) ou Sul (S).',
+      example: 'Os polos ficam a 90°: Polo Norte a 90° N e Polo Sul a 90° S.',
+      variants: {
+        simples: 'Imagine anéis deitados em volta da Terra. O do meio é o Equador. Latitude diz se você está mais para cima (Norte) ou para baixo (Sul) dele.',
+        exemplo: 'Os Trópicos de Câncer e de Capricórnio também são paralelos. O de Capricórnio passa bem perto da cidade de São Paulo.',
+        outra: 'Pense nos degraus de uma escada que sobe do Equador até o polo: cada degrau é um grau de latitude. O último degrau é o 90.',
+        detalhado: 'Os paralelos principais são: Equador (0°), Trópicos de Câncer e de Capricórnio (cerca de 23°27\' N e S) e Círculos Polares Ártico e Antártico (cerca de 66°33\' N e S). Todos os paralelos são paralelos entre si e diminuem de tamanho em direção aos polos.',
+      },
+    },
+    {
+      id: 'b2', skill: 'longitude', title: 'Meridianos e longitude',
+      text: 'Meridianos são linhas imaginárias que vão de um polo ao outro. O principal é o Meridiano de Greenwich (0°), que divide a Terra em Leste (L ou E) e Oeste (O ou W). Longitude é a distância, em graus, até Greenwich: vai de 0° a 180°.',
+      example: 'Greenwich é um bairro de Londres, na Inglaterra, por onde passa o meridiano 0°.',
+      variants: {
+        simples: 'Meridianos são linhas que descem do Polo Norte ao Polo Sul, como os gomos de uma laranja. Longitude diz se você está para a direita (Leste) ou para a esquerda (Oeste) de Greenwich.',
+        exemplo: 'O Brasil fica a oeste de Greenwich; o Japão fica a leste.',
+        outra: 'Latitude responde "quanto ao norte ou ao sul?". Longitude responde "quanto ao leste ou ao oeste?".',
+        detalhado: 'O meridiano oposto a Greenwich (180°) serve de referência para a Linha Internacional de Data. Os meridianos também são usados para definir os fusos horários: a cada 15° de longitude, a hora muda em 1 hora (360° ÷ 24 h).',
+      },
+    },
+    {
+      id: 'b3', skill: 'coordenadas', title: 'Coordenadas: o endereço do planeta',
+      text: 'O cruzamento de uma latitude com uma longitude forma uma coordenada geográfica. Ela indica a localização exata de qualquer ponto da Terra. O GPS usa esse sistema.',
+      example: 'A cidade de São Paulo fica perto de 23° S e 46° O: ao sul do Equador e a oeste de Greenwich.',
+      variants: {
+        simples: 'Coordenada é como o número da rua e da casa, só que para o planeta inteiro: uma latitude + uma longitude.',
+        exemplo: 'No jogo de batalha naval você diz "B5": uma letra e um número. Coordenadas são isso: latitude e longitude.',
+        outra: 'Uma linha só não basta: a latitude diz uma "faixa" e a longitude diz outra. Onde elas se cruzam fica o ponto exato.',
+        detalhado: 'Coordenadas podem ser escritas em graus, minutos e segundos (23°32\'51" S) ou em graus decimais, usando sinal negativo para Sul e Oeste (−23,547; −46,636), que é o formato usado por mapas digitais.',
+      },
+    },
+    {
+      id: 'b4', skill: 'hemisferios', title: 'Hemisférios e o Brasil',
+      text: 'O Equador separa os hemisférios Norte e Sul. Greenwich separa os hemisférios Oriental (Leste) e Ocidental (Oeste). O Brasil fica todo no Hemisfério Ocidental e em sua maior parte no Hemisfério Sul — mas a Linha do Equador passa pelo norte do país.',
+      example: 'Em Macapá (AP), o Equador passa pela cidade; lá existe o monumento Marco Zero.',
+      variants: {
+        simples: 'O Brasil está quase todo "embaixo" do Equador (Sul) e todo à esquerda de Greenwich (Oeste).',
+        exemplo: 'Roraima e parte do Amapá e do Amazonas ficam no Hemisfério Norte.',
+        outra: 'Pense na Terra cortada duas vezes: uma na horizontal (Equador) e outra na vertical (Greenwich). O Brasil está no pedaço de baixo à esquerda — com uma pontinha em cima.',
+        detalhado: 'O território brasileiro é cortado pelo Equador (no Norte) e pelo Trópico de Capricórnio (no Sudeste/Sul). Por isso, a maior parte do país está na zona intertropical, o que explica o predomínio de climas quentes.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'latitude', prompt: 'Qual linha imaginária marca a latitude 0°?', options: ['Meridiano de Greenwich', 'Linha do Equador', 'Trópico de Capricórnio', 'Círculo Polar Ártico'], answer: 1, hints: ['Latitude mede Norte e Sul.', 'É a linha que divide Norte e Sul.', 'Passa pelo "meio" da Terra.'], explanation: 'A Linha do Equador é o paralelo 0°.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'longitude', prompt: 'Qual é o meridiano 0°?', options: ['Equador', 'Greenwich', 'Trópico de Câncer', 'Meridiano de Brasília'], answer: 1, hints: ['Ele divide Leste e Oeste.', 'Passa por Londres.', 'Começa com G.'], explanation: 'O Meridiano de Greenwich é o 0° de longitude.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'latitude', prompt: 'A latitude pode chegar a, no máximo, 90°.', answer: true, hints: ['Onde fica o ponto mais distante do Equador?', 'Nos polos.', 'Os polos ficam a 90°.'], explanation: 'Verdadeiro. A latitude vai de 0° (Equador) a 90° (polos).' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'longitude', prompt: 'A longitude vai de 0° até ____°.', answers: ['180'], hints: ['É o dobro da latitude máxima.', 'A latitude máxima é 90.', '90 × 2.'], explanation: 'A longitude vai de 0° a 180° para Leste ou Oeste.' },
+    { id: 'q5', type: 'mc', difficulty: 2, skill: 'coordenadas', prompt: 'Uma coordenada geográfica é formada pelo cruzamento de:', options: ['Dois paralelos', 'Latitude e longitude', 'Dois hemisférios', 'Equador e Trópico'], answer: 1, hints: ['Uma linha só não basta.', 'Precisamos de uma horizontal e uma vertical.', 'Uma de cada tipo.'], explanation: 'Latitude + longitude = coordenada.' },
+    { id: 'q6', type: 'match', difficulty: 2, skill: 'coordenadas', prompt: 'Ligue cada termo à sua descrição.', pairs: [['Equador', 'Divide Norte e Sul'], ['Greenwich', 'Divide Leste e Oeste'], ['Latitude', 'Distância até o Equador'], ['Longitude', 'Distância até Greenwich']], hints: ['O Equador é horizontal.', 'Greenwich vai de polo a polo.', 'Latitude usa o Equador como referência.'], explanation: 'Equador → N/S; Greenwich → L/O; Latitude → até o Equador; Longitude → até Greenwich.' },
+    { id: 'q7', type: 'tf', difficulty: 2, skill: 'hemisferios', prompt: 'O Brasil está inteiramente no Hemisfério Sul.', answer: false, hints: ['A Linha do Equador passa pelo Brasil?', 'Passa, sim.', 'Veja Macapá e Roraima.'], explanation: 'Falso. A maior parte está no Sul, mas o Equador passa pelo norte do país.' },
+    { id: 'q8', type: 'mc', difficulty: 2, skill: 'hemisferios', prompt: 'Em relação a Greenwich, o Brasil fica:', options: ['Totalmente no Hemisfério Oriental', 'Totalmente no Hemisfério Ocidental', 'Metade em cada', 'Sobre o meridiano 0°'], answer: 1, hints: ['Greenwich passa pela Europa e pela África.', 'O Brasil está à esquerda no mapa.', 'Oeste = Ocidental.'], explanation: 'O Brasil está todo a oeste de Greenwich: Hemisfério Ocidental.' },
+    { id: 'q9', type: 'mc', difficulty: 3, skill: 'coordenadas', prompt: 'Um ponto em 23° S e 46° O fica:', options: ['Acima do Equador e a leste de Greenwich', 'Abaixo do Equador e a oeste de Greenwich', 'Sobre o Equador', 'No Polo Sul'], answer: 1, hints: ['S = Sul. O = Oeste.', 'Sul fica abaixo do Equador.', 'Oeste fica à esquerda de Greenwich.'], explanation: 'S → abaixo do Equador; O → a oeste de Greenwich. É perto de São Paulo.' },
+    { id: 'q10', type: 'fill', difficulty: 3, skill: 'latitude', prompt: 'O trópico que passa pelo Brasil, perto de São Paulo, é o Trópico de ________.', answers: ['capricornio', 'capricórnio'], hints: ['Existem dois trópicos: Câncer e…', 'O de Câncer fica no Hemisfério Norte.', 'O outro fica no Sul.'], explanation: 'O Trópico de Capricórnio.' },
+    { id: 'q11', type: 'tf', difficulty: 3, skill: 'longitude', prompt: 'Os paralelos são linhas que vão de um polo ao outro.', answer: false, hints: ['Pense na forma de cada linha.', 'Quem liga os polos são os "gomos da laranja".', 'Esses são os meridianos.'], explanation: 'Falso. Quem vai de polo a polo são os meridianos; os paralelos são horizontais.' },
+    { id: 'q12', type: 'open', difficulty: 3, skill: 'coordenadas', prompt: 'Por que as coordenadas geográficas são úteis no dia a dia?', modelAnswer: 'Porque permitem localizar com exatidão qualquer ponto da Terra. O GPS do celular, os aplicativos de mapa, aviões e navios usam coordenadas para saber onde estão e traçar rotas.', keywords: ['localizar', 'localizacao', 'exata', 'gps', 'mapa', 'ponto', 'rota'], hints: ['Pense no celular.', 'Que aplicativo usa sua localização?', 'Fale em localizar ou em GPS.'], explanation: 'Elas localizam qualquer ponto com exatidão — é o que o GPS faz.' },
+  ],
+  review: ['Paralelos → latitude (0° a 90°, N/S), referência: Equador', 'Meridianos → longitude (0° a 180°, L/O), referência: Greenwich', 'Coordenada = latitude + longitude', 'Brasil: todo no Ocidental, maior parte no Sul'],
+  sources: [{ title: 'Base Nacional Comum Curricular (BNCC) — Geografia', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' }, AUTORAL],
+}
