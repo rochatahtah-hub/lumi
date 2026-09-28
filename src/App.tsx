@@ -19,6 +19,7 @@ import LevelPage from './pages/Level'
 import { supabase } from './lib/supabase'
 import { getState, setProfile } from './lib/store'
 import { pullAndMerge, startAutoSync } from './lib/sync'
+import { refreshCloudLessons } from './lib/repo'
 import { InstallInvite } from './components/InstallInvite'
 import { closeInvite, inviteRequested, shouldInvite, useInstallState } from './lib/install'
 
@@ -42,6 +43,8 @@ export default function App() {
   // conta é opcional: se existir sessão, mantém o userId local em dia e sincroniza em segundo plano
   useEffect(() => {
     const stop = startAutoSync()
+    // aulas oficiais novas/revisadas ficam guardadas no aparelho (funciona offline)
+    void refreshCloudLessons()
     if (!supabase) return stop
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       const uid = session?.user.id

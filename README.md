@@ -62,6 +62,13 @@ Painel (números, mais acessados, maior índice de erro) · Conteúdos (editor c
 
 Versões nunca são apagadas. Nada pesquisado pela IA entra na base oficial sem revisão humana.
 
+## Publicação
+
+- **Oficial (Hostinger, conta rochatahtah@gmail.com):** https://ivory-dog-642534.hostingersite.com — plano Hospedagem Web Premium, domínio temporário da Hostinger (dá para conectar um domínio próprio em Sites → Conectar domínio).
+  Para publicar uma nova versão: `npm run build` e enviar o conteúdo de `dist/` para `public_html/` pelo Gerenciador de Arquivos (o `.htaccess` incluído cuida de HTTPS, rotas do app e cache). O pacote pronto fica em `deploy/lumi-hostinger.zip`.
+- **Cópia de testes (Cloudflare):** https://lumi.synex.workers.dev — `npx wrangler deploy`.
+- **Supabase:** projeto `lumi` (`khmozcolgdpkvlgctqgk`). Ao trocar o domínio, atualizar `site_url` em `supabase/config.toml` e rodar `supabase config push`.
+
 ## Instalação no celular
 
 No primeiro acesso pelo celular o LUMI mostra "📱 Quer ter o LUMI no seu celular?" com o botão "📲 Instalar LUMI", que usa o **mecanismo oficial** do navegador (sem APK, sem download). No iPhone, o Safari não permite instalar por botão — o convite mostra os 2 toques da "Tela de Início". "Continuar pelo navegador" guarda a escolha por 14 dias; instalado, o convite não aparece. Também em Mais → "📱 Instalar o LUMI".
