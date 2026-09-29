@@ -46,7 +46,7 @@
 @media (min-width: 640px) { .lumi-walker-lane { --h: 148px; --overlap: 76px; } }
 @media (min-width: 1024px) { .lumi-walker-lane { --h: 172px; --overlap: 88px; } }
 .lumi-walker {
-  position: absolute; left: 0; bottom: 0; height: var(--h); aspect-ratio: 300 / 414;
+  position: absolute; left: 0; bottom: 0; height: var(--h); aspect-ratio: 250 / 416;
   will-change: transform; animation-timing-function: cubic-bezier(.4, .08, .6, .92); animation-fill-mode: both;
 }
 .lumi-walk-ltr { animation-name: lumi-walk-ltr; }
@@ -64,31 +64,30 @@
   58% { transform: translateX(calc(53vw - 50%)); animation-timing-function: linear }
   100% { transform: translateX(-110%) }
 }
-/* passo: sobe e desce + leve inclinação alternada, com apoio nos pés */
-.lumi-walker-bob { position: relative; height: 100%; animation: lumi-step .92s ease-in-out infinite; transform-origin: 50% 96%; }
+/* ciclo de caminhada real: 7 quadros da folha oficial (4 de passo + 3 de tchau), trocados em degraus */
+.lumi-walker-bob { position: relative; height: 100%; animation: lumi-step .4s ease-in-out infinite; }
 .lumi-walker-bob.is-still { animation: lumi-breathe 1.8s ease-in-out infinite; }
-@keyframes lumi-step {
-  0%, 100% { transform: translateY(0) rotate(-2deg) }
-  25% { transform: translateY(-5px) rotate(0deg) scaleY(1.01) }
-  50% { transform: translateY(0) rotate(2deg) }
-  75% { transform: translateY(-5px) rotate(0deg) scaleY(1.01) }
-}
+@keyframes lumi-step { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
 @keyframes lumi-breathe { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
 /* integração com o ambiente escuro: sombra de contato + leve luz laranja (sem cara de adesivo) */
-.lumi-walker-img {
-  height: 100%; width: auto; transition: opacity .45s ease; user-select: none;
+.lumi-walker-sprite {
+  height: 100%; width: 100%; background-repeat: no-repeat; background-size: 700% 100%; background-position: 0 0;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .45)) drop-shadow(0 0 14px rgba(255, 138, 31, .16)) saturate(.96) brightness(.97);
+  animation: lumi-frames-walk .8s steps(4) infinite;
 }
+/* quadros 0–3 = passada (posições 0%, 16,67%, 33,33%, 50%) */
+@keyframes lumi-frames-walk { from { background-position: 0% 0 } to { background-position: 66.6667% 0 } }
+/* quadros 4–6 = aceno, tchau com beijinho e tchau sorrindo — uma vez, e fica no último */
+.lumi-walker-sprite.is-waving { animation: lumi-frames-wave var(--wave-ms, 1700ms) steps(3, jump-none) forwards; }
+@keyframes lumi-frames-wave { from { background-position: 66.6667% 0 } to { background-position: 100% 0 } }
 /* sombra no "chão" acompanhando o passo */
 .lumi-walker-shadow {
-  position: absolute; left: 18%; right: 18%; bottom: 0; height: 7%;
+  position: absolute; left: 20%; right: 20%; bottom: 0; height: 6%;
   background: radial-gradient(closest-side, rgba(0, 0, 0, .55), transparent); border-radius: 50%;
-  animation: lumi-shadow .92s ease-in-out infinite;
+  animation: lumi-shadow .4s ease-in-out infinite;
 }
 .lumi-walker-shadow.is-still { animation: none; }
-@keyframes lumi-shadow { 0%, 50%, 100% { transform: scaleX(1); opacity: .9 } 25%, 75% { transform: scaleX(.86); opacity: .65 } }
-.lumi-wave { animation: lumi-wave .7s ease-in-out 2; transform-origin: 50% 92%; }
-@keyframes lumi-wave { 0%, 100% { rotate: 0deg } 50% { rotate: -3deg } }
+@keyframes lumi-shadow { 0%, 100% { transform: scaleX(1); opacity: .9 } 50% { transform: scaleX(.9); opacity: .7 } }
 
 /* ───────── Mascote LUMI: reações ao acertar ───────── */
 .lumi-feedback { animation: rise .3s ease-out both; }

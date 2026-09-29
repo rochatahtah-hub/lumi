@@ -1,7 +1,6 @@
 // Assets oficiais do mascote LUMI — ÚNICO lugar onde as imagens são referenciadas.
 // Para trocar uma pose, substitua o arquivo .webp com o mesmo nome (ou gere com scripts/mascot-assets.cjs).
-import homeWalk from './lumi-home-walk.webp'
-import homeWave from './lumi-home-wave.webp'
+import walkSprite from './lumi-walk-sprite.webp'
 import easy from './lumi-easy.webp'
 import medium from './lumi-medium.webp'
 import hard from './lumi-hard.webp'
@@ -9,7 +8,7 @@ import hard from './lumi-hard.webp'
 export type MascotReaction = 'easy' | 'medium' | 'hard'
 
 export const MASCOT = {
-  home: { walk: homeWalk, wave: homeWave },
+  home: { sprite: walkSprite }, // 7 quadros 250×416: 4 de passada + 3 de tchau
   reactions: { easy, medium, hard } satisfies Record<MascotReaction, string>,
 }
 

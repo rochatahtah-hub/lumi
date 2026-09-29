@@ -11,7 +11,7 @@ const WAVE_TO = 0.58
 /**
  * O LUMI passeando pela Home, POR TRÁS dos cards (camada entre o fundo e o conteúdo).
  * Uma única instância · só transform/opacity · sem cliques (pointer-events: none).
- * Duas poses oficiais: caminhando (mão erguida) e o tchau — com transição suave entre elas.
+ * Ciclo de caminhada real com os quadros da folha oficial (passada) e, na pausa, a sequência de tchau.
  * Com "reduzir movimento" ativado, não aparece.
  */
 export function MascotWalker() {
@@ -21,6 +21,7 @@ export function MascotWalker() {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    new Image().src = MASCOT.home.sprite // já carregado quando ele entrar
     let dir: 1 | -1 = 1
     let key = 0
     const later = (fn: () => void, ms: number) => timers.current.push(window.setTimeout(fn, ms))
@@ -42,10 +43,14 @@ export function MascotWalker() {
       <div key={run.key} className={`lumi-walker ${run.dir === 1 ? 'lumi-walk-ltr' : 'lumi-walk-rtl'}`} style={{ animationDuration: `${run.ms}ms` }}>
         <span className={`lumi-walker-shadow ${waving ? 'is-still' : ''}`} />
         <div className={`lumi-walker-bob ${waving ? 'is-still' : ''}`}>
-          <div className="relative h-full" style={{ transform: run.dir === 1 ? undefined : 'scaleX(-1)' }}>
-            <img src={MASCOT.home.walk} alt="" draggable={false} className={`lumi-walker-img ${waving ? 'opacity-0' : 'opacity-100'}`} />
-            <img src={MASCOT.home.wave} alt="" draggable={false} className={`lumi-walker-img absolute inset-0 ${waving ? 'opacity-100 lumi-wave' : 'opacity-0'}`} />
-          </div>
+          <div
+            className={`lumi-walker-sprite ${waving ? 'is-waving' : ''}`}
+            style={{
+              backgroundImage: `url(${MASCOT.home.sprite})`,
+              transform: run.dir === 1 ? undefined : 'scaleX(-1)',
+              ['--wave-ms' as string]: `${Math.round(run.ms * (WAVE_TO - WAVE_FROM))}ms`,
+            }}
+          />
         </div>
       </div>
     </div>
