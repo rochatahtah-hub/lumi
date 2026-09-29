@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { BookOpen, ChevronRight, FileText, Flame, RotateCcw, Search, Star } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LumiLogo } from '../components/ui'
+import { MascotWalker } from '../components/mascot/MascotWalker'
 import { SubjectIcon } from '../components/SubjectIcon'
 import { HOME_SUBJECTS, subjectById } from '../content/subjects'
 import { currentStreak, useLumi, weakSkills } from '../lib/store'
@@ -67,8 +68,10 @@ export default function Home() {
         </section>
 
         <section className="mt-8">
-          <h2 className="mb-3 font-semibold">Escolha uma matéria</h2>
-          <div className="grid grid-cols-3 gap-3">
+          <h2 className="font-semibold">Escolha uma matéria</h2>
+          {/* faixa do mascote: ele passa por trás da 1ª fileira de cards (os cards ficam na frente) */}
+          <div className="relative h-14 sm:h-[72px] lg:h-[84px]"><MascotWalker /></div>
+          <div className="relative z-10 grid grid-cols-3 gap-3">
             {HOME_SUBJECTS.map((id) => {
               const s = subjectById(id)!
               return (

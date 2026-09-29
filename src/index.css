@@ -36,3 +36,76 @@
 @utility animate-pop { animation: pop .45s ease-out both; }
 @utility animate-rise { animation: rise .3s ease-out both; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ───────── Mascote LUMI: caminhada na Home (camada atrás dos cards) ───────── */
+.lumi-walker-lane {
+  --h: 116px; --overlap: 60px;
+  left: calc(50% - 50vw); width: 100vw;
+  bottom: calc(var(--overlap) * -1); height: var(--h);
+}
+@media (min-width: 640px) { .lumi-walker-lane { --h: 148px; --overlap: 76px; } }
+@media (min-width: 1024px) { .lumi-walker-lane { --h: 172px; --overlap: 88px; } }
+.lumi-walker {
+  position: absolute; left: 0; bottom: 0; height: var(--h); aspect-ratio: 300 / 414;
+  will-change: transform; animation-timing-function: cubic-bezier(.4, .08, .6, .92); animation-fill-mode: both;
+}
+.lumi-walk-ltr { animation-name: lumi-walk-ltr; }
+.lumi-walk-rtl { animation-name: lumi-walk-rtl; }
+/* entra, caminha, desacelera para acenar (40%–58%) e segue até sair */
+@keyframes lumi-walk-ltr {
+  0% { transform: translateX(-110%); animation-timing-function: linear }
+  40% { transform: translateX(calc(40vw - 50%)); animation-timing-function: cubic-bezier(.3, 0, .7, 1) }
+  58% { transform: translateX(calc(47vw - 50%)); animation-timing-function: linear }
+  100% { transform: translateX(100vw) }
+}
+@keyframes lumi-walk-rtl {
+  0% { transform: translateX(100vw); animation-timing-function: linear }
+  40% { transform: translateX(calc(60vw - 50%)); animation-timing-function: cubic-bezier(.3, 0, .7, 1) }
+  58% { transform: translateX(calc(53vw - 50%)); animation-timing-function: linear }
+  100% { transform: translateX(-110%) }
+}
+/* passo: sobe e desce + leve inclinação alternada, com apoio nos pés */
+.lumi-walker-bob { position: relative; height: 100%; animation: lumi-step .92s ease-in-out infinite; transform-origin: 50% 96%; }
+.lumi-walker-bob.is-still { animation: lumi-breathe 1.8s ease-in-out infinite; }
+@keyframes lumi-step {
+  0%, 100% { transform: translateY(0) rotate(-2deg) }
+  25% { transform: translateY(-5px) rotate(0deg) scaleY(1.01) }
+  50% { transform: translateY(0) rotate(2deg) }
+  75% { transform: translateY(-5px) rotate(0deg) scaleY(1.01) }
+}
+@keyframes lumi-breathe { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+/* integração com o ambiente escuro: sombra de contato + leve luz laranja (sem cara de adesivo) */
+.lumi-walker-img {
+  height: 100%; width: auto; transition: opacity .45s ease; user-select: none;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .45)) drop-shadow(0 0 14px rgba(255, 138, 31, .16)) saturate(.96) brightness(.97);
+}
+/* sombra no "chão" acompanhando o passo */
+.lumi-walker-shadow {
+  position: absolute; left: 18%; right: 18%; bottom: 0; height: 7%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .55), transparent); border-radius: 50%;
+  animation: lumi-shadow .92s ease-in-out infinite;
+}
+.lumi-walker-shadow.is-still { animation: none; }
+@keyframes lumi-shadow { 0%, 50%, 100% { transform: scaleX(1); opacity: .9 } 25%, 75% { transform: scaleX(.86); opacity: .65 } }
+.lumi-wave { animation: lumi-wave .7s ease-in-out 2; transform-origin: 50% 92%; }
+@keyframes lumi-wave { 0%, 100% { rotate: 0deg } 50% { rotate: -3deg } }
+
+/* ───────── Mascote LUMI: reações ao acertar ───────── */
+.lumi-feedback { animation: rise .3s ease-out both; }
+.lumi-feedback-easy .lumi-mascot { animation: lumi-in-easy .55s cubic-bezier(.2, .8, .3, 1.2) both; }
+.lumi-feedback-medium .lumi-mascot { animation: lumi-in-medium .8s cubic-bezier(.2, .8, .3, 1.3) both; }
+.lumi-feedback-hard .lumi-mascot { animation: lumi-in-hard .9s cubic-bezier(.2, .9, .3, 1.4) both; }
+.lumi-feedback-hard .lumi-feedback-title { animation: pop .5s .25s ease-out both; }
+@keyframes lumi-in-easy { from { opacity: 0; transform: translateY(14px) rotate(-3deg) } to { opacity: 1; transform: none } }
+@keyframes lumi-in-medium {
+  0% { opacity: 0; transform: translateY(20px) scale(.92) }
+  55% { opacity: 1; transform: translateY(-8px) scale(1.03) }
+  75% { transform: translateY(2px) } 100% { transform: none }
+}
+@keyframes lumi-in-hard {
+  0% { opacity: 0; transform: scale(.78) translateY(10px) }
+  45% { opacity: 1; transform: scale(1.08) translateY(-6px) }
+  65% { transform: scale(.98) } 100% { transform: none }
+}
+.lumi-sparkle { font-size: 14px; opacity: 0; animation: lumi-twinkle 1.6s ease-in-out .2s 2 both; }
+@keyframes lumi-twinkle { 0%, 100% { opacity: 0; transform: scale(.6) } 40% { opacity: 1; transform: scale(1.15) } }

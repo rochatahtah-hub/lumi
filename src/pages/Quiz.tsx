@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check, ChevronRight, Lightbulb, X } from 'lucide-react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Button, Card, Page, ProgressBar, TopBar } from '../components/ui'
+import { AnswerFeedback } from '../components/mascot/AnswerFeedback'
 import { subjectById } from '../content/subjects'
 import { evaluateAchievements } from '../lib/achievements'
 import { localReexplain } from '../lib/ai'
@@ -206,14 +207,7 @@ function QuestionView({ q, number, total, onDone }: { q: Question; number: numbe
           </div>
         )}
 
-        {status === 'correct' && (
-          <div className="mt-5 animate-pop rounded-3xl bg-sucesso-suave p-5 text-center">
-            <p className="text-3xl">🎉</p>
-            <p className="text-xl font-bold">Parabéns!</p>
-            <p className="font-semibold text-sucesso">Você acertou!</p>
-            <p className="mt-2 text-grafite-3">{q.explanation}</p>
-          </div>
-        )}
+        {status === 'correct' && <AnswerFeedback isCorrect difficulty={q.difficulty} question={q} explanation={q.explanation} />}
 
         {status === 'revealed' && (
           <div className="mt-5 animate-rise rounded-3xl border-2 border-cinza bg-white p-5">
@@ -227,7 +221,7 @@ function QuestionView({ q, number, total, onDone }: { q: Question; number: numbe
       <div className="mt-6 grid gap-3">
         {status === 'answering' && <Button onClick={submit} disabled={!isComplete(q, given)}>Responder</Button>}
         {status === 'wrong' && <Button onClick={retry}>Tentar de novo</Button>}
-        {finished && <Button onClick={next}>{number >= total ? 'Ver resultado' : 'Próxima questão'} <ChevronRight size={18} /></Button>}
+        {finished && <Button onClick={next}>{number >= total ? 'Ver resultado' : status === 'correct' ? 'Continuar' : 'Próxima questão'} <ChevronRight size={18} /></Button>}
         {!finished && hints < 3 && (
           <button onClick={() => setHints((h) => h + 1)} className="mx-auto flex min-h-11 items-center gap-2 rounded-full border-2 border-laranja px-5 text-sm font-semibold text-laranja-escuro hover:bg-laranja-suave">
             <Lightbulb size={16} /> {hints === 0 ? 'Preciso de uma dica' : `Mais uma dica (${hints + 1} de 3)`}
