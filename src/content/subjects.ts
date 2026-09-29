@@ -23,7 +23,9 @@ export const SUBJECTS: Subject[] = [
   { id: 'literatura', name: 'Literatura', emoji: '📖', color: '#F59E0B', levels: ['medio'], suggestions: ['Modernismo', 'Romantismo'] },
   { id: 'filosofia', name: 'Filosofia', emoji: '🤔', color: '#A855F7', levels: ['medio'], suggestions: ['Sócrates', 'Ética'] },
   { id: 'sociologia', name: 'Sociologia', emoji: '👥', color: '#EC4899', levels: ['medio'], suggestions: ['Cidadania', 'Trabalho'] },
-  { id: 'artes', name: 'Artes', emoji: '🎨', color: '#F97316', levels: ['fund1', 'fund2'], suggestions: ['Cores primárias', 'Arte rupestre'] },
+  { id: 'artes', name: 'Arte', emoji: '🎨', color: '#F97316', levels: ['fund1', 'fund2', 'medio'], suggestions: ['Cores primárias', 'Arte rupestre'] },
+  { id: 'redacao', name: 'Redação', emoji: '✍️', color: '#0F766E', levels: ['fund2', 'medio'], suggestions: ['Estrutura da redação', 'Proposta de intervenção'] },
+  { id: 'edfisica', name: 'Educação Física', emoji: '🏃', color: '#DC2626', levels: ['fund1', 'fund2', 'medio'], suggestions: ['Aquecimento', 'Regras do vôlei'] },
 ]
 
 /** as 9 matérias que aparecem na tela inicial (item 7 do briefing) */

@@ -60,7 +60,7 @@ export function needsRemediation(s: QuizState): string | null {
   return null
 }
 
-export type Given = { kind: 'mc'; index: number } | { kind: 'tf'; value: boolean } | { kind: 'fill'; text: string } | { kind: 'match'; pairs: Record<string, string> } | { kind: 'open'; text: string }
+export type Given = { kind: 'mc'; index: number } | { kind: 'tf'; value: boolean } | { kind: 'fill'; text: string } | { kind: 'match'; pairs: Record<string, string> } | { kind: 'open'; text: string } | { kind: 'order'; items: string[] }
 
 export function checkAnswer(q: Question, g: Given): boolean {
   switch (q.type) {
@@ -69,6 +69,7 @@ export function checkAnswer(q: Question, g: Given): boolean {
     case 'fill': return g.kind === 'fill' && q.answers.some((a) => normalizeAnswer(a) === normalizeAnswer(g.text))
     case 'match': return g.kind === 'match' && q.pairs.every(([l, r]) => g.pairs[l] === r)
     case 'open': return g.kind === 'open' && gradeOpen(q.keywords, g.text)
+    case 'order': return g.kind === 'order' && g.items.length === q.items.length && g.items.every((x, i) => x === q.items[i])
   }
 }
 

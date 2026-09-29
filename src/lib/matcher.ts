@@ -8,7 +8,8 @@ const STOP = new Set(('a o e de da do das dos em no na nos nas um uma uns umas q
   'eu voce me te seu sua seus suas meu minha isso esse essa este esta ser foi era sao esta estao tem ter ha consegue conseguem pode podem ' +
   'quero queria preciso gostaria estudar aprender entender saber explique explica explicar ensina ensine ensinar fale falar sobre aula materia assunto conteudo ' +
   'favor ajuda ajude mim algo coisa coisas acontece acontecem significa funciona serve servem existe existem ao aos as os e ja mais muito bem la aqui ai ' +
-  'afinal entao tipo vez sempre nunca ou nem mas tambem so ainda').split(' '))
+  'afinal entao tipo vez sempre nunca ou nem mas tambem so ainda entendi consegui jeito facil simples dificil prova ' +
+  'exemplo exemplos passo significa quero sei ta to esta').split(' '))
 
 /** palavra → forma comparável: minúscula, sem acento, com sinônimo aplicado e "radical" curto */
 export function stem(word: string): string {
@@ -31,11 +32,12 @@ function index(lesson: Lesson): Indexed {
   const hit = cache.get(lesson)
   if (hit) return hit
   const names = [lesson.title, lesson.subtopic ?? '', ...lesson.aliases].filter(Boolean).map(normalize)
-  const questions = (lesson.relatedQuestions ?? []).map(terms)
+  const allQ = [...(lesson.relatedQuestions ?? []), ...(lesson.equivalentQuestions ?? [])]
+  const questions = allQ.map(terms)
   const bag = new Map<string, number>()
   const add = (text: string, weight: number) => { for (const t of terms(text)) bag.set(t, Math.max(bag.get(t) ?? 0, weight)) }
   add([lesson.title, lesson.subtopic ?? '', ...lesson.aliases].join(' '), 1)
-  add((lesson.relatedQuestions ?? []).join(' '), 0.9)
+  add(allQ.join(' '), 0.9)
   add([lesson.topic ?? '', lesson.summary, ...lesson.blocks.map((b) => b.title), ...Object.values(lesson.skills)].join(' '), 0.6)
   const out = { lesson, names, questions, bag }
   cache.set(lesson, out)

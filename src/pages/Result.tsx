@@ -5,6 +5,7 @@ import { ACHIEVEMENTS } from '../lib/achievements'
 import { cloudEnabled } from '../lib/supabase'
 import { setState, useLumi } from '../lib/store'
 import type { ResultState } from './Quiz'
+import { getLesson } from '../lib/repo'
 
 export default function ResultPage() {
   const nav = useNavigate()
@@ -13,6 +14,8 @@ export default function ResultPage() {
   const dismissed = useLumi((s) => s.loginPromptDismissedAt)
   const syncedUser = useLumi((s) => s.profile.userId)
   if (!r) return <Navigate to="/" replace />
+  // trilha: pré-requisito → conteúdo atual → próximo conteúdo
+  const nextLessons = (getLesson(r.lessonId)?.next ?? []).map((id) => getLesson(id)).filter((l) => !!l)
 
   const pct = r.total ? Math.round((r.correct / r.total) * 100) : 0
   const unlocked = ACHIEVEMENTS.filter((a) => r.newAchievements.includes(a.id))
@@ -58,6 +61,19 @@ export default function ResultPage() {
           <Card className="mt-4 border-laranja/40 bg-laranja-suave">
             <p className="font-semibold">🏆 Nova conquista!</p>
             {unlocked.map((a) => <p key={a.id} className="mt-1">{a.icon} {a.title}</p>)}
+          </Card>
+        )}
+
+        {nextLessons.length > 0 && (
+          <Card className="mt-4">
+            <p className="font-semibold">➡️ Próximo passo recomendado</p>
+            <div className="mt-2 grid gap-2">
+              {nextLessons.map((l) => (
+                <button key={l.id} onClick={() => nav(`/aula/${l.id}`)} className="flex items-center justify-between rounded-2xl bg-laranja-suave px-4 py-3 text-left font-medium hover:bg-laranja/20">
+                  {l.title} <span aria-hidden>→</span>
+                </button>
+              ))}
+            </div>
           </Card>
         )}
 

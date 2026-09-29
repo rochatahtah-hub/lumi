@@ -34,6 +34,8 @@ const SUBJECT_HINTS: Record<SubjectId, string[]> = {
   filosofia: ['filosofo', 'etica', 'razao', 'socrates', 'platao', 'aristoteles', 'conhecimento'],
   sociologia: ['sociedade', 'cultura', 'trabalho', 'cidadania', 'desigualdade', 'classe', 'social'],
   artes: ['arte', 'pintura', 'cor', 'escultura', 'musica', 'artista', 'desenho'],
+  redacao: ['redacao', 'tese', 'argumento', 'argumentos', 'conectivo', 'dissertativo', 'paragrafo', 'intervencao', 'coesao', 'coerencia'],
+  edfisica: ['esporte', 'exercicio', 'atividade', 'corpo', 'futebol', 'volei', 'basquete', 'aquecimento', 'alongamento', 'jogo'],
 }
 
 function detectSubject(text: string): SubjectId | undefined {

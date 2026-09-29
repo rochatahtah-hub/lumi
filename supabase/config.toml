@@ -1,8 +1,8 @@
 project_id = "khmozcolgdpkvlgctqgk"
 
 [auth]
-site_url = "https://ivory-dog-642534.hostingersite.com"
-additional_redirect_urls = ["https://ivory-dog-642534.hostingersite.com/conta", "https://lumi.synex.workers.dev/conta", "http://localhost:5173/conta", "http://localhost:4173/conta"]
+site_url = "https://lumiensina.app.br"
+additional_redirect_urls = ["https://lumiensina.app.br/conta", "https://www.lumiensina.app.br/conta", "https://ivory-dog-642534.hostingersite.com/conta", "https://lumi.synex.workers.dev/conta", "http://localhost:5173/conta", "http://localhost:4173/conta"]
 enable_signup = true
 
 [auth.email]

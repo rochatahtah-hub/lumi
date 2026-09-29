@@ -183,6 +183,7 @@ function QuestionView({ q, number, total, onDone }: { q: Question; number: numbe
         {q.type === 'tf' && <TrueFalse value={given?.kind === 'tf' ? given.value : null} status={status} answer={q.answer} onChange={(value) => choose({ kind: 'tf', value })} />}
         {q.type === 'fill' && <TextAnswer value={given?.kind === 'fill' ? given.text : ''} disabled={finished} onChange={(text) => choose({ kind: 'fill', text })} onEnter={status === 'answering' ? submit : undefined} />}
         {q.type === 'open' && <TextAnswer multiline value={given?.kind === 'open' ? given.text : ''} disabled={finished} onChange={(text) => choose({ kind: 'open', text })} />}
+        {q.type === 'order' && <Ordering q={q} disabled={finished} value={given?.kind === 'order' ? given.items : null} onChange={(items) => choose({ kind: 'order', items })} />}
         {q.type === 'match' && <Matching q={q} disabled={finished} value={given?.kind === 'match' ? given.pairs : {}} onChange={(pairs) => choose({ kind: 'match', pairs })} />}
       </div>
 
@@ -241,6 +242,7 @@ function QuestionView({ q, number, total, onDone }: { q: Question; number: numbe
 function isComplete(q: Question, g: Given | null): boolean {
   if (!g) return false
   if (g.kind === 'fill' || g.kind === 'open') return g.text.trim().length > 0
+  if (g.kind === 'order') return true
   if (g.kind === 'match') return q.type === 'match' && Object.keys(g.pairs).length === q.pairs.length
   return true
 }
@@ -252,6 +254,7 @@ function correctAnswerText(q: Question): string {
     case 'fill': return q.answers[0]
     case 'match': return q.pairs.map(([a, b]) => `${a} → ${b}`).join(' · ')
     case 'open': return q.modelAnswer
+    case 'order': return q.items.map((x, i) => `${i + 1}. ${x}`).join(' · ')
   }
 }
 
@@ -311,6 +314,39 @@ function TextAnswer({ value, onChange, disabled, multiline, onEnter }: { value: 
   ) : (
     <input value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled} maxLength={120} placeholder="Sua resposta" className={`${cls} min-h-14`} onFocus={keepVisible}
       autoCapitalize="off" autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(e) => { if (e.key === 'Enter' && onEnter) { e.preventDefault(); onEnter() } }} />
+  )
+}
+
+/** ordenar: começa embaralhado; o aluno sobe/desce os itens (sem arrastar, funciona bem no celular) */
+function Ordering({ q, value, onChange, disabled }: { q: Extract<Question, { type: 'order' }>; value: string[] | null; onChange: (v: string[]) => void; disabled: boolean }) {
+  const initial = useMemo(() => {
+    let s = shuffle(q.items)
+    for (let i = 0; i < 5 && s.every((x, j) => x === q.items[j]); i++) s = shuffle(q.items)
+    return s
+  }, [q])
+  const list = value ?? initial
+  useEffect(() => { if (!value) onChange(initial) }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const move = (i: number, d: number) => {
+    const j = i + d
+    if (j < 0 || j >= list.length) return
+    const next = [...list]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    onChange(next)
+  }
+  return (
+    <div>
+      <p className="mb-3 text-sm text-cinza-texto">Use as setas para colocar na ordem certa (o primeiro fica em cima).</p>
+      <ol className="grid gap-2">
+        {list.map((item, i) => (
+          <li key={item} className="flex items-center gap-2 rounded-2xl border-2 border-cinza bg-white p-2 pl-3">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-laranja-suave text-sm font-bold text-laranja-escuro">{i + 1}</span>
+            <span className="flex-1 text-sm font-medium">{item}</span>
+            <button type="button" disabled={disabled || i === 0} onClick={() => move(i, -1)} aria-label="Subir" className="grid h-10 w-10 place-items-center rounded-xl hover:bg-offwhite disabled:opacity-30">▲</button>
+            <button type="button" disabled={disabled || i === list.length - 1} onClick={() => move(i, 1)} aria-label="Descer" className="grid h-10 w-10 place-items-center rounded-xl hover:bg-offwhite disabled:opacity-30">▼</button>
+          </li>
+        ))}
+      </ol>
+    </div>
   )
 }
 

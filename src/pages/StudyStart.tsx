@@ -5,9 +5,10 @@ import { LevelPicker } from '../components/LevelPicker'
 import { Button, Card, Page, Spinner, TopBar } from '../components/ui'
 import { SUBJECTS, subjectById } from '../content/subjects'
 import { aiEnabled, aiLesson, AiError, cloudSearch } from '../lib/ai'
-import { findLessons, type Match } from '../lib/matcher'
+import { findLessons, terms, type Match } from '../lib/matcher'
+import { detectIntent } from '../lib/intent'
 import { allLessons, getLesson, refreshCloudLessons } from '../lib/repo'
-import { saveCustomLesson, setProfile, useLumi } from '../lib/store'
+import { getState, saveCustomLesson, setProfile, useLumi } from '../lib/store'
 import { cloudEnabled } from '../lib/supabase'
 import { logTopicRequest } from '../lib/telemetry'
 import { normalize } from '../lib/text'
@@ -61,12 +62,22 @@ export default function StudyStart() {
       const asSubject = SUBJECTS.find((s) => normalize(s.name) === normalize(q))
       if (asSubject && !subject) return nav(`/materia/${asSubject.id}`, { replace: true })
 
+      // "não entendi", "me dá um exemplo", "explica de outro jeito"…
+      const intent = detectIntent(q)
+      const modo = intent.mode ? `?modo=${intent.mode}` : ''
+      const last = getState().lastLessonId
+      if (intent.mode && terms(intent.rest).length === 0) {
+        if (last && getLesson(last)) return nav(`/aula/${last}${modo}`, { replace: true })
+        return setPhase({ kind: 'missing', error: 'Me conta qual assunto você quer que eu explique de outro jeito — por exemplo: "não entendi frações".' })
+      }
+      const query = intent.mode ? intent.rest : q
+
       // 1) base própria neste aparelho (inclui as aulas oficiais já baixadas da nuvem)
-      const local = findLessons(q, allLessons().filter((l) => l.origin !== 'colado'), subject)
-      if (local[0] && local[0].score >= LOCAL_MATCH) return nav(`/aula/${local[0].lesson.id}`, { replace: true })
+      const local = findLessons(query, allLessons().filter((l) => l.origin !== 'colado'), subject)
+      if (local[0] && local[0].score >= LOCAL_MATCH) return nav(`/aula/${local[0].lesson.id}${modo}`, { replace: true })
 
       // 2) base oficial na nuvem (PostgreSQL full-text)
-      const cloud = await cloudSearch(q, subject)
+      const cloud = await cloudSearch(query, subject)
       if (cloud && cloud.score >= CLOUD_MATCH) return openBaseLesson(cloud.id)
 
       if (local.length) return setPhase({ kind: 'choices', matches: local.slice(0, 4) })

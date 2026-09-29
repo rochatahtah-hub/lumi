@@ -73,6 +73,7 @@ const newQuestion = (type: Question['type'], n: number, skill: string): Question
     case 'fill': return { ...base, type, answers: [''] }
     case 'match': return { ...base, type, pairs: [['', ''], ['', ''], ['', '']] }
     case 'open': return { ...base, type, modelAnswer: '', keywords: [] }
+    case 'order': return { ...base, type, items: ['', '', ''] }
   }
 }
 
@@ -274,7 +275,7 @@ export function AdminLessonEditor({ aiItem, onDone }: { aiItem?: AiFound; onDone
       {lesson.questions.map((q, i) => <QuestionEditor key={q.id + i} q={q} n={i + 1} skills={lesson.skills} readOnly={readOnly} onChange={(patch) => setQ(i, patch)} onRemove={() => set({ questions: lesson.questions.filter((_, j) => j !== i) })} />)}
       {!readOnly && (
         <div className="flex flex-wrap gap-2">
-          {(['mc', 'tf', 'fill', 'match', 'open'] as const).map((t) => (
+          {(['mc', 'tf', 'fill', 'match', 'order', 'open'] as const).map((t) => (
             <Button key={t} variant="outline" className="!min-h-10 !py-2 text-sm" onClick={() => {
               const n = Math.max(0, ...lesson.questions.map((q) => Number(q.id.replace(/\D/g, '')) || 0)) + 1
               set({ questions: [...lesson.questions, newQuestion(t, n, skillIds[0] ?? 'geral')] })
@@ -307,7 +308,7 @@ export function AdminLessonEditor({ aiItem, onDone }: { aiItem?: AiFound; onDone
   )
 }
 
-const TYPE_LABEL: Record<Question['type'], string> = { mc: 'Múltipla escolha', tf: 'Verdadeiro/falso', fill: 'Completar', match: 'Associação', open: 'Aberta' }
+const TYPE_LABEL: Record<Question['type'], string> = { mc: 'Múltipla escolha', tf: 'Verdadeiro/falso', fill: 'Completar', match: 'Associação', open: 'Aberta', order: 'Ordenar' }
 
 function IconBtn({ children, label, onClick }: { children: React.ReactNode; label: string; onClick: () => void }) {
   return <button type="button" aria-label={label} title={label} onClick={onClick} className="grid h-8 w-8 place-items-center rounded-lg text-cinza-texto hover:bg-offwhite hover:text-grafite">{children}</button>
@@ -347,6 +348,9 @@ function QuestionEditor({ q, n, skills, readOnly, onChange, onRemove }: { q: Que
             <input className={input} placeholder="Direita" value={p[1]} onChange={(e) => onChange({ pairs: q.pairs.map((x, j) => (j === i ? [x[0], e.target.value] : x)) } as Partial<Question>)} />
           </div>
         ))}
+        {q.type === 'order' && (
+          <textarea className={input} rows={4} placeholder="Itens na ORDEM CORRETA, um por linha (o app embaralha)" value={q.items.join('\n')} onChange={(e) => onChange({ items: e.target.value.split('\n') } as Partial<Question>)} />
+        )}
         {q.type === 'open' && (
           <>
             <textarea className={input} rows={2} placeholder="Resposta modelo" value={q.modelAnswer} onChange={(e) => onChange({ modelAnswer: e.target.value } as Partial<Question>)} />

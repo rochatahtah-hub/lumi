@@ -83,6 +83,8 @@ export function localReexplain(block: Block, mode: ReexplainMode): string {
       return block.example ? `Veja um exemplo: ${block.example}` : `Tente pensar num exemplo do seu dia a dia para esta ideia: ${first}`
     case 'outra':
       return `Vamos por outro caminho. A ideia principal é esta: ${first} Leia de novo devagar e tente explicar para alguém com suas palavras.`
+    case 'passos':
+      return block.text.split(/(?<=[.!?])\s/).map((f, i) => `${i + 1}. ${f}`).join('\n')
     case 'detalhado':
       return `${block.text}${block.example ? ` Exemplo: ${block.example}` : ''}`
   }

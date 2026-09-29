@@ -5,7 +5,6 @@ export const LESSON_META: Record<string, { topic: string; subtopic: string; rela
   'mat-fracoes': { topic: 'Números racionais', subtopic: 'Frações', relatedQuestions: ['O que é numerador e denominador?', 'Como simplificar uma fração?', 'O que são frações equivalentes?', 'Como ler uma fração?'] },
   'mat-porcentagem': { topic: 'Proporcionalidade', subtopic: 'Porcentagem', relatedQuestions: ['Como calcular porcentagem?', 'Como calcular desconto?', 'Quanto é 10% de um valor?', 'Como calcular aumento percentual?'] },
   'mat-equacao-2-grau': { topic: 'Álgebra', subtopic: 'Equação do 2º grau', relatedQuestions: ['Como usar a fórmula de Bhaskara?', 'Como calcular o delta?', 'Como achar as raízes de uma equação do segundo grau?'] },
-  'mat-multiplicacao': { topic: 'Operações', subtopic: 'Multiplicação', relatedQuestions: ['Como aprender a tabuada?', 'O que é multiplicar?', 'Como fazer conta de vezes?'] },
   'mat-equacao-1-grau': { topic: 'Álgebra', subtopic: 'Equação do 1º grau', relatedQuestions: ['Como achar o valor de x?', 'Como resolver uma equação simples?', 'O que é incógnita?'] },
   'mat-teorema-pitagoras': { topic: 'Geometria', subtopic: 'Triângulo retângulo', relatedQuestions: ['Como calcular a hipotenusa?', 'O que diz o teorema de Pitágoras?', 'Como achar o cateto?'] },
   'mat-funcao-1-grau': { topic: 'Funções', subtopic: 'Função afim', relatedQuestions: ['O que é função do primeiro grau?', 'Como achar a raiz da função?', 'O que é coeficiente angular?'] },

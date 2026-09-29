@@ -3,38 +3,6 @@ import type { Lesson } from '../../types'
 const BNCC = { title: 'Base Nacional Comum Curricular (BNCC) — Matemática', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' } as const
 const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
 
-export const multiplicacao: Lesson = {
-  id: 'mat-multiplicacao',
-  subject: 'matematica',
-  title: 'Multiplicação e tabuada',
-  levels: ['fund1'],
-  grade: '2º ao 4º ano',
-  aliases: ['multiplicacao', 'tabuada', 'vezes', 'multiplicar', 'conta de vezes'],
-  summary: 'Entenda a multiplicação como soma de parcelas iguais e aprenda truques da tabuada.',
-  intro: 'Multiplicar é um jeito rápido de somar. Vamos descobrir como!',
-  skills: { conceito: 'Multiplicação como soma repetida', tabuada: 'Tabuada', propriedades: 'Propriedades da multiplicação', problemas: 'Problemas com multiplicação' },
-  blocks: [
-    { id: 'b1', skill: 'conceito', title: 'Multiplicar é somar parcelas iguais', text: 'Quando somamos o mesmo número várias vezes, podemos usar a multiplicação. 3 × 4 quer dizer "3 grupos de 4": 4 + 4 + 4 = 12.', example: 'Três pacotes com 4 figurinhas cada: 3 × 4 = 12 figurinhas.', variants: { simples: 'Vezes é contar grupos iguais. 2 × 5 são dois grupos de 5 coisas: 10 coisas no total.' } },
-    { id: 'b2', skill: 'tabuada', title: 'Truques da tabuada', text: 'Na tabuada do 2, é só dobrar. Na do 10, coloque um zero no fim. Na do 5, os resultados terminam sempre em 0 ou 5.', example: '7 × 2 = 14 (o dobro de 7) · 6 × 10 = 60 · 5 × 3 = 15.', variants: { simples: '× 2 é o dobro. × 10 é pôr um zero no fim. × 5 sempre termina em 0 ou 5.' } },
-    { id: 'b3', skill: 'propriedades', title: 'A ordem não muda o resultado', text: 'Na multiplicação, trocar a ordem dos números não muda o resultado: 3 × 4 = 4 × 3. Qualquer número vezes 1 é ele mesmo, e qualquer número vezes 0 é zero.', example: '8 × 1 = 8 · 8 × 0 = 0 · 2 × 9 = 9 × 2 = 18.', variants: { simples: '3 × 4 e 4 × 3 dão o mesmo: 12. Vezes 1 não muda nada. Vezes 0 dá sempre 0.' } },
-    { id: 'b4', skill: 'problemas', title: 'Usando no dia a dia', text: 'Para resolver um problema, procure grupos iguais: quantos grupos existem e quantas coisas há em cada grupo. Depois multiplique.', example: 'Uma caixa tem 6 ovos. Em 5 caixas há 5 × 6 = 30 ovos.', variants: { simples: 'Pergunte: quantos grupos? Quantos em cada grupo? Depois faça a conta de vezes.' } },
-  ],
-  questions: [
-    { id: 'q1', type: 'mc', difficulty: 1, skill: 'conceito', prompt: '4 + 4 + 4 é o mesmo que:', options: ['4 × 4', '3 × 4', '4 + 3', '12 × 4'], answer: 1, hints: ['Conte quantas vezes o 4 aparece.', 'O 4 aparece 3 vezes.', '3 grupos de 4.'], explanation: 'São 3 parcelas iguais a 4: 3 × 4 = 12.' },
-    { id: 'q2', type: 'fill', difficulty: 1, skill: 'tabuada', prompt: 'Quanto é 7 × 2?', answers: ['14'], hints: ['× 2 é o dobro.', 'Qual é o dobro de 7?', '7 + 7.'], explanation: '7 × 2 = 14, o dobro de 7.' },
-    { id: 'q3', type: 'mc', difficulty: 1, skill: 'tabuada', prompt: 'Quanto é 6 × 10?', options: ['16', '60', '600', '61'], answer: 1, hints: ['Na tabuada do 10 tem um truque.', 'Coloque um zero no fim.', '6 com um zero.'], explanation: '6 × 10 = 60.' },
-    { id: 'q4', type: 'tf', difficulty: 1, skill: 'propriedades', prompt: '3 × 5 dá o mesmo resultado que 5 × 3.', answer: true, hints: ['A ordem muda o resultado da multiplicação?', 'Faça as duas contas.', '15 e 15.'], explanation: 'Verdadeiro. A ordem não altera o produto: os dois dão 15.' },
-    { id: 'q5', type: 'mc', difficulty: 2, skill: 'propriedades', prompt: 'Quanto é 9 × 0?', options: ['9', '0', '90', '1'], answer: 1, hints: ['Pense em 9 grupos com nada dentro.', 'Quantas coisas há no total?', 'Nenhuma.'], explanation: 'Qualquer número vezes 0 dá 0.' },
-    { id: 'q6', type: 'fill', difficulty: 2, skill: 'problemas', prompt: 'Uma caixa tem 6 ovos. Quantos ovos há em 5 caixas?', answers: ['30'], hints: ['Quantos grupos? Quantos em cada?', '5 caixas com 6 ovos.', '5 × 6.'], explanation: '5 × 6 = 30 ovos.' },
-    { id: 'q7', type: 'match', difficulty: 2, skill: 'tabuada', prompt: 'Ligue cada conta ao resultado.', pairs: [['2 × 8', '16'], ['5 × 4', '20'], ['3 × 3', '9'], ['10 × 7', '70']], hints: ['Comece pela do 10.', '5 × 4 termina em 0.', '2 × 8 é o dobro de 8.'], explanation: '2 × 8 = 16 · 5 × 4 = 20 · 3 × 3 = 9 · 10 × 7 = 70.' },
-    { id: 'q8', type: 'tf', difficulty: 2, skill: 'tabuada', prompt: 'Todos os resultados da tabuada do 5 terminam em 0 ou 5.', answer: true, hints: ['Teste alguns: 5, 10, 15…', 'Veja o último algarismo.', 'Só aparecem 0 e 5.'], explanation: 'Verdadeiro: 5, 10, 15, 20, 25…' },
-    { id: 'q9', type: 'mc', difficulty: 3, skill: 'problemas', prompt: 'Uma sala tem 4 fileiras com 7 cadeiras cada. Quantas cadeiras há?', options: ['11', '28', '24', '47'], answer: 1, hints: ['São grupos iguais.', '4 grupos de 7.', '4 × 7.'], explanation: '4 × 7 = 28 cadeiras.' },
-    { id: 'q10', type: 'fill', difficulty: 3, skill: 'tabuada', prompt: 'Quanto é 8 × 7?', answers: ['56'], hints: ['Pense em 7 × 8.', '7 × 7 = 49.', '49 + 7.'], explanation: '8 × 7 = 56.' },
-  ],
-  review: ['Multiplicar = somar parcelas iguais', '× 2 é o dobro · × 10 põe um zero', 'A ordem não muda o resultado', '× 1 não muda · × 0 dá zero'],
-  sources: [BNCC, AUTORAL],
-}
-
 export const equacao1grau: Lesson = {
   id: 'mat-equacao-1-grau',
   subject: 'matematica',

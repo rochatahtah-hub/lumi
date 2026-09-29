@@ -1,10 +1,10 @@
-import { Atom, BookMarked, BookOpen, Brain, Dna, Earth, FlaskConical, Landmark, Languages, Palette, Pi, TestTubes, Users, type LucideIcon } from 'lucide-react'
+import { Atom, BookMarked, BookOpen, Brain, Dna, Dumbbell, Earth, FlaskConical, Landmark, Languages, Palette, PenLine, Pi, TestTubes, Users, type LucideIcon } from 'lucide-react'
 import type { SubjectId } from '../types'
 import { subjectById } from '../content/subjects'
 
 const ICONS: Record<SubjectId, LucideIcon> = {
   matematica: Pi, portugues: BookOpen, ciencias: FlaskConical, historia: Landmark, geografia: Earth, ingles: Languages,
-  fisica: Atom, quimica: TestTubes, biologia: Dna, literatura: BookMarked, filosofia: Brain, sociologia: Users, artes: Palette,
+  fisica: Atom, quimica: TestTubes, biologia: Dna, literatura: BookMarked, filosofia: Brain, sociologia: Users, artes: Palette, redacao: PenLine, edfisica: Dumbbell,
 }
 
 /** ícone colorido da matéria dentro de um quadrado suave, como nos cards da referência */

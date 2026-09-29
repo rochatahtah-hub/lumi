@@ -56,6 +56,8 @@ export interface LumiState {
   reviewsDone: number
   pastedStudied: number
   loginPromptDismissedAt?: string
+  /** último conteúdo aberto — para "não entendi" / "me dá um exemplo" sem citar o assunto */
+  lastLessonId?: string
   updatedAt: string
 }
 

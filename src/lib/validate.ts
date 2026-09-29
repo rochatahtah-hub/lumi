@@ -42,8 +42,9 @@ export function validateLesson(raw: unknown, fallback: { id: string; subject?: S
     intro: str(r.intro, 600) || 'Vamos entender juntos.',
     blocks, questions, skills,
     review: (Array.isArray(r.review) ? r.review : []).map((x) => str(x, 200)).filter(Boolean).slice(0, 8),
-    sources: (Array.isArray(r.sources) ? r.sources : []).map((s: Record<string, unknown>) => ({ title: str(s?.title, 200), url: str(s?.url, 500) || undefined, author: str(s?.author, 120) || undefined, kind: (SOURCE_KINDS.includes(s?.kind as Source['kind']) ? s.kind : 'site') as Source['kind'] })).filter((s) => s.title).slice(0, 12),
+    sources: (Array.isArray(r.sources) ? r.sources : []).map((s: Record<string, unknown>) => ({ title: str(s?.title, 200), url: str(s?.url, 500) || undefined, author: str(s?.author, 120) || undefined, accessedAt: str(s?.accessedAt, 10) || undefined, kind: (SOURCE_KINDS.includes(s?.kind as Source['kind']) ? s.kind : 'site') as Source['kind'] })).filter((s) => s.title).slice(0, 12),
     origin: fallback.origin,
+    ...extras(r),
   }
 }
 
@@ -81,6 +82,10 @@ export function validateQuestion(q: unknown, id: string): Question | null {
       const rights = new Set(pairs.map((p) => p[1]))
       return pairs.length >= 2 && rights.size === pairs.length ? { ...base, type: 'match', prompt, pairs } : null
     }
+    case 'order': {
+      const items = (Array.isArray(r.items) ? r.items : []).map((x) => str(x, 200)).filter(Boolean).slice(0, 8)
+      return items.length >= 3 && new Set(items).size === items.length ? { ...base, type: 'order', prompt, items } : null
+    }
     case 'open': {
       const keywords = (Array.isArray(r.keywords) ? r.keywords : []).map((k) => str(k, 40)).filter(Boolean)
       const modelAnswer = str(r.modelAnswer, 800)
@@ -89,4 +94,35 @@ export function validateQuestion(q: unknown, id: string): Question | null {
     default:
       return null
   }
+}
+
+/** campos do acervo (opcionais): preservados quando vêm do banco ou do editor */
+function extras(r: Record<string, unknown>): Partial<Lesson> {
+  const arr = (x: unknown, max = 200, n = 150) => (Array.isArray(x) ? x.map((y) => str(y, max)).filter(Boolean).slice(0, n) : undefined)
+  const out: Partial<Lesson> = {}
+  if (str(r.objective)) out.objective = str(r.objective, 600)
+  if (arr(r.prerequisites, 80)) out.prerequisites = arr(r.prerequisites, 80, 10)
+  if (arr(r.next, 80)) out.next = arr(r.next, 80, 10)
+  if (arr(r.equivalentQuestions)) out.equivalentQuestions = arr(r.equivalentQuestions, 200, 200)
+  if (arr(r.commonErrors, 400)) out.commonErrors = arr(r.commonErrors, 400, 20)
+  if (Array.isArray(r.commonDoubts)) out.commonDoubts = (r.commonDoubts as Record<string, unknown>[]).map((d) => ({ q: str(d?.q, 300), a: str(d?.a, 1200) })).filter((d) => d.q && d.a).slice(0, 20)
+  if (Array.isArray(r.formulas)) out.formulas = (r.formulas as Record<string, unknown>[]).map((f) => ({
+    name: str(f?.name, 120), expression: str(f?.expression, 200), conditions: str(f?.conditions, 400) || undefined,
+    variables: (Array.isArray(f?.variables) ? (f.variables as Record<string, unknown>[]) : []).map((x) => ({ symbol: str(x?.symbol, 20), meaning: str(x?.meaning, 200), unit: str(x?.unit, 40) || undefined })).filter((x) => x.symbol),
+  })).filter((f) => f.name && f.expression).slice(0, 12)
+  if (r.history && typeof r.history === 'object') {
+    const h = r.history as Record<string, unknown>
+    out.history = {
+      period: str(h.period, 200),
+      timeline: (Array.isArray(h.timeline) ? (h.timeline as Record<string, unknown>[]) : []).map((t) => ({ date: str(t?.date, 60), event: str(t?.event, 400) })).filter((t) => t.date && t.event).slice(0, 30),
+      people: Array.isArray(h.people) ? (h.people as Record<string, unknown>[]).map((p) => ({ name: str(p?.name, 120), role: str(p?.role, 300) })).filter((p) => p.name).slice(0, 20) : undefined,
+      causes: arr(h.causes, 400, 15), consequences: arr(h.consequences, 400, 15), interpretations: arr(h.interpretations, 600, 10), place: str(h.place, 200) || undefined,
+    }
+  }
+  if (str(r.enem)) out.enem = str(r.enem, 400)
+  if (['draft', 'in_review', 'published', 'archived'].includes(String(r.status))) out.status = r.status as Lesson['status']
+  if (Number.isInteger(r.version)) out.version = r.version as number
+  if (str(r.createdAt, 40)) out.createdAt = str(r.createdAt, 40)
+  if (str(r.reviewedAt, 40)) out.reviewedAt = str(r.reviewedAt, 40)
+  return out
 }
