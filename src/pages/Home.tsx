@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { BookOpen, ChevronRight, FileText, Flame, RotateCcw, Search, Star } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LumiLogo } from '../components/ui'
-import { MascotWalker } from '../components/mascot/MascotWalker'
+import { CardPeek, usePeekDirector } from '../components/mascot/CardPeek'
 import { SubjectIcon } from '../components/SubjectIcon'
 import { HOME_SUBJECTS, subjectById } from '../content/subjects'
 import { currentStreak, useLumi, weakSkills } from '../lib/store'
@@ -18,6 +18,7 @@ export default function Home() {
   const lastSession = useLumi((s) => s.history.find((h) => h.mode === 'aula'))
   const hasWeak = useLumi((s) => weakSkills(s).length > 0)
   const nickname = useLumi((s) => s.profile.nickname)
+  const peek = usePeekDirector(HOME_SUBJECTS.length)
 
   const go = (topic: string) => topic.trim() && nav(`/estudar?q=${encodeURIComponent(topic.trim())}`)
   const submit = (e: FormEvent) => {
@@ -69,18 +70,23 @@ export default function Home() {
 
         <section className="mt-8">
           <h2 className="font-semibold">Escolha uma matéria</h2>
-          {/* faixa do mascote: ele passa por trás da 1ª fileira de cards (os cards ficam na frente) */}
-          <div className="relative h-14 sm:h-[72px] lg:h-[84px]"><MascotWalker /></div>
-          <div className="relative z-10 grid grid-cols-3 gap-3">
-            {HOME_SUBJECTS.map((id) => {
-              const s = subjectById(id)!
-              return (
-                <Link key={id} to={`/materia/${id}`} className="flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
-                  <SubjectIcon id={id} />
-                  <span className="text-sm font-medium leading-tight">{s.name}</span>
-                </Link>
-              )
-            })}
+          {/* o LUMI vive atrás dos cards: aparece acima da 1ª fileira e pelas frestas entre as fileiras */}
+          <div className="lumi-cards">
+            <div aria-hidden style={{ height: 'var(--peek-band)' }} />
+            <div className="lumi-cards-grid relative z-10 grid grid-cols-3 gap-x-3">
+              {HOME_SUBJECTS.map((id, i) => {
+                const s = subjectById(id)!
+                return (
+                  <div key={id} className="relative">
+                    {peek?.card === i && <CardPeek app={peek} row={Math.floor(i / 3)} />}
+                    <Link to={`/materia/${id}`} className="relative z-[1] flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
+                      <SubjectIcon id={id} />
+                      <span className="text-sm font-medium leading-tight">{s.name}</span>
+                    </Link>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </section>
 
