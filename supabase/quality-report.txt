@@ -279,6 +279,22 @@ OFICIAL  ing-simple-present
    · bloco "Perguntas" sem reformulação "exemplo"
    · bloco "Perguntas" sem reformulação "passos"
    · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  ing-a1-this-that
+   · trilha aponta para conteúdo ainda não criado "ing-a1-colors-adjectives"
+OFICIAL  ing-a2-comparatives
+   · trilha aponta para conteúdo ainda não criado "ing-a2-quantifiers"
+OFICIAL  ing-b1-present-perfect
+   · trilha aponta para conteúdo ainda não criado "ing-b1-present-perfect-continuous"
+OFICIAL  ing-b1-collocations
+   · trilha aponta para conteúdo ainda não criado "ing-b1-past-perfect"
+OFICIAL  ing-b2-reported-speech
+   · trilha aponta para conteúdo ainda não criado "ing-b2-relative-clauses"
+OFICIAL  ing-b2-idioms
+   · trilha aponta para conteúdo ainda não criado "ing-b2-modal-perfect"
+OFICIAL  ing-c1-conditionals
+   · trilha aponta para conteúdo ainda não criado "ing-c1-inversion-cleft"
+OFICIAL  ing-c1-reading-between-lines
+   · trilha aponta para conteúdo ainda não criado "ing-c1-academic-writing"
 OFICIAL  fis-leis-de-newton
    · objetivo de aprendizagem vazio (formato antigo)
    · bloco "1ª lei: Inércia" sem reformulação "passos"

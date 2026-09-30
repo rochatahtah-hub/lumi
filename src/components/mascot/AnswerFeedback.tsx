@@ -1,4 +1,4 @@
-import { MASCOT, reactionFor, type MascotReaction } from '../../assets/lumi'
+import { MASCOT, WRONG_REACTION, reactionFor, type MascotReaction } from '../../assets/lumi'
 import type { Question } from '../../types'
 
 const COPY: Record<MascotReaction, { title: string; message: string; box: string; label: string }> = {
@@ -18,10 +18,10 @@ interface Props {
 
 /**
  * Feedback de ACERTO com o mascote LUMI. A reação vem da dificuldade cadastrada no exercício.
- * (Reação para erro será criada depois — aqui só tratamos a resposta correta.)
+ * No ERRO: por enquanto não há reação visual do mascote (WRONG_REACTION vazia); a estrutura já está pronta para ela.
  */
 export function AnswerFeedback({ isCorrect, difficulty, question, explanation, mascotReaction }: Props) {
-  if (!isCorrect) return null
+  if (!isCorrect) return WRONG_REACTION ? <img src={WRONG_REACTION} alt="LUMI incentivando" className="mx-auto mt-3 h-24 w-auto select-none" draggable={false} /> : null
   const reaction = mascotReaction ?? reactionFor(difficulty)
   const c = COPY[reaction]
   return (

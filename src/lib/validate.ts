@@ -1,4 +1,4 @@
-import { SOURCE_KINDS, type Block, type Lesson, type LevelId, type Question, type Source, type SubjectId } from '../types'
+import { CEFR_LEVELS, SOURCE_KINDS, type Block, type EnglishInfo, type LessonGames, type Lesson, type LevelId, type Question, type Source, type SubjectId } from '../types'
 import { SUBJECTS } from '../content/subjects'
 
 const str = (v: unknown, max = 2000) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
@@ -17,6 +17,7 @@ export function validateLesson(raw: unknown, fallback: { id: string; subject?: S
 
   const blocks: Block[] = (Array.isArray(r.blocks) ? r.blocks : []).slice(0, 8).map((b: Record<string, unknown>, i: number) => ({
     id: `b${i + 1}`, title: str(b?.title, 120), text: str(b?.text, 1500), example: str(b?.example, 600) || undefined, skill: str(b?.skill, 40) || undefined,
+    variants: variants(b?.variants),
   })).filter((b) => b.title && b.text)
 
   const questions: Question[] = []
@@ -97,6 +98,17 @@ export function validateQuestion(q: unknown, id: string): Question | null {
 }
 
 /** campos do acervo (opcionais): preservados quando vêm do banco ou do editor */
+/** reformulações do "Não entendi" — antes se perdiam nas aulas vindas da nuvem */
+function variants(v: unknown): Block['variants'] {
+  if (!v || typeof v !== 'object') return undefined
+  const out: NonNullable<Block['variants']> = {}
+  for (const m of ['simples', 'exemplo', 'passos', 'compara', 'outra', 'detalhado'] as const) {
+    const t = str((v as Record<string, unknown>)[m], 1500)
+    if (t) out[m] = t
+  }
+  return Object.keys(out).length ? out : undefined
+}
+
 function extras(r: Record<string, unknown>): Partial<Lesson> {
   const arr = (x: unknown, max = 200, n = 150) => (Array.isArray(x) ? x.map((y) => str(y, max)).filter(Boolean).slice(0, n) : undefined)
   const out: Partial<Lesson> = {}
@@ -124,5 +136,9 @@ function extras(r: Record<string, unknown>): Partial<Lesson> {
   if (Number.isInteger(r.version)) out.version = r.version as number
   if (str(r.createdAt, 40)) out.createdAt = str(r.createdAt, 40)
   if (str(r.reviewedAt, 40)) out.reviewedAt = str(r.reviewedAt, 40)
+  // Inglês e jogos vêm só da base oficial (admin revisa): conferimos o formato mínimo e o tamanho
+  const fits = (x: unknown) => !!x && typeof x === 'object' && JSON.stringify(x).length < 200_000
+  if (fits(r.english) && CEFR_LEVELS.includes((r.english as EnglishInfo).cefr)) out.english = r.english as EnglishInfo
+  if (fits(r.games)) out.games = r.games as LessonGames
   return out
 }

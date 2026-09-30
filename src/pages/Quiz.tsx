@@ -9,7 +9,8 @@ import { localReexplain } from '../lib/ai'
 import { checkAnswer, needsRemediation, nextQuestion, registerAnswer, startQuiz, type Given, type QuizState } from '../lib/quiz'
 import { getLesson } from '../lib/repo'
 import { buildReviewLesson } from '../lib/review'
-import { getState, recordSession, skillKey, useLumi, type SessionRecord } from '../lib/store'
+import { getState, recordSession, recordUnitTest, skillKey, useLumi, type SessionRecord } from '../lib/store'
+import { PASS_UNIT } from '../lib/english'
 import { logSession } from '../lib/telemetry'
 import { shuffle } from '../lib/text'
 import type { Lesson, Question } from '../types'
@@ -18,7 +19,10 @@ export interface ResultState {
   lessonId: string
   title: string
   subjectName: string
-  mode: 'aula' | 'revisao'
+  mode: 'aula' | 'revisao' | 'avaliacao'
+  /** avaliação de domínio: unidade avaliada e se passou */
+  unitId?: string
+  passed?: boolean
   correct: number
   total: number
   good: string[]
@@ -43,10 +47,11 @@ export default function QuizPage() {
       </>
     )
   }
-  return <QuizRunner lesson={lesson} mode={id === 'revisao' ? 'revisao' : 'aula'} />
+  const mode = id === 'revisao' || id.startsWith('revisao-') ? 'revisao' : id.startsWith('avaliacao-') ? 'avaliacao' : 'aula'
+  return <QuizRunner lesson={lesson} mode={mode} />
 }
 
-function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao' }) {
+function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao' | 'avaliacao' }) {
   const nav = useNavigate()
   const level = useLumi((s) => s.profile.level)
   const startedAt = useRef(new Date().toISOString())
@@ -75,6 +80,9 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
     const pointsEarned = getState().points - before
     const saved = getState().history[0]
     void logSession(saved)
+    const unitId = mode === 'avaliacao' ? lesson.id.slice('avaliacao-'.length) : undefined
+    const pct = final.log.length ? Math.round((100 * correct) / final.log.length) : 0
+    if (unitId) recordUnitTest(unitId, pct)
     const unlocked = evaluateAchievements()
 
     const bySkill = new Map<string, { right: number; wrong: number }>()
@@ -87,6 +95,7 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
     const label = (k: string) => skillMeta[k]?.label ?? k
     const result: ResultState = {
       lessonId: lesson.id, title: lesson.title, subjectName: subject?.name ?? '', mode, correct, total: final.log.length, pointsEarned,
+      unitId, passed: unitId ? pct >= PASS_UNIT : undefined,
       good: [...bySkill].filter(([, s]) => s.wrong === 0).map(([k]) => label(k)),
       toReview: [...bySkill].filter(([, s]) => s.wrong > 0).map(([k]) => label(k)),
       newAchievements: unlocked.map((a) => a.id),
@@ -111,7 +120,7 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
 
   return (
     <>
-      <TopBar title={mode === 'revisao' ? 'Revisão' : subject?.name ?? 'Exercícios'} right={`${Math.min(number, quiz.total)}/${quiz.total}`} close onBack={() => nav(mode === 'revisao' ? '/' : `/aula/${lesson.id}`)} />
+      <TopBar title={mode === 'revisao' ? 'Revisão' : mode === 'avaliacao' ? 'Avaliação de domínio' : subject?.name ?? 'Exercícios'} right={`${Math.min(number, quiz.total)}/${quiz.total}`} close onBack={() => nav(lesson.subject === 'ingles' && mode !== 'aula' ? '/ingles' : mode === 'revisao' ? '/' : `/aula/${lesson.id}`)} />
       <Page>
         <ProgressBar value={(quiz.served.length / quiz.total) * 100} className="mb-5" />
         {remediation ? (
@@ -135,14 +144,14 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
             <Button className="mt-6 w-full" onClick={() => setRemediation(null)}>Vamos tentar de novo <ChevronRight size={18} /></Button>
           </div>
         ) : (
-          current && <QuestionView key={current.id} q={current} number={number} total={quiz.total} onDone={(log) => onDone(current, log)} />
+          current && <QuestionView key={current.id} q={current} number={number} total={quiz.total} example={lesson.blocks.find((b) => b.skill === current.skill || `${lesson.id}:${b.skill}` === current.skill)?.example} onDone={(log) => onDone(current, log)} />
         )}
       </Page>
     </>
   )
 }
 
-function QuestionView({ q, number, total, onDone }: { q: Question; number: number; total: number; onDone: (log: { firstCorrect: boolean; tries: number; hints: number; solved: boolean }) => void }) {
+function QuestionView({ q, number, total, example, onDone }: { q: Question; number: number; total: number; example?: string; onDone: (log: { firstCorrect: boolean; tries: number; hints: number; solved: boolean }) => void }) {
   const [status, setStatus] = useState<Status>('answering')
   const [tries, setTries] = useState(0)
   const [hints, setHints] = useState(0)
@@ -204,6 +213,9 @@ function QuestionView({ q, number, total, onDone }: { q: Question; number: numbe
           <div className="mt-5 animate-rise rounded-2xl border-2 border-laranja/40 bg-white p-4">
             <p className="text-lg font-semibold">Quase! Vamos pensar juntos.</p>
             <p className="text-cinza-texto">{hints < 3 ? 'Que tal uma dica antes de tentar de novo?' : 'Releia as dicas com calma e tente mais uma vez.'}</p>
+            {hints === 0 && <p className="mt-3 rounded-xl bg-laranja-suave p-3 text-sm"><b>💡 Dica:</b> {q.hints[0]}</p>}
+            {example && <p className="mt-2 rounded-xl bg-offwhite p-3 text-sm"><b>Exemplo:</b> {example}</p>}
+            <AnswerFeedback isCorrect={false} difficulty={q.difficulty} question={q} />
           </div>
         )}
 

@@ -6,6 +6,7 @@ import { LEVELS, SUBJECTS, subjectById } from '../../content/subjects'
 import { refreshCloudLessons } from '../../lib/repo'
 import { validateQuestion } from '../../lib/validate'
 import { SOURCE_KINDS, type Block, type Lesson, type LevelId, type Question, type ReexplainMode, type SourceKind, type SubjectId } from '../../types'
+import { EnglishGamesEditor } from './English'
 import { listLessons, lessonVersions, loadLesson, localMode, promoteAiFound, rejectAiFound, saveLesson, setLessonStatus, type AiFound, type LessonRow, type LessonStatus } from './api'
 
 export const SOURCE_LABEL: Record<SourceKind, string> = { curriculo: 'Currículo', livro: 'Livro', material: 'Material didático', site: 'Site educacional', instituicao: 'Instituição', video: 'Vídeo', canal: 'Canal educativo', autoral: 'Autoral', ia: 'Pesquisa da IA' }
@@ -226,6 +227,8 @@ export function AdminLessonEditor({ aiItem, onDone }: { aiItem?: AiFound; onDone
         </fieldset>
       </Card>
 
+      <EnglishGamesEditor lesson={lesson} set={set} readOnly={readOnly} />
+
       <Card>
         <p className="font-semibold">Fontes</p>
         <p className="text-xs text-cinza-texto">Livros, materiais didáticos, sites educacionais, instituições, vídeos e canais usados neste conteúdo.</p>
@@ -261,7 +264,7 @@ export function AdminLessonEditor({ aiItem, onDone }: { aiItem?: AiFound; onDone
             <details>
               <summary className="cursor-pointer text-sm text-cinza-texto">Reformulações do "Não entendi" ({Object.keys(b.variants ?? {}).length}/4)</summary>
               <div className="mt-2 grid gap-2">
-                {(['simples', 'exemplo', 'outra', 'detalhado'] as ReexplainMode[]).map((m) => (
+                {(['simples', 'exemplo', 'passos', 'compara', 'outra', 'detalhado'] as ReexplainMode[]).map((m) => (
                   <label key={m} className="text-xs font-medium">{m}<textarea className={input} rows={2} value={b.variants?.[m] ?? ''} onChange={(e) => setBlock(i, { variants: { ...b.variants, [m]: e.target.value } })} /></label>
                 ))}
               </div>

@@ -85,6 +85,8 @@ export function localReexplain(block: Block, mode: ReexplainMode): string {
       return `Vamos por outro caminho. A ideia principal é esta: ${first} Leia de novo devagar e tente explicar para alguém com suas palavras.`
     case 'passos':
       return block.text.split(/(?<=[.!?])\s/).map((f, i) => `${i + 1}. ${f}`).join('\n')
+    case 'compara':
+      return block.example ? `Compare com este caso: ${block.example} Agora releia a regra e veja o que muda e o que continua igual: ${first}` : `Pense em algo parecido que você já conhece e compare com esta ideia: ${first}`
     case 'detalhado':
       return `${block.text}${block.example ? ` Exemplo: ${block.example}` : ''}`
   }

@@ -4,6 +4,8 @@ import { Card, Page, ProgressBar } from '../components/ui'
 import { SubjectIcon } from '../components/SubjectIcon'
 import { subjectById } from '../content/subjects'
 import { currentStreak, subjectProgress, useLumi, weakSkills } from '../lib/store'
+import { GAMES } from '../games/registry'
+import { buildTrail, wordsLearned } from '../lib/english'
 
 export default function ProgressPage() {
   const s = useLumi((st) => st)
@@ -52,6 +54,16 @@ export default function ProgressPage() {
           </Card>
         )}
 
+        <GamesCard />
+
+        {(s.english.placement || Object.keys(s.english.views).length > 0) && (
+          <Link to="/ingles" className="mt-4 flex items-center gap-3 rounded-3xl border border-cinza bg-white p-4 hover:border-laranja">
+            <span className="text-3xl" aria-hidden>🇬🇧</span>
+            <span className="flex-1"><span className="block font-semibold">Inglês · nível {buildTrail(s).level}</span><span className="block text-sm text-cinza-texto">{wordsLearned(s)} palavras aprendidas · {Object.values(s.english.unitTests).filter((t) => t.best >= 70).length} unidades dominadas</span></span>
+            <ChevronRight size={18} className="text-cinza-texto" />
+          </Link>
+        )}
+
         {weak.length > 0 && (
           <Card className="mt-4">
             <h2 className="font-semibold">Pontos para reforçar</h2>
@@ -85,6 +97,27 @@ export default function ProgressPage() {
         )}
       </Page>
     </div>
+  )
+}
+
+/** jogos realizados/concluídos, acertos, erros, tempo e por tipo de jogo */
+function GamesCard() {
+  const games = useLumi((st) => st.games)
+  if (!games.length) return null
+  const done = games.filter((g) => g.completed)
+  const right = games.reduce((a, g) => a + g.correct, 0), wrong = games.reduce((a, g) => a + g.wrong, 0)
+  const mins = Math.round(games.reduce((a, g) => a + g.ms, 0) / 60000)
+  const byType = GAMES.map((t) => ({ t, n: games.filter((g) => g.game === t.id).length })).filter((x) => x.n)
+  return (
+    <Card className="mt-4">
+      <div className="flex items-center justify-between"><h2 className="font-semibold">🎮 Jogos</h2><Link to="/jogos" className="text-sm font-semibold text-laranja">jogar</Link></div>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm">
+        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{done.length}</p><p className="text-xs text-cinza-texto">concluídos</p></div>
+        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{right + wrong ? Math.round((100 * right) / (right + wrong)) : 0}%</p><p className="text-xs text-cinza-texto">de acerto</p></div>
+        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{mins} min</p><p className="text-xs text-cinza-texto">jogando</p></div>
+      </div>
+      <p className="mt-3 flex flex-wrap gap-1.5 text-xs">{byType.map(({ t, n }) => <span key={t.id} className="rounded-full bg-laranja-suave px-2 py-1 text-laranja-escuro">{t.emoji} {t.name}: {n}</span>)}</p>
+    </Card>
   )
 }
 

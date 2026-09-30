@@ -12,6 +12,12 @@ import { cores, simplePresent, sujeitoPredicado, tiposTextuais, verbos } from '.
 import { atomoTabela, leisDeNewton } from './lessons/natureza-medio'
 import { genetica, ligacoesQuimicas, velocidadeMedia } from './lessons/natureza2'
 import { filosofiaGrega, modernismo, sociologiaClassicos } from './lessons/humanidades'
+import { alphabetNumbers, canDirections, countries, family, greetings, thereIs, thisThat, timeDays } from './lessons/ingles-a1'
+import { ENGLISH_EXTRA } from './lessons/ingles-legado'
+import { GAME_EXTRA } from './lessons/jogos-extra'
+import { comparatives, future, pastContinuous, presentContinuous, simplePast } from './lessons/ingles-a2'
+import { collocations, conditionals, falseFriends, phrasalVerbs, presentPerfect } from './lessons/ingles-b1'
+import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpeech } from './lessons/ingles-b2c1'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -22,9 +28,17 @@ export const BASE_LESSONS: Lesson[] = [
   revolucaoFrancesa, brasilColonia, independenciaBrasil, segundaGuerra,
   coordenadas, biomas, regioesBrasil,
   verbToBe, simplePresent,
+  // Curso de Inglês — A1
+  greetings, alphabetNumbers, countries, family, thisThat, timeDays, thereIs, canDirections,
+  // A2
+  presentContinuous, simplePast, pastContinuous, future, comparatives,
+  // B1
+  presentPerfect, conditionals, phrasalVerbs, falseFriends, collocations,
+  // B2 e C1
+  passive, reportedSpeech, idioms, advancedConditionals, readingBetweenLines,
   leisDeNewton, velocidadeMedia,
   atomoTabela, ligacoesQuimicas,
   celula, cadeiasAlimentares, genetica,
   modernismo, filosofiaGrega, sociologiaClassicos,
   cores,
-].map((l) => ({ ...LESSON_META[l.id], ...l, origin: 'base' as const, status: 'published' as const }))
+].map((l) => ({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}), origin: 'base' as const, status: 'published' as const }))

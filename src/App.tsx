@@ -21,12 +21,20 @@ import { getState, setProfile } from './lib/store'
 import { pullAndMerge, startAutoSync } from './lib/sync'
 import { refreshCloudLessons } from './lib/repo'
 import { InstallInvite } from './components/InstallInvite'
+import './lib/english' // registra a avaliação de unidade e a revisão de Inglês (montadas na hora)
 import { closeInvite, inviteRequested, shouldInvite, useInstallState } from './lib/install'
 
 const Admin = lazy(() => import('./pages/admin/Admin'))
+// jogos e curso de Inglês carregam só quando abertos (a Home continua leve)
+const GamesPage = lazy(() => import('./pages/Games'))
+const GamePlayPage = lazy(() => import('./pages/GamePlay'))
+const EnglishHome = lazy(() => import('./pages/english/EnglishHome'))
+const EnglishUnit = lazy(() => import('./pages/english/EnglishUnit'))
+const EnglishReview = lazy(() => import('./pages/english/EnglishReview'))
+const Placement = lazy(() => import('./pages/english/Placement'))
 
 /** a navegação inferior só aparece nas telas "de casa" — nas aulas, a atenção fica no conteúdo */
-const NAV_ROUTES = ['/', '/progresso', '/conquistas', '/mais']
+const NAV_ROUTES = ['/', '/jogos', '/progresso', '/conquistas', '/mais']
 
 export default function App() {
   const { pathname } = useLocation()
@@ -70,6 +78,13 @@ export default function App() {
         <Route path="/revisar" element={<ReviewPage />} />
         <Route path="/conta" element={<AccountPage />} />
         <Route path="/privacidade" element={<PrivacyPage />} />
+        <Route path="/jogos" element={<Lazy><GamesPage /></Lazy>} />
+        <Route path="/jogos/:game" element={<Lazy><GamePlayPage /></Lazy>} />
+        <Route path="/jogos/:game/:lessonId" element={<Lazy><GamePlayPage /></Lazy>} />
+        <Route path="/ingles" element={<Lazy><EnglishHome /></Lazy>} />
+        <Route path="/ingles/nivelamento" element={<Lazy><Placement /></Lazy>} />
+        <Route path="/ingles/unidade/:id" element={<Lazy><EnglishUnit /></Lazy>} />
+        <Route path="/ingles/revisar" element={<Lazy><EnglishReview /></Lazy>} />
         <Route path="/admin/*" element={<Suspense fallback={<Spinner label="Carregando painel…" />}><Admin /></Suspense>} />
         <Route path="*" element={<Home />} />
       </Routes>
@@ -78,3 +93,5 @@ export default function App() {
     </div>
   )
 }
+
+const Lazy = ({ children }: { children: React.ReactNode }) => <Suspense fallback={<Spinner label="Carregando…" />}>{children}</Suspense>

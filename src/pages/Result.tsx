@@ -6,6 +6,9 @@ import { cloudEnabled } from '../lib/supabase'
 import { setState, useLumi } from '../lib/store'
 import type { ResultState } from './Quiz'
 import { getLesson } from '../lib/repo'
+import { gamesForLesson } from '../games/recommend'
+import { gameById } from '../games/registry'
+import { unitById } from '../content/english/course'
 
 export default function ResultPage() {
   const nav = useNavigate()
@@ -18,6 +21,9 @@ export default function ResultPage() {
   const nextLessons = (getLesson(r.lessonId)?.next ?? []).map((id) => getLesson(id)).filter((l) => !!l)
 
   const pct = r.total ? Math.round((r.correct / r.total) * 100) : 0
+  const lessonNow = getLesson(r.lessonId)
+  const games = r.mode === 'aula' && lessonNow ? gamesForLesson(lessonNow) : []
+  const unit = r.unitId ? unitById(r.unitId) : undefined
   const unlocked = ACHIEVEMENTS.filter((a) => r.newAchievements.includes(a.id))
   const offerLogin = cloudEnabled && sessions >= 2 && !dismissed && !syncedUser
   const headline = pct >= 80 ? 'Mandou muito bem!' : pct >= 50 ? 'Bom trabalho!' : 'Cada erro é um passo do aprendizado.'
@@ -30,7 +36,7 @@ export default function ResultPage() {
       <Page className="pt-0">
         <div className="text-center">
           <div className="animate-pop text-7xl">⭐</div>
-          <h1 className="mt-3 text-2xl font-bold">🎉 Atividade concluída!</h1>
+          <h1 className="mt-3 text-2xl font-bold">🎉 {r.mode === 'avaliacao' ? 'Avaliação concluída!' : 'Atividade concluída!'}</h1>
           <p className="text-cinza-texto">{headline}</p>
         </div>
 
@@ -61,6 +67,31 @@ export default function ResultPage() {
           <Card className="mt-4 border-laranja/40 bg-laranja-suave">
             <p className="font-semibold">🏆 Nova conquista!</p>
             {unlocked.map((a) => <p key={a.id} className="mt-1">{a.icon} {a.title}</p>)}
+          </Card>
+        )}
+
+        {unit && (
+          <Card className={`mt-4 ${r.passed ? 'border-sucesso/40 bg-sucesso-suave' : 'border-laranja/40 bg-laranja-suave'}`}>
+            <p className="font-semibold">{r.passed ? '★ Unidade dominada!' : 'Vamos revisar este conteúdo antes de continuar.'}</p>
+            <p className="mt-1 text-sm">{r.passed ? `Você passou na avaliação de “${unit.title}”. A próxima unidade está liberada.` : `Para liberar a próxima unidade, é preciso 70% na avaliação de “${unit.title}”. Uma revisão rápida ajuda muito.`}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {!r.passed && <Button onClick={() => nav(`/ingles/revisar?unidade=${unit.id}`)}><RotateCcw size={18} /> Revisar a unidade</Button>}
+              <Button variant="outline" onClick={() => nav(`/ingles/unidade/${unit.id}`)}>Ver unidade</Button>
+            </div>
+          </Card>
+        )}
+
+        {games.length > 0 && (
+          <Card className="mt-4 overflow-hidden bg-grafite text-offwhite">
+            <p className="font-semibold">Você terminou essa aula! 🎉</p>
+            <p className="text-sm text-offwhite/80">Quer revisar brincando?</p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {games.map((g) => (
+                <button key={g} onClick={() => nav(`/jogos/${g}/${r.lessonId}`)} className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/15 px-3 text-left text-sm font-semibold hover:border-laranja">
+                  <span className="text-xl">{gameById(g)!.emoji}</span>{gameById(g)!.name}
+                </button>
+              ))}
+            </div>
           </Card>
         )}
 

@@ -1,6 +1,6 @@
 // Formato compacto para escrever o acervo: menos repetição de chaves = menos erro de estrutura.
 // Os ids de blocos (b1, b2…) e questões (q1, q2…) são atribuídos automaticamente pela ordem.
-import type { Block, Formula, HistoryInfo, Lesson, LevelId, Question, Source, SubjectId } from '../types'
+import type { Block, EnglishInfo, Formula, GameBlank, GameDialogue, GameSequence, HistoryInfo, Lesson, LessonGames, LevelId, MCItem, Question, Source, SubjectId, VocabEntry } from '../types'
 
 type Hints = [string, string, string]
 type Q = Question extends infer T ? (T extends Question ? Omit<T, 'id'> : never) : never
@@ -19,9 +19,9 @@ export const open = (difficulty: 1 | 2 | 3, skill: string, prompt: string, model
 export const order = (difficulty: 1 | 2 | 3, skill: string, prompt: string, items: string[], hints: Hints, explanation: string): Q =>
   ({ type: 'order', difficulty, skill, prompt, items, hints, explanation })
 
-/** bloco de explicação com as reformulações: [muito simples, exemplo do cotidiano, passo a passo] */
-export const block = (skill: string, title: string, text: string, example: string, simples: string, exemplo: string, passos: string): Omit<Block, 'id'> =>
-  ({ skill, title, text, example, variants: { simples, exemplo, passos } })
+/** bloco de explicação com as reformulações: [muito simples, exemplo do cotidiano, passo a passo, comparando (opcional)] */
+export const block = (skill: string, title: string, text: string, example: string, simples: string, exemplo: string, passos: string, compara?: string): Omit<Block, 'id'> =>
+  ({ skill, title, text, example, variants: { simples, exemplo, passos, ...(compara ? { compara } : {}) } })
 
 export const formula = (name: string, expression: string, variables: [string, string, string?][], conditions?: string): Formula =>
   ({ name, expression, variables: variables.map(([symbol, meaning, unit]) => ({ symbol, meaning, ...(unit ? { unit } : {}) })), ...(conditions ? { conditions } : {}) })
@@ -59,6 +59,8 @@ export interface LessonInput {
   formulas?: Formula[]
   history?: HistoryInfo
   enem?: string
+  english?: EnglishInfo
+  games?: LessonGames
   sources: Source[]
 }
 
@@ -71,3 +73,46 @@ export function lesson(input: LessonInput): Lesson {
     reviewedAt: ACCESS,
   }
 }
+
+// ─────────────────────────── atalhos do Curso de Inglês ───────────────────────────
+type Dif = 1 | 2 | 3
+/** palavra do vocabulário: palavra, tradução, classe, definição em inglês simples, exemplo, dificuldade */
+export const v = (word: string, translation: string, pos: VocabEntry['pos'], definition: string, example: string, difficulty: Dif, more: Partial<VocabEntry> = {}): VocabEntry =>
+  ({ word, translation, pos, definition, example, difficulty, ...more })
+/** pergunta de múltipla escolha para reading/listening/nivelamento */
+export const mci = (difficulty: Dif, prompt: string, options: string[], answer: number, explanation: string, focus?: string): MCItem =>
+  ({ difficulty, prompt, options, answer, explanation, ...(focus ? { focus } : {}) })
+/** frase com lacuna (use ___ no lugar da resposta) */
+export const blank = (difficulty: Dif, sentence: string, options: string[], answer: number, explanation: string): GameBlank =>
+  ({ difficulty, sentence, options, answer, explanation })
+/** frase para organizar: escreva a frase certa; as palavras viram as peças */
+export const words = (difficulty: Dif, sentence: string, explanation: string, prompt = 'Organize a frase · Put the words in order'): GameSequence =>
+  ({ difficulty, prompt, items: sentence.split(' '), words: true, explanation })
+/** diálogo: falas "Nome: texto", índice da fala que fica em branco */
+export const dialogue = (difficulty: Dif, title: string, lines: string[], gap: number, options: string[], answer: number, explanation: string): GameDialogue => ({
+  difficulty, title, gap, options, answer, explanation,
+  lines: lines.map((l) => { const i = l.indexOf(':'); return { who: l.slice(0, i).trim(), text: l.slice(i + 1).trim() } }),
+})
+
+/**
+ * Perguntas equivalentes (como os alunos perguntam) para a busca reconhecer o conteúdo sem IA.
+ * Gera variações a partir dos nomes do assunto e soma as perguntas específicas.
+ */
+export function eqs(names: string[], specific: string[]): string[] {
+  const t = [
+    'o que é {n}', 'como usar {n}', 'me explica {n}', 'quando usar {n}', 'exemplos de {n}', '{n} em inglês', 'como funciona {n}',
+    'regras de {n}', 'exercícios de {n}', 'aula de {n}', 'não entendi {n}', '{n} para iniciantes', 'resumo de {n}', 'dúvida sobre {n}',
+  ]
+  const out = [...specific]
+  for (const n of names) for (const x of t) out.push(x.replace('{n}', n))
+  return [...new Map(out.map((q) => [q.toLowerCase(), q])).values()]
+}
+
+export const SRC_EN = {
+  bncc: (): Source => SRC.bncc('Língua Inglesa'),
+  cefr: (): Source => SRC.web('Common European Framework of Reference for Languages (CEFR) — descritores de nível', 'https://www.coe.int/en/web/common-european-framework-reference-languages', 'Council of Europe', 'instituicao'),
+  britishCouncil: (): Source => SRC.web('LearnEnglish — Grammar reference', 'https://learnenglish.britishcouncil.org/grammar', 'British Council', 'instituicao'),
+  cambridge: (): Source => SRC.web('Cambridge Dictionary — definições e exemplos de uso', 'https://dictionary.cambridge.org/', 'Cambridge University Press', 'instituicao'),
+}
+/** fontes padrão das aulas de Inglês: currículo + referência de nível + referência gramatical + dicionário + autoria LUMI */
+export const enSources = (): Source[] => [SRC_EN.bncc(), SRC_EN.cefr(), SRC_EN.britishCouncil(), SRC_EN.cambridge(), SRC.autoral()]

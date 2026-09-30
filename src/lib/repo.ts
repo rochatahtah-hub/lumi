@@ -39,13 +39,38 @@ export async function refreshCloudLessons(force = false) {
 export function allLessons(): Lesson[] {
   const byId = new Map<string, Lesson>()
   for (const l of BASE_LESSONS) byId.set(l.id, l)
-  for (const l of cloud) byId.set(l.id, l) // versão revisada na nuvem substitui a embutida de mesmo id
+  // versão revisada na nuvem substitui a embutida de mesmo id; se ela ainda não tiver Inglês/jogos, mantém os da base
+  for (const l of cloud) {
+    const base = byId.get(l.id)
+    byId.set(l.id, base ? { ...l, english: l.english ?? base.english, games: l.games ?? base.games } : l)
+  }
   for (const l of Object.values(getState().customLessons)) byId.set(l.id, l)
   return [...byId.values()]
 }
 
+/** aulas montadas na hora (avaliação de unidade, revisão de Inglês): quem sabe montá-las se registra aqui */
+const virtualBuilders: ((id: string) => Lesson | undefined)[] = []
+const virtualCache = new Map<string, Lesson>()
+export function registerVirtualLessons(build: (id: string) => Lesson | undefined) {
+  virtualBuilders.push(build)
+}
+/** remonta na próxima vez (ex.: começar uma nova avaliação com outras perguntas) */
+export function resetVirtualLesson(id: string) {
+  virtualCache.delete(id)
+}
+
 export function getLesson(id: string): Lesson | undefined {
-  return allLessons().find((l) => l.id === id)
+  const real = allLessons().find((l) => l.id === id)
+  if (real) return real
+  if (virtualCache.has(id)) return virtualCache.get(id)
+  for (const build of virtualBuilders) {
+    const v = build(id)
+    if (v) {
+      virtualCache.set(id, v)
+      return v
+    }
+  }
+  return undefined
 }
 
 export function useAllLessons(): Lesson[] {

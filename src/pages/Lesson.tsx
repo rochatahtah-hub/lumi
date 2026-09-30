@@ -5,17 +5,20 @@ import { Button, Card, Page, ProgressBar, TopBar } from '../components/ui'
 import { LEVELS, subjectById } from '../content/subjects'
 import { aiEnabled, aiReexplain, localReexplain } from '../lib/ai'
 import { getLesson } from '../lib/repo'
-import { getState, setState, useLumi } from '../lib/store'
+import { getState, markLessonViewed, setState, useLumi } from '../lib/store'
+import { EnglishPractice, GrammarBox, VocabularyList } from '../components/english/EnglishPractice'
+import { unitOfLesson } from '../content/english/course'
 import type { Block, LevelId, ReexplainMode } from '../types'
 
-/** as reformulações da base: muito simples, exemplo do cotidiano, passo a passo (+ detalhada) */
+/** as reformulações da base: muito simples, exemplo do cotidiano, passo a passo, comparando (+ detalhada) */
 const MODES: { id: ReexplainMode; label: string; emoji: string }[] = [
   { id: 'simples', label: 'Mais simples', emoji: '🧒' },
   { id: 'exemplo', label: 'Com exemplo', emoji: '💡' },
   { id: 'passos', label: 'Passo a passo', emoji: '🪜' },
+  { id: 'compara', label: 'Comparando', emoji: '⚖️' },
   { id: 'detalhado', label: 'Mais detalhado', emoji: '📚' },
 ]
-const isMode = (m: string | null): m is ReexplainMode => !!m && ['simples', 'exemplo', 'passos', 'outra', 'detalhado'].includes(m)
+const isMode = (m: string | null): m is ReexplainMode => !!m && ['simples', 'exemplo', 'passos', 'compara', 'outra', 'detalhado'].includes(m)
 
 /** texto principal do bloco adaptado à série: no 1º ao 5º ano, começa pela versão simples quando existir */
 function adaptedText(block: Block, level?: LevelId) {
@@ -48,7 +51,7 @@ export default function LessonPage() {
     if (shownAsMain) text = block.variants?.exemplo ?? block.example ?? localReexplain(block, 'passos')
     // a reformulação da base tem prioridade; a IA só entra quando não há uma pronta ou o aluno já viu essa
     const alreadyUsed = alt?.used.includes(mode) || shownAsMain
-    if (aiEnabled && (!block.variants?.[mode] || alreadyUsed) && mode !== 'passos') {
+    if (aiEnabled && (!block.variants?.[mode] || alreadyUsed) && mode !== 'passos' && mode !== 'compara') {
       try {
         text = await aiReexplain({ lessonTitle: lesson.title, block, mode, level })
       } catch {
@@ -61,6 +64,7 @@ export default function LessonPage() {
 
   useEffect(() => {
     if (lesson && lesson.origin !== 'colado' && getState().lastLessonId !== lesson.id) setState((s) => ({ ...s, lastLessonId: lesson.id }))
+    if (lesson?.english) markLessonViewed(lesson.id)
   }, [lesson])
 
   // veio de "não entendi…", "me dá um exemplo…": já abre a reformulação pedida
@@ -85,10 +89,14 @@ export default function LessonPage() {
   const levelLabel = LEVELS.find((l) => l.id === level)?.label
   const prereqs = (lesson.prerequisites ?? []).map((pid) => getLesson(pid)).filter((x) => !!x)
 
+  // Inglês: depois dos blocos vem a etapa de prática (vocabulário, gramática, reading, listening, speaking, writing)
+  const steps = lesson.blocks.length + (lesson.english ? 1 : 0)
+  const practice = !!lesson.english && step === lesson.blocks.length
+  const unit = lesson.english ? unitOfLesson(lesson.id) : undefined
   const next = () => {
     setAlt(null)
     setAskMode(false)
-    if (step + 1 < lesson.blocks.length) {
+    if (step + 1 < steps) {
       setStep(step + 1)
       window.scrollTo({ top: 0 })
     } else nav(`/aula/${lesson.id}/exercicios`)
@@ -96,9 +104,9 @@ export default function LessonPage() {
 
   return (
     <>
-      <TopBar title={subject?.name ?? 'Aula'} right={step >= 0 ? `${step + 1}/${lesson.blocks.length}` : undefined} />
+      <TopBar title={subject?.name ?? 'Aula'} right={step >= 0 ? `${step + 1}/${steps}` : undefined} />
       <Page>
-        {step >= 0 && <ProgressBar value={((step + 1) / lesson.blocks.length) * 100} className="mb-5" />}
+        {step >= 0 && <ProgressBar value={((step + 1) / steps) * 100} className="mb-5" />}
 
         {step === -1 && (
           <div className="animate-rise">
@@ -107,6 +115,11 @@ export default function LessonPage() {
             <p className="mt-3 text-lg text-grafite-3">{lesson.intro}</p>
             {lesson.summary && <p className="mt-3 text-cinza-texto">{lesson.summary}</p>}
             {lesson.enem && <p className="mt-3 inline-block rounded-full bg-grafite px-3 py-1 text-xs font-medium text-offwhite">🎯 ENEM: {lesson.enem}</p>}
+            {lesson.english && (
+              <Link to={unit ? `/ingles/unidade/${unit.id}` : '/ingles'} className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-laranja-suave px-3 py-1 text-xs font-semibold text-laranja-escuro">
+                🇬🇧 {lesson.english.cefr}{unit ? ` · ${unit.title}` : ''} · ver trilha
+              </Link>
+            )}
 
             {lesson.unreviewed && (
               <div className="mt-4 flex gap-3 rounded-2xl bg-laranja-suave p-4 text-sm" role="note">
@@ -147,6 +160,7 @@ export default function LessonPage() {
 
             <div className="mt-6 flex items-center gap-3 text-sm text-cinza-texto">
               <span>📖 {lesson.blocks.length} partes curtas</span>
+              {lesson.english && <span>🎧 prática de inglês</span>}
               <span>✏️ {Math.min(10, lesson.questions.length)} exercícios</span>
             </div>
             <Button className="mt-4 w-full" onClick={() => setStep(0)}>Vamos entender juntos <ArrowRight size={18} /></Button>
@@ -164,6 +178,15 @@ export default function LessonPage() {
                 </Details>
               )}
             </div>
+          </div>
+        )}
+
+        {practice && (
+          <div className="animate-rise">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-laranja">Pratique · Practice</h2>
+            <h1 className="mt-1 mb-4 text-2xl font-bold">{lesson.title}</h1>
+            <EnglishPractice lesson={lesson} />
+            <Button className="mt-6 w-full" onClick={next}>Hora dos exercícios! <ArrowRight size={18} /></Button>
           </div>
         )}
 
@@ -210,7 +233,7 @@ export default function LessonPage() {
             )}
 
             <div className="mt-8 grid gap-3">
-              <Button onClick={next}>{step + 1 < lesson.blocks.length ? 'Entendi, continuar' : 'Hora de praticar!'} <ArrowRight size={18} /></Button>
+              <Button onClick={next}>{step + 1 < steps ? 'Entendi, continuar' : 'Hora de praticar!'} <ArrowRight size={18} /></Button>
               {!askMode && (
                 <Button variant="ghost" onClick={() => setAskMode(true)}><CircleHelp size={18} /> Não entendi</Button>
               )}
@@ -236,6 +259,8 @@ function Reference({ lesson }: { lesson: NonNullable<ReturnType<typeof getLesson
   const h = lesson.history
   return (
     <>
+      {!!lesson.english?.vocabulary?.length && <Details title="📚 Vocabulário da aula"><VocabularyList lesson={lesson} /></Details>}
+      {lesson.english?.grammar && <Details title="🔤 Gramática"><GrammarBox lesson={lesson} /></Details>}
       {!!lesson.formulas?.length && (
         <Details title="📐 Fórmulas">
           <div className="space-y-4">

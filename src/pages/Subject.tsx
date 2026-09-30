@@ -34,6 +34,14 @@ export default function SubjectPage() {
           </div>
         </div>
 
+        {subject.id === 'ingles' && (
+          <Link to="/ingles" className="mt-5 flex items-center gap-3 rounded-3xl bg-grafite p-4 text-offwhite">
+            <span className="text-3xl" aria-hidden>🇬🇧</span>
+            <span className="flex-1"><span className="block font-semibold">Curso de Inglês do LUMI</span><span className="block text-sm text-offwhite/75">Trilha A1 → C1, nivelamento, revisão e jogos</span></span>
+            <ChevronRight className="text-laranja" />
+          </Link>
+        )}
+
         <form className="mt-5" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/estudar?q=${encodeURIComponent(q.trim())}&materia=${subject.id}`) }}>
           <label className="flex items-center gap-3 rounded-2xl border-2 border-cinza bg-white px-4 focus-within:border-laranja">
             <Search size={20} className="text-cinza-texto" />

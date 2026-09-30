@@ -19,5 +19,11 @@ export const MASCOT = {
   reactions: { easy, medium, hard } satisfies Record<MascotReaction, string>,
 }
 
+/**
+ * Reação do mascote para resposta ERRADA: ainda não definida (decisão da equipe).
+ * Quando a arte existir, basta importar aqui — AnswerFeedback já a exibe no erro, sem mudar mais nada.
+ */
+export const WRONG_REACTION: string | undefined = undefined
+
 /** a dificuldade vem do cadastro do exercício: 1 = fácil · 2 = média · 3 = difícil */
 export const reactionFor = (difficulty: 1 | 2 | 3): MascotReaction => (difficulty === 3 ? 'hard' : difficulty === 2 ? 'medium' : 'easy')

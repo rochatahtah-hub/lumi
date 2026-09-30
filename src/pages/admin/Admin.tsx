@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
-import { BookOpen, CalendarClock, CircleHelp, Database, LayoutDashboard, LogOut, Sparkles } from 'lucide-react'
+import { BookOpen, CalendarClock, CircleHelp, Database, Gamepad2, Languages, LayoutDashboard, ListChecks, LogOut, Sparkles, SpellCheck, Type } from 'lucide-react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { Button, Card, LumiMark, Spinner } from '../../components/ui'
 import { supabase } from '../../lib/supabase'
@@ -10,6 +10,7 @@ import AdminLessons, { AdminLessonEditor } from './Lessons'
 import AdminAiFound, { AdminAiReview } from './AiFound'
 import { AdminKbUpdate, AdminUnanswered } from './KbPages'
 import AdminSources from './Sources'
+import { AdminEnglish, AdminExercises, AdminGames, AdminGrammar, AdminVocabulary } from './English'
 
 type Gate = 'loading' | 'login' | 'denied' | 'ok'
 
@@ -58,6 +59,11 @@ export default function Admin() {
         <Route path="nao-encontradas" element={<AdminUnanswered />} />
         <Route path="atualizacao" element={<AdminKbUpdate />} />
         <Route path="fontes" element={<AdminSources />} />
+        <Route path="ingles" element={<AdminEnglish />} />
+        <Route path="vocabulario" element={<AdminVocabulary />} />
+        <Route path="gramatica" element={<AdminGrammar />} />
+        <Route path="exercicios" element={<AdminExercises />} />
+        <Route path="jogos" element={<AdminGames />} />
       </Routes>
     </Shell>
   )
@@ -67,6 +73,11 @@ function Shell({ children, nav }: { children: ReactNode; nav?: boolean }) {
   const tabs = [
     { to: '/admin', label: 'Painel', icon: LayoutDashboard, end: true },
     { to: '/admin/conteudos', label: 'Conteúdos', icon: BookOpen },
+    { to: '/admin/ingles', label: 'Inglês', icon: Languages },
+    { to: '/admin/vocabulario', label: 'Vocabulário', icon: Type },
+    { to: '/admin/gramatica', label: 'Gramática', icon: SpellCheck },
+    { to: '/admin/exercicios', label: 'Exercícios', icon: ListChecks },
+    { to: '/admin/jogos', label: 'Jogos', icon: Gamepad2 },
     { to: '/admin/ia', label: 'Encontrados pela IA', icon: Sparkles },
     { to: '/admin/nao-encontradas', label: 'Não encontradas', icon: CircleHelp },
     { to: '/admin/atualizacao', label: 'Atualização da base', icon: CalendarClock },
