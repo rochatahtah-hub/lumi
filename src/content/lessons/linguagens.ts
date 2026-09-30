@@ -8,7 +8,7 @@ export const substantivoAdjetivo: Lesson = {
   title: 'Substantivo e adjetivo',
   levels: ['fund1', 'fund2'],
   grade: '3º ao 6º ano',
-  aliases: ['gramatica', 'substantivo', 'adjetivo', 'classes gramaticais', 'classes de palavras', 'substantivo proprio', 'substantivo comum', 'concordancia nominal'],
+  aliases: ['gramatica', 'substantivo', 'adjetivo', 'substantivo proprio', 'substantivo comum', 'concordancia nominal'],
   summary: 'Aprenda a reconhecer substantivos e adjetivos e a fazer a concordância entre eles.',
   intro: 'As palavras têm "profissões" diferentes numa frase. Hoje vamos conhecer duas muito importantes: o substantivo e o adjetivo.',
   skills: { substantivo: 'Reconhecer substantivos', tipos: 'Substantivo comum e próprio', adjetivo: 'Reconhecer adjetivos', concordancia: 'Concordância' },

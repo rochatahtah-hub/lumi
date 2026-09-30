@@ -14,55 +14,6 @@ OFICIAL  mat-regra-de-tres
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
 OFICIAL  mat-sistemas-equacoes
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  por-substantivo-adjetivo
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Substantivo: a palavra que dá nome" sem reformulação "passos"
-   · bloco "Comum ou próprio" sem reformulação "passos"
-   · bloco "Adjetivo: a palavra que caracteriza" sem reformulação "passos"
-   · bloco "Concordância" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  por-verbos
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Verbo indica ação, estado ou fenômeno" sem reformulação "exemplo"
-   · bloco "Verbo indica ação, estado ou fenômeno" sem reformulação "passos"
-   · bloco "Presente, passado e futuro" sem reformulação "exemplo"
-   · bloco "Presente, passado e futuro" sem reformulação "passos"
-   · bloco "Os três modos" sem reformulação "simples"
-   · bloco "Os três modos" sem reformulação "exemplo"
-   · bloco "Os três modos" sem reformulação "passos"
-   · bloco "O verbo acompanha a pessoa" sem reformulação "exemplo"
-   · bloco "O verbo acompanha a pessoa" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  por-sujeito-predicado
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "De quem se fala e o que se diz" sem reformulação "simples"
-   · bloco "De quem se fala e o que se diz" sem reformulação "exemplo"
-   · bloco "De quem se fala e o que se diz" sem reformulação "passos"
-   · bloco "A pergunta mágica" sem reformulação "simples"
-   · bloco "A pergunta mágica" sem reformulação "exemplo"
-   · bloco "A pergunta mágica" sem reformulação "passos"
-   · bloco "Tipos de sujeito" sem reformulação "simples"
-   · bloco "Tipos de sujeito" sem reformulação "exemplo"
-   · bloco "Tipos de sujeito" sem reformulação "passos"
-   · bloco "Orações sem sujeito" sem reformulação "simples"
-   · bloco "Orações sem sujeito" sem reformulação "exemplo"
-   · bloco "Orações sem sujeito" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  por-tipos-generos-textuais
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Os tipos textuais" sem reformulação "simples"
-   · bloco "Os tipos textuais" sem reformulação "exemplo"
-   · bloco "Os tipos textuais" sem reformulação "passos"
-   · bloco "Os gêneros textuais" sem reformulação "simples"
-   · bloco "Os gêneros textuais" sem reformulação "exemplo"
-   · bloco "Os gêneros textuais" sem reformulação "passos"
-   · bloco "Tipo × gênero" sem reformulação "simples"
-   · bloco "Tipo × gênero" sem reformulação "exemplo"
-   · bloco "Tipo × gênero" sem reformulação "passos"
-   · bloco "Ler com objetivo" sem reformulação "simples"
-   · bloco "Ler com objetivo" sem reformulação "exemplo"
-   · bloco "Ler com objetivo" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
 OFICIAL  cie-fotossintese
    · objetivo de aprendizagem vazio (formato antigo)
    · bloco "O que é fotossíntese" sem reformulação "passos"

@@ -144,4 +144,58 @@ export const UPGRADES: Record<string, AcervoUpgrade> = {
     commonErrors: ['Confundir a (inclinação) com b (ponto de partida).', 'Achar que a raiz é o valor de b.', 'Trocar crescente por decrescente pelo sinal de b.'],
     sources: MAT_EM, enem: 'Tarifas, planos de celular e gráficos de consumo são modelados por funções afins.',
   },
+
+  // ───────────── LOTE 2 · PORTUGUÊS ─────────────
+  'por-substantivo-adjetivo': {
+    objective: 'Reconhecer substantivos (comuns e próprios) e adjetivos em frases e fazer a concordância entre eles em gênero e número.',
+    next: ['por-classes-gramaticais', 'por-concordancia'],
+    variants: {
+      b1: { passos: '1. Leia a frase.\n2. Procure as palavras que dão nome a algo (pessoa, lugar, objeto, sentimento).\n3. Teste: dá para colocar “o” ou “a” antes? Então é substantivo.', compara: 'Substantivo é como a etiqueta de uma caixa: diz O QUE é. O adjetivo diz COMO é.' },
+      b2: { passos: '1. O nome serve para qualquer ser daquele tipo? Comum (cidade).\n2. Nomeia um ser único? Próprio (Recife).\n3. Próprio sempre com letra maiúscula.', compara: '“Cachorro” é comum (qualquer cachorro); “Rex” é próprio (aquele cachorro).' },
+      b3: { passos: '1. Encontre o substantivo.\n2. Pergunte: como ele é?\n3. A palavra que responde é o adjetivo.', compara: 'Se o substantivo é o nome, o adjetivo é a descrição — como numa ficha: nome e características.' },
+      b4: { passos: '1. Veja o gênero do substantivo (masculino/feminino).\n2. Veja o número (singular/plural).\n3. Ajuste o adjetivo: menina alta, meninos altos.', compara: 'É como vestir uma roupa do mesmo tamanho: o adjetivo se ajusta ao substantivo.' },
+    },
+    equivalentQuestions: ['o que é substantivo', 'o que é adjetivo', 'diferença entre substantivo e adjetivo', 'o que é substantivo próprio', 'o que é substantivo comum', 'exemplos de substantivos', 'exemplos de adjetivos', 'como achar o adjetivo na frase', 'nome próprio tem letra maiúscula', 'concordância do adjetivo', 'substantivo abstrato', 'substantivo concreto', 'palavra que dá nome', 'palavra que dá qualidade', 'classe gramatical substantivo', 'me explica substantivo', 'exercícios de substantivo e adjetivo', 'dúvida sobre adjetivo', 'adjetivo no plural', 'como identificar substantivo'],
+    commonErrors: ['Escrever nomes próprios com minúscula.', 'Não concordar o adjetivo com o substantivo (as casa bonito).', 'Confundir substantivo abstrato com adjetivo (felicidade × feliz).'],
+    sources: [SRC.bncc('Língua Portuguesa — Anos Iniciais e Finais')],
+  },
+  'por-verbos': {
+    objective: 'Reconhecer verbos, identificar tempos (presente, pretérito, futuro) e modos (indicativo, subjuntivo, imperativo) e conjugar o verbo de acordo com a pessoa.',
+    prerequisites: ['por-substantivo-adjetivo'], next: ['por-sujeito-predicado', 'por-concordancia'],
+    variants: {
+      b1: { exemplo: 'Em “Ontem choveu e eu fiquei em casa estudando”, os verbos são choveu (fenômeno), fiquei (estado) e estudando (ação).', passos: '1. Procure palavras que mostram ação, estado ou fenômeno.\n2. Teste: dá para mudar o tempo (estudo, estudei, estudarei)? Então é verbo.', compara: 'Substantivo nomeia; verbo mostra o que acontece. “Corrida” é substantivo; “correr” é verbo.' },
+      b2: { exemplo: '“Hoje eu leio, ontem li, amanhã lerei” — o mesmo verbo nos três tempos.', passos: '1. Pergunte: quando acontece?\n2. Agora → presente. Já aconteceu → pretérito. Vai acontecer → futuro.', compara: 'Os tempos verbais são uma linha do tempo: passado à esquerda, presente no meio, futuro à direita.' },
+      b3: { simples: 'Indicativo = certeza. Subjuntivo = dúvida ou desejo. Imperativo = ordem ou pedido.', exemplo: '“Ele estuda” (certeza) · “Talvez ele estude” (dúvida) · “Estude!” (ordem).', passos: '1. Afirma algo com certeza? Indicativo.\n2. Expressa dúvida, desejo ou hipótese (talvez, que, se)? Subjuntivo.\n3. Dá ordem ou faz pedido? Imperativo.', compara: 'É como o tom de voz: firme (indicativo), sonhador (subjuntivo) ou mandão (imperativo).' },
+      b4: { exemplo: '“Eu jogo, nós jogamos, eles jogam” — a terminação muda com a pessoa.', passos: '1. Veja quem faz a ação (eu, tu, ele, nós, vós, eles).\n2. Ajuste a terminação do verbo.\n3. Confira: “nós cantamos”, “eles cantam”.', compara: 'A terminação do verbo é como um crachá: mostra quem age, mesmo sem o pronome (“Cantamos” = nós).' },
+    },
+    equivalentQuestions: ['o que é verbo', 'quais são os tempos verbais', 'o que é pretérito', 'o que é modo subjuntivo', 'o que é modo imperativo', 'o que é modo indicativo', 'como conjugar um verbo', 'exemplos de verbos de ação', 'verbos de estado', 'verbo de fenômeno da natureza', 'diferença entre pretérito perfeito e imperfeito', 'futuro do presente', 'como saber o tempo do verbo', 'conjugação do verbo cantar', 'o que é verbo no infinitivo', 'me explica verbo', 'exercícios de verbos', 'dúvida sobre verbos', 'tempos e modos verbais', 'verbo concorda com o sujeito'],
+    commonErrors: ['Confundir pretérito perfeito (estudei) com imperfeito (estudava).', 'Usar o indicativo onde se pede subjuntivo (espero que ele vem).', 'Não concordar o verbo com a pessoa.'],
+    sources: [SRC.bncc('Língua Portuguesa — Anos Iniciais e Finais')],
+  },
+  'por-sujeito-predicado': {
+    objective: 'Identificar sujeito e predicado, classificar o sujeito (simples, composto, oculto, indeterminado) e reconhecer orações sem sujeito.',
+    prerequisites: ['por-verbos'], next: ['por-concordancia', 'por-periodo-composto'],
+    variants: {
+      b1: { simples: 'Sujeito é de quem se fala. Predicado é o que se fala dele.', exemplo: '“A professora explicou a matéria”: sujeito = a professora; predicado = explicou a matéria.', passos: '1. Encontre o verbo.\n2. Veja de quem ou do que se fala: é o sujeito.\n3. O resto da oração, com o verbo, é o predicado.', compara: 'Como numa notícia: o sujeito é de quem se fala; o predicado é a novidade sobre ele.' },
+      b2: { simples: 'Pergunte “quem?” ou “o quê?” para o verbo. A resposta é o sujeito.', exemplo: '“Chegaram os convidados.” Quem chegou? Os convidados — o sujeito pode vir depois do verbo.', passos: '1. Ache o verbo.\n2. Pergunte “quem?”/“o quê?” + verbo.\n3. A resposta é o sujeito.\n4. Confira a concordância (chegaram × os convidados).', compara: 'O sujeito nem sempre vem no começo: a pergunta funciona em qualquer posição.' },
+      b3: { simples: 'Simples: um núcleo. Composto: dois ou mais. Oculto: está no verbo. Indeterminado: não se sabe quem.', exemplo: '“Estudamos muito” (oculto: nós) · “Roubaram meu lápis” (indeterminado).', passos: '1. Conte os núcleos do sujeito.\n2. Nenhum aparece, mas o verbo indica? Oculto.\n3. Verbo na 3ª do plural sem referência, ou com “se”? Indeterminado.', compara: 'Oculto: dá para descobrir quem é pela terminação do verbo. Indeterminado: não dá.' },
+      b4: { simples: 'Algumas orações não têm sujeito: chuva, vento, “haver” de existir e tempo decorrido.', exemplo: '“Choveu ontem.” · “Há muitos alunos na sala.” · “Faz dois anos que me mudei.”', passos: '1. Verbo de fenômeno da natureza? Sem sujeito.\n2. “Haver” = existir? Sem sujeito (singular).\n3. “Fazer/haver” indicando tempo? Sem sujeito.', compara: 'Por isso é “Há muitos alunos” e não “Hão”: sem sujeito, o verbo não tem com quem concordar.' },
+    },
+    equivalentQuestions: ['o que é sujeito', 'o que é predicado', 'como achar o sujeito da oração', 'tipos de sujeito', 'o que é sujeito oculto', 'o que é sujeito indeterminado', 'o que é sujeito composto', 'oração sem sujeito', 'por que é há e não hão', 'sujeito depois do verbo', 'núcleo do sujeito', 'pergunta quem para o verbo', 'sujeito simples exemplo', 'choveu tem sujeito', 'diferença entre sujeito oculto e indeterminado', 'me explica sujeito e predicado', 'exercícios de sujeito', 'dúvida sobre sujeito', 'análise sintática sujeito', 'termos essenciais da oração'],
+    commonErrors: ['Achar que o sujeito sempre vem no início.', 'Confundir sujeito oculto com indeterminado.', 'Flexionar “haver” (existir) no plural: hão, houveram.'],
+    sources: [SRC.bncc('Língua Portuguesa — Anos Finais')],
+  },
+  'por-tipos-generos-textuais': {
+    objective: 'Diferenciar tipo textual (modo de organização) de gênero textual (formato social), reconhecer os principais tipos e gêneros e ler com atenção à finalidade do texto.',
+    next: ['por-interpretacao-texto', 'por-funcoes-linguagem'],
+    variants: {
+      b1: { simples: 'Tipo é o “jeito” do texto: narrar, descrever, argumentar, expor ou instruir.', exemplo: 'Um conto narra; um folheto turístico descreve; um artigo de opinião argumenta; um verbete expõe; uma receita instrui.', passos: '1. Pergunte: o texto conta, mostra como é, defende uma ideia, explica ou ensina a fazer?\n2. A resposta indica o tipo.', compara: 'Os tipos são as ferramentas do texto; o gênero é o produto pronto que usa essas ferramentas.' },
+      b2: { simples: 'Gênero é o formato do texto no dia a dia: notícia, receita, carta, meme, bula…', exemplo: 'Uma notícia tem manchete, lide e fatos; uma receita tem ingredientes e modo de preparo.', passos: '1. Observe o formato (título, partes, linguagem).\n2. Pense onde ele circula.\n3. Pense para que ele serve: essa é a função social.', compara: 'Gênero é como um tipo de roupa (uniforme, fantasia, pijama): cada um tem formato e uso próprios.' },
+      b3: { simples: 'Tipos são poucos; gêneros são muitos. Um gênero pode misturar tipos.', exemplo: 'Na receita (gênero) predomina o tipo injuntivo (instruções), mas há descrição dos ingredientes.', passos: '1. Identifique o gênero.\n2. Veja qual tipo predomina.\n3. Note os outros tipos que aparecem.', compara: 'Como um prato com vários ingredientes: um gênero tem vários tipos, mas um costuma predominar.' },
+      b4: { simples: 'Para entender um texto: qual o gênero, quem fala, para quem e para quê.', exemplo: 'Num anúncio, a finalidade é convencer; por isso há imperativos (“Compre já!”).', passos: '1. Identifique o gênero.\n2. Descubra autor, público e finalidade.\n3. Ache a ideia principal de cada parágrafo.\n4. Separe fatos de opiniões.', compara: 'Ler sabendo o gênero é como ver um filme sabendo se é comédia ou suspense: você entende as intenções.' },
+    },
+    equivalentQuestions: ['o que é tipo textual', 'o que é gênero textual', 'diferença entre tipo e gênero textual', 'quais são os tipos textuais', 'exemplos de gêneros textuais', 'texto narrativo', 'texto descritivo', 'texto dissertativo argumentativo', 'texto injuntivo', 'texto expositivo', 'notícia é tipo ou gênero', 'receita é que tipo de texto', 'função social do texto', 'como identificar o gênero de um texto', 'gêneros digitais', 'me explica gêneros textuais', 'exercícios de tipos textuais', 'dúvida sobre gênero textual', 'crônica é gênero', 'o que é texto instrucional'],
+    commonErrors: ['Chamar gênero de tipo (ex.: “o tipo notícia”).', 'Achar que cada gênero tem um só tipo.', 'Ignorar a finalidade do texto na interpretação.'],
+    sources: [SRC.bncc('Língua Portuguesa — Anos Finais')], enem: 'Gêneros e funções sociais dos textos estão em quase todas as questões de Linguagens.',
+  },
 }

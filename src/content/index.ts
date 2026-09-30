@@ -17,6 +17,8 @@ import { ENGLISH_EXTRA } from './lessons/ingles-legado'
 import { GAME_EXTRA } from './lessons/jogos-extra'
 import { UPGRADES, applyUpgrade } from './lessons/acervo-upgrades'
 import { angulos, areaPerimetro, estatistica, expressoesAlgebricas, mmcMdc, numerosDecimais, numerosInteiros, potenciacao, probabilidade, razaoProporcao, regraDeTres, sistemasEquacoes } from './lessons/mat-fund2'
+import { acentuacao, classesGramaticais, concordancia, crase, ortografiaDuvidas, pontuacao, pronomes } from './lessons/por-gramatica'
+import { coesaoCoerencia, figurasLinguagem, funcoesLinguagem, interpretacaoTexto, periodoComposto, semantica, variacaoLinguistica } from './lessons/por-texto'
 import { combinatoria, funcao2grau, geometriaEspacial, juros, logaritmo, progressoes, trigonometria } from './lessons/mat-medio'
 import { comparatives, future, pastContinuous, presentContinuous, simplePast } from './lessons/ingles-a2'
 import { collocations, conditionals, falseFriends, phrasalVerbs, presentPerfect } from './lessons/ingles-b1'
@@ -30,7 +32,9 @@ export const BASE_LESSONS: Lesson[] = [
   angulos, areaPerimetro, expressoesAlgebricas, equacao1grau, sistemasEquacoes, estatistica, probabilidade, pitagoras,
   // Matemática · Ensino Médio
   equacao2grau, funcao1grau, funcao2grau, progressoes, trigonometria, logaritmo, combinatoria, geometriaEspacial, juros,
-  substantivoAdjetivo, verbos, sujeitoPredicado, tiposTextuais,
+  // Português
+  acentuacao, ortografiaDuvidas, substantivoAdjetivo, classesGramaticais, verbos, pronomes, sujeitoPredicado, pontuacao, concordancia, crase, periodoComposto,
+  semantica, figurasLinguagem, tiposTextuais, interpretacaoTexto, coesaoCoerencia, variacaoLinguistica, funcoesLinguagem,
   fotossintese, sistemaSolar, cicloAgua, sistemaDigestorio,
   revolucaoFrancesa, brasilColonia, independenciaBrasil, segundaGuerra,
   coordenadas, biomas, regioesBrasil,
