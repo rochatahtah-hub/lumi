@@ -233,7 +233,7 @@ export const medidas = lesson({
   summary: 'Conheça metro, grama e litro, seus múltiplos e submúltiplos, e aprenda a converter entre eles.',
   intro: 'Quanto você mede? Quanto pesa um pacote de arroz? Quanto cabe numa garrafa? Vamos medir!',
   objective: 'Usar unidades de comprimento, massa e capacidade e converter entre elas.',
-  prerequisites: ['mat-multiplicacao', 'mat-divisao'], next: ['mat-area-perimetro', 'mat-decimais'],
+  prerequisites: ['mat-multiplicacao', 'mat-divisao'], next: ['mat-area-perimetro', 'mat-numeros-decimais'],
   skills: { comprimento: 'Comprimento', massa: 'Massa', capacidade: 'Capacidade', conversao: 'Conversão de unidades' },
   blocks: [
     block('comprimento', 'Comprimento: metro', 'Comprimento é medido em metro (m). 1 m = 100 centímetros (cm) = 1.000 milímetros (mm). Para distâncias grandes, usamos o quilômetro: 1 km = 1.000 m.', 'Uma porta tem cerca de 2 m de altura. De uma cidade a outra podem ser 50 km.',
@@ -278,7 +278,7 @@ export const sistemaMonetario = lesson({
   summary: 'Conheça o real, as moedas e cédulas, e aprenda a calcular preços, totais e troco.',
   intro: 'Ir à padaria, comprar um lanche, receber troco… Usamos matemática com dinheiro o tempo todo!',
   objective: 'Reconhecer cédulas e moedas do real, fazer trocas equivalentes e calcular totais e troco.',
-  prerequisites: ['mat-adicao-subtracao'], next: ['mat-decimais'],
+  prerequisites: ['mat-adicao-subtracao'], next: ['mat-numeros-decimais'],
   skills: { real: 'Real e centavos', trocas: 'Trocas equivalentes', total: 'Calcular o total', troco: 'Calcular o troco' },
   blocks: [
     block('real', 'O real e os centavos', 'A moeda do Brasil é o real (R$). 1 real = 100 centavos. Há moedas de 5, 10, 25 e 50 centavos e de 1 real, e cédulas de 2, 5, 10, 20, 50, 100 e 200 reais.', 'R$ 3,50 lê-se "três reais e cinquenta centavos".',

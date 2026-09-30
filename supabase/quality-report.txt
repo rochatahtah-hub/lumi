@@ -1,87 +1,18 @@
 OFICIAL  mat-sistema-decimal
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-divisao
-   · trilha aponta para conteúdo ainda não criado "mat-mmc-mdc"
 OFICIAL  mat-formas-geometricas
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-   · trilha aponta para conteúdo ainda não criado "mat-area-perimetro"
-   · trilha aponta para conteúdo ainda não criado "mat-angulos"
-OFICIAL  mat-medidas
-   · trilha aponta para conteúdo ainda não criado "mat-area-perimetro"
-   · trilha aponta para conteúdo ainda não criado "mat-decimais"
-OFICIAL  mat-sistema-monetario
-   · trilha aponta para conteúdo ainda não criado "mat-decimais"
+OFICIAL  mat-numeros-inteiros
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-mmc-mdc
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
 OFICIAL  mat-fracoes
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O que é uma fração" sem reformulação "passos"
-   · bloco "Como ler uma fração" sem reformulação "passos"
-   · bloco "Frações equivalentes" sem reformulação "passos"
-   · bloco "Simplificar frações" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-porcentagem
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O que é "por cento"" sem reformulação "passos"
-   · bloco "Atalhos que ajudam muito" sem reformulação "passos"
-   · bloco "Calculando a porcentagem de um valor" sem reformulação "passos"
-   · bloco "Descontos e aumentos" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  mat-numeros-decimais
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-equacao-1-grau
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Uma balança em equilíbrio" sem reformulação "simples"
-   · bloco "Uma balança em equilíbrio" sem reformulação "exemplo"
-   · bloco "Uma balança em equilíbrio" sem reformulação "passos"
-   · bloco "Operações inversas" sem reformulação "simples"
-   · bloco "Operações inversas" sem reformulação "exemplo"
-   · bloco "Operações inversas" sem reformulação "passos"
-   · bloco "Passo a passo" sem reformulação "simples"
-   · bloco "Passo a passo" sem reformulação "exemplo"
-   · bloco "Passo a passo" sem reformulação "passos"
-   · bloco "Transformando problemas em equações" sem reformulação "simples"
-   · bloco "Transformando problemas em equações" sem reformulação "exemplo"
-   · bloco "Transformando problemas em equações" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  mat-regra-de-tres
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-equacao-2-grau
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "A forma geral" sem reformulação "passos"
-   · bloco "O discriminante (Δ)" sem reformulação "passos"
-   · bloco "A fórmula de Bhaskara" sem reformulação "passos"
-   · bloco "Equações incompletas" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-teorema-pitagoras
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O triângulo retângulo" sem reformulação "simples"
-   · bloco "O triângulo retângulo" sem reformulação "exemplo"
-   · bloco "O triângulo retângulo" sem reformulação "passos"
-   · bloco "A relação de Pitágoras" sem reformulação "simples"
-   · bloco "A relação de Pitágoras" sem reformulação "exemplo"
-   · bloco "A relação de Pitágoras" sem reformulação "passos"
-   · bloco "Calculando o lado que falta" sem reformulação "simples"
-   · bloco "Calculando o lado que falta" sem reformulação "exemplo"
-   · bloco "Calculando o lado que falta" sem reformulação "passos"
-   · bloco "Onde isso aparece" sem reformulação "simples"
-   · bloco "Onde isso aparece" sem reformulação "exemplo"
-   · bloco "Onde isso aparece" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  mat-funcao-1-grau
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O que é a função afim" sem reformulação "simples"
-   · bloco "O que é a função afim" sem reformulação "exemplo"
-   · bloco "O que é a função afim" sem reformulação "passos"
-   · bloco "Os coeficientes a e b" sem reformulação "simples"
-   · bloco "Os coeficientes a e b" sem reformulação "exemplo"
-   · bloco "Os coeficientes a e b" sem reformulação "passos"
-   · bloco "A raiz (zero da função)" sem reformulação "simples"
-   · bloco "A raiz (zero da função)" sem reformulação "exemplo"
-   · bloco "A raiz (zero da função)" sem reformulação "passos"
-   · bloco "Gráfico: uma reta" sem reformulação "simples"
-   · bloco "Gráfico: uma reta" sem reformulação "exemplo"
-   · bloco "Gráfico: uma reta" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  mat-sistemas-equacoes
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
 OFICIAL  por-substantivo-adjetivo
    · objetivo de aprendizagem vazio (formato antigo)

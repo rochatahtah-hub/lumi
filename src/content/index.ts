@@ -15,6 +15,9 @@ import { filosofiaGrega, modernismo, sociologiaClassicos } from './lessons/human
 import { alphabetNumbers, canDirections, countries, family, greetings, thereIs, thisThat, timeDays } from './lessons/ingles-a1'
 import { ENGLISH_EXTRA } from './lessons/ingles-legado'
 import { GAME_EXTRA } from './lessons/jogos-extra'
+import { UPGRADES, applyUpgrade } from './lessons/acervo-upgrades'
+import { angulos, areaPerimetro, estatistica, expressoesAlgebricas, mmcMdc, numerosDecimais, numerosInteiros, potenciacao, probabilidade, razaoProporcao, regraDeTres, sistemasEquacoes } from './lessons/mat-fund2'
+import { combinatoria, funcao2grau, geometriaEspacial, juros, logaritmo, progressoes, trigonometria } from './lessons/mat-medio'
 import { comparatives, future, pastContinuous, presentContinuous, simplePast } from './lessons/ingles-a2'
 import { collocations, conditionals, falseFriends, phrasalVerbs, presentPerfect } from './lessons/ingles-b1'
 import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpeech } from './lessons/ingles-b2c1'
@@ -22,7 +25,11 @@ import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpe
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
   sistemaDecimal, adicaoSubtracao, multiplicacao, divisao, formasGeometricas, medidas, sistemaMonetario,
-  fracoes, porcentagem, equacao1grau, equacao2grau, pitagoras, funcao1grau,
+  // Matemática · Fundamental II
+  numerosInteiros, potenciacao, mmcMdc, fracoes, numerosDecimais, razaoProporcao, regraDeTres, porcentagem,
+  angulos, areaPerimetro, expressoesAlgebricas, equacao1grau, sistemasEquacoes, estatistica, probabilidade, pitagoras,
+  // Matemática · Ensino Médio
+  equacao2grau, funcao1grau, funcao2grau, progressoes, trigonometria, logaritmo, combinatoria, geometriaEspacial, juros,
   substantivoAdjetivo, verbos, sujeitoPredicado, tiposTextuais,
   fotossintese, sistemaSolar, cicloAgua, sistemaDigestorio,
   revolucaoFrancesa, brasilColonia, independenciaBrasil, segundaGuerra,
@@ -41,4 +48,5 @@ export const BASE_LESSONS: Lesson[] = [
   celula, cadeiasAlimentares, genetica,
   modernismo, filosofiaGrega, sociologiaClassicos,
   cores,
-].map((l) => ({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}), origin: 'base' as const, status: 'published' as const }))
+].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
+  .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))

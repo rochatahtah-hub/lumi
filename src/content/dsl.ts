@@ -116,3 +116,11 @@ export const SRC_EN = {
 }
 /** fontes padrão das aulas de Inglês: currículo + referência de nível + referência gramatical + dicionário + autoria LUMI */
 export const enSources = (): Source[] => [SRC_EN.bncc(), SRC_EN.cefr(), SRC_EN.britishCouncil(), SRC_EN.cambridge(), SRC.autoral()]
+
+/** perguntas equivalentes para as matérias em português (mesma ideia do eqs, sem os modelos de idioma) */
+export function eqsPt(names: string[], specific: string[]): string[] {
+  const t = ['o que é {n}', 'como funciona {n}', 'me explica {n}', 'resumo de {n}', 'exemplos de {n}', 'exercícios de {n}', 'não entendi {n}', 'dúvida sobre {n}', 'aula de {n}', 'para que serve {n}']
+  const out = [...specific]
+  for (const n of names) for (const x of t) out.push(x.replace('{n}', n))
+  return [...new Map(out.map((q) => [q.toLowerCase(), q])).values()]
+}
