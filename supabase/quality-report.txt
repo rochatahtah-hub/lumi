@@ -14,46 +14,6 @@ OFICIAL  mat-regra-de-tres
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
 OFICIAL  mat-sistemas-equacoes
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
-OFICIAL  cie-fotossintese
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O que é fotossíntese" sem reformulação "passos"
-   · bloco "Os ingredientes" sem reformulação "passos"
-   · bloco "O que a planta produz" sem reformulação "passos"
-   · bloco "Por que isso importa para todos" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  cie-sistema-solar
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "O Sol, nossa estrela" sem reformulação "passos"
-   · bloco "Os oito planetas" sem reformulação "passos"
-   · bloco "Rochosos e gasosos" sem reformulação "passos"
-   · bloco "Os movimentos da Terra" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  cie-ciclo-da-agua
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "A água sobe: evaporação" sem reformulação "exemplo"
-   · bloco "A água sobe: evaporação" sem reformulação "passos"
-   · bloco "As nuvens se formam: condensação" sem reformulação "exemplo"
-   · bloco "As nuvens se formam: condensação" sem reformulação "passos"
-   · bloco "A água cai: precipitação" sem reformulação "exemplo"
-   · bloco "A água cai: precipitação" sem reformulação "passos"
-   · bloco "A água volta: infiltração e escoamento" sem reformulação "exemplo"
-   · bloco "A água volta: infiltração e escoamento" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-OFICIAL  cie-sistema-digestorio
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Para que serve a digestão" sem reformulação "simples"
-   · bloco "Para que serve a digestão" sem reformulação "exemplo"
-   · bloco "Para que serve a digestão" sem reformulação "passos"
-   · bloco "Da boca ao estômago" sem reformulação "simples"
-   · bloco "Da boca ao estômago" sem reformulação "exemplo"
-   · bloco "Da boca ao estômago" sem reformulação "passos"
-   · bloco "Os intestinos" sem reformulação "simples"
-   · bloco "Os intestinos" sem reformulação "exemplo"
-   · bloco "Os intestinos" sem reformulação "passos"
-   · bloco "Os órgãos anexos" sem reformulação "simples"
-   · bloco "Os órgãos anexos" sem reformulação "exemplo"
-   · bloco "Os órgãos anexos" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
 OFICIAL  his-revolucao-francesa
    · objetivo de aprendizagem vazio (formato antigo)
    · bloco "A França antes de 1789" sem reformulação "passos"

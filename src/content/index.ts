@@ -5,6 +5,8 @@ import { equacao1grau, funcao1grau, pitagoras } from './lessons/matematica2'
 import { adicaoSubtracao, divisao, formasGeometricas, medidas, multiplicacao, sistemaDecimal, sistemaMonetario } from './lessons/mat-fund1'
 import { celula, fotossintese, sistemaSolar } from './lessons/ciencias'
 import { cadeiasAlimentares, cicloAgua, sistemaDigestorio } from './lessons/ciencias2'
+import { alimentacaoNutrientes, animaisClassificacao, estadosMateria, luaFases, misturasSeparacao, plantas, preservacaoAmbiente, seresVivos } from './lessons/cie-fund1'
+import { circuitosEletricos, energiaFontes, estacoesAno, microrganismosVacinas, sistemaCirculatorio, sistemaNervoso, sistemaRespiratorio, terraCamadas } from './lessons/cie-fund2'
 import { coordenadas, revolucaoFrancesa } from './lessons/humanas'
 import { biomas, brasilColonia, independenciaBrasil, regioesBrasil, segundaGuerra } from './lessons/humanas2'
 import { substantivoAdjetivo, verbToBe } from './lessons/linguagens'
@@ -35,7 +37,10 @@ export const BASE_LESSONS: Lesson[] = [
   // Português
   acentuacao, ortografiaDuvidas, substantivoAdjetivo, classesGramaticais, verbos, pronomes, sujeitoPredicado, pontuacao, concordancia, crase, periodoComposto,
   semantica, figurasLinguagem, tiposTextuais, interpretacaoTexto, coesaoCoerencia, variacaoLinguistica, funcoesLinguagem,
-  fotossintese, sistemaSolar, cicloAgua, sistemaDigestorio,
+  // Ciências
+  estadosMateria, misturasSeparacao, cicloAgua, seresVivos, animaisClassificacao, plantas, fotossintese, microrganismosVacinas,
+  alimentacaoNutrientes, sistemaDigestorio, sistemaRespiratorio, sistemaCirculatorio, sistemaNervoso,
+  sistemaSolar, luaFases, estacoesAno, terraCamadas, preservacaoAmbiente, energiaFontes, circuitosEletricos,
   revolucaoFrancesa, brasilColonia, independenciaBrasil, segundaGuerra,
   coordenadas, biomas, regioesBrasil,
   verbToBe, simplePresent,

@@ -2,7 +2,7 @@
 // acrescenta objetivo, trilha (pré-requisito → próximo), reformulações que faltavam, perguntas equivalentes,
 // dúvidas e erros comuns, fórmulas, fontes institucionais e material de jogo. O banco guarda a versão anterior.
 import type { Block, Formula, Lesson, LessonGames, Source } from '../../types'
-import { formula, SRC } from '../dsl'
+import { eqsPt, formula, SRC } from '../dsl'
 
 export interface AcervoUpgrade {
   objective: string
@@ -197,5 +197,62 @@ export const UPGRADES: Record<string, AcervoUpgrade> = {
     equivalentQuestions: ['o que é tipo textual', 'o que é gênero textual', 'diferença entre tipo e gênero textual', 'quais são os tipos textuais', 'exemplos de gêneros textuais', 'texto narrativo', 'texto descritivo', 'texto dissertativo argumentativo', 'texto injuntivo', 'texto expositivo', 'notícia é tipo ou gênero', 'receita é que tipo de texto', 'função social do texto', 'como identificar o gênero de um texto', 'gêneros digitais', 'me explica gêneros textuais', 'exercícios de tipos textuais', 'dúvida sobre gênero textual', 'crônica é gênero', 'o que é texto instrucional'],
     commonErrors: ['Chamar gênero de tipo (ex.: “o tipo notícia”).', 'Achar que cada gênero tem um só tipo.', 'Ignorar a finalidade do texto na interpretação.'],
     sources: [SRC.bncc('Língua Portuguesa — Anos Finais')], enem: 'Gêneros e funções sociais dos textos estão em quase todas as questões de Linguagens.',
+  },
+
+  // ───────────── LOTE 3 · CIÊNCIAS ─────────────
+  'cie-fotossintese': {
+    objective: 'Explicar a fotossíntese como produção de alimento pela planta a partir de água, gás carbônico e luz, identificar seus produtos (glicose e oxigênio) e sua importância para a vida na Terra.',
+    prerequisites: ['cie-plantas'], next: ['bio-cadeias-alimentares'],
+    variants: {
+      b1: { passos: '1. Separe a palavra: “foto” (luz) + “síntese” (produção).\n2. Lembre que quem faz é a planta (e as algas).\n3. Conclua: é produzir alimento usando luz.', compara: 'Nós precisamos comer para ter energia; a planta “cozinha” o próprio alimento usando a luz do Sol como fogão.' },
+      b2: { passos: '1. Água: entra pelas raízes.\n2. Gás carbônico: entra pelos estômatos das folhas.\n3. Luz: captada pela clorofila, nos cloroplastos.', compara: 'É como uma receita: água e gás carbônico são os ingredientes; a luz é a energia do forno; a clorofila é o cozinheiro.' },
+      b3: { passos: '1. Escreva o que entra: gás carbônico + água + luz.\n2. Escreva o que sai: glicose + oxigênio.\n3. A glicose fica com a planta; o oxigênio vai para o ar.', compara: 'Na nossa respiração é o contrário: usamos glicose e oxigênio e liberamos gás carbônico e água.' },
+      b4: { passos: '1. Pense no oxigênio que respiramos: grande parte vem da fotossíntese.\n2. Pense na comida: toda cadeia alimentar começa num produtor.\n3. Conclua: sem fotossíntese, quase não haveria vida.', compara: 'As plantas são como a “usina” da vida: produzem a energia que passa para herbívoros, carnívoros e decompositores.' },
+    },
+    equivalentQuestions: eqsPt(['fotossíntese'], ['como as plantas se alimentam', 'o que a planta precisa para fazer fotossíntese', 'o que é clorofila', 'o que são estômatos', 'o que a fotossíntese produz', 'equação da fotossíntese', 'fotossíntese libera oxigênio', 'onde acontece a fotossíntese', 'o que é cloroplasto', 'planta faz fotossíntese à noite']),
+    commonErrors: ['Achar que a planta tira o alimento pronto do solo.', 'Trocar os produtos: a fotossíntese libera oxigênio, não gás carbônico.', 'Pensar que as plantas não respiram.'],
+    sources: [SRC.bncc('Ciências — Anos Finais'), SRC.autoral()],
+    games: { words: [{ word: 'clorofila', clue: 'pigmento verde que capta a luz', difficulty: 1 }, { word: 'glicose', clue: 'açúcar produzido pela planta', difficulty: 2 }, { word: 'oxigênio', clue: 'gás liberado na fotossíntese', difficulty: 1 }, { word: 'estômatos', clue: 'aberturas das folhas por onde entra o gás carbônico', difficulty: 3 }, { word: 'luz', clue: 'fonte de energia da fotossíntese', difficulty: 1 }, { word: 'raízes', clue: 'absorvem a água do solo', difficulty: 1 }, { word: 'cloroplasto', clue: 'organela onde ocorre a fotossíntese', difficulty: 3 }] },
+  },
+  'cie-sistema-solar': {
+    objective: 'Descrever o Sol como estrela central, nomear os oito planetas em ordem, diferenciar planetas rochosos de gasosos e relacionar rotação e translação ao dia, à noite e ao ano.',
+    next: ['cie-lua-fases', 'cie-estacoes-ano'],
+    variants: {
+      b1: { passos: '1. Lembre: o Sol é uma estrela.\n2. Estrela produz luz e calor próprios.\n3. Tudo no Sistema Solar gira ao redor dele.', compara: 'A Lua e os planetas não brilham sozinhos: refletem a luz do Sol, como um espelho refletindo uma lanterna.' },
+      b2: { passos: '1. Decore a ordem com uma frase: “Minha Vó Tem Muitas Joias, Só Usa No Natal”.\n2. Cada inicial é um planeta: Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano, Netuno.', compara: 'A Terra é o 3º planeta: nem perto demais (quente como Vênus) nem longe demais (gelada como Marte).' },
+      b3: { passos: '1. Os 4 primeiros (mais perto do Sol): rochosos, pequenos, superfície sólida.\n2. Os 4 últimos: gigantes gasosos, enormes, com anéis e muitas luas.', compara: 'Rochosos são como bolas de gude; gasosos, como balões gigantes.' },
+      b4: { passos: '1. Rotação: a Terra gira em torno de si mesma (≈24 h) → dia e noite.\n2. Translação: volta ao redor do Sol (≈365 dias) → um ano.', compara: 'É como uma bailarina que gira sobre si mesma (rotação) enquanto dá voltas pelo palco (translação).' },
+    },
+    equivalentQuestions: eqsPt(['sistema solar', 'planetas'], ['quais são os planetas do sistema solar', 'ordem dos planetas', 'qual o maior planeta', 'qual o planeta mais perto do sol', 'o sol é uma estrela', 'o que é rotação', 'o que é translação', 'por que existe dia e noite', 'planetas rochosos e gasosos', 'plutão é planeta']),
+    commonErrors: ['Achar que o Sol gira em torno da Terra.', 'Confundir rotação (dia) com translação (ano).', 'Dizer que Plutão ainda é um dos oito planetas (é planeta-anão desde 2006).'],
+    sources: [SRC.bncc('Ciências — Anos Iniciais e Finais'), SRC.web('Solar System Exploration', 'https://science.nasa.gov/solar-system/', 'NASA', 'instituicao'), SRC.autoral()],
+  },
+  'cie-ciclo-da-agua': {
+    objective: 'Descrever as etapas do ciclo da água (evaporação, transpiração, condensação, precipitação, infiltração e escoamento), relacionando-as às mudanças de estado físico e ao calor do Sol.',
+    prerequisites: ['cie-estados-materia'], next: ['cie-preservacao-ambiente'],
+    variants: {
+      b1: { exemplo: 'Roupa molhada no varal seca ao sol: a água dela evaporou e foi para o ar.', passos: '1. O Sol aquece a água de mares, rios e lagos.\n2. Ela passa de líquida para vapor (evaporação).\n3. As plantas também soltam vapor pelas folhas (transpiração).', compara: 'Evaporação é a água “subindo invisível”: você não vê o vapor, mas ele está no ar.' },
+      b2: { exemplo: 'Um copo de água gelada fica “suado” por fora: o vapor do ar esfriou e virou gotinhas.', passos: '1. O vapor sobe e encontra ar frio.\n2. Esfria e volta a ser líquido (condensação).\n3. As gotinhas se juntam e formam nuvens.', compara: 'A tampa da panela fervendo fica cheia de gotas: é uma “mini-nuvem” na cozinha.' },
+      b3: { exemplo: 'Em dias de temporal, pedras de gelo podem cair: é o granizo, outra forma de precipitação.', passos: '1. As gotas das nuvens crescem.\n2. Ficam pesadas demais.\n3. Caem como chuva, neve ou granizo (precipitação).', compara: 'A nuvem é como uma esponja: quando fica encharcada demais, a água cai.' },
+      b4: { exemplo: 'Depois da chuva, parte da água some no chão de terra (infiltra) e outra corre pela rua até o bueiro (escoa).', passos: '1. Parte da chuva infiltra no solo → água subterrânea.\n2. Parte escoa pela superfície → rios, lagos e mares.\n3. O Sol evapora de novo e o ciclo recomeça.', compara: 'O ciclo é como uma roda-gigante: a água sobe, desce e volta a subir, sem começo nem fim.' },
+    },
+    equivalentQuestions: eqsPt(['ciclo da água', 'evaporação', 'condensação'], ['etapas do ciclo da água', 'como se formam as nuvens', 'o que é precipitação', 'como se forma a chuva', 'o que é infiltração', 'o que é lençol freático', 'o que é transpiração das plantas', 'o que é escoamento', 'por que o copo gelado sua', 'o que é granizo']),
+    commonErrors: ['Achar que as nuvens são feitas de vapor (são gotinhas de água líquida ou gelo).', 'Confundir evaporação com condensação.', 'Esquecer a transpiração das plantas.'],
+    sources: [SRC.bncc('Ciências — Anos Iniciais e Finais'), SRC.autoral()],
+    games: { words: [{ word: 'evaporação', clue: 'água líquida vira vapor', difficulty: 1 }, { word: 'nuvem', clue: 'formada por gotinhas de água', difficulty: 1 }, { word: 'chuva', clue: 'forma mais comum de precipitação', difficulty: 1 }, { word: 'granizo', clue: 'pedrinhas de gelo que caem das nuvens', difficulty: 2 }, { word: 'vapor', clue: 'água no estado gasoso', difficulty: 1 }, { word: 'infiltração', clue: 'água entrando no solo', difficulty: 2 }, { word: 'condensação', clue: 'vapor esfria e vira líquido', difficulty: 2 }], sequences: [{ prompt: 'Coloque as etapas do ciclo da água em ordem.', difficulty: 1, items: ['Evaporação da água dos rios e mares', 'Condensação do vapor em nuvens', 'Precipitação (chuva)', 'Infiltração e escoamento'], explanation: 'Evaporação → condensação → precipitação → infiltração/escoamento, e recomeça.' }] },
+  },
+  'cie-sistema-digestorio': {
+    objective: 'Descrever o caminho do alimento pelo tubo digestório, a função de cada órgão (boca, esôfago, estômago, intestinos) e dos órgãos anexos (fígado e pâncreas) na digestão e na absorção dos nutrientes.',
+    prerequisites: ['cie-alimentacao-nutrientes'], next: ['cie-sistema-respiratorio', 'cie-sistema-circulatorio'],
+    variants: {
+      b1: { simples: 'Digerir é quebrar a comida em pedacinhos tão pequenos que entram no sangue.', exemplo: 'Um pão vira, no fim da digestão, glicose — que o sangue leva para as células como energia.', passos: '1. O alimento é triturado (digestão mecânica).\n2. Enzimas o quebram em nutrientes (digestão química).\n3. Os nutrientes são absorvidos pelo sangue.', compara: 'É como desmontar um brinquedo de encaixar em pecinhas para usá-las em outra construção.' },
+      b2: { simples: 'A boca mastiga, o esôfago leva e o estômago “amassa” com ácido.', exemplo: 'Mastigar bem um pão faz ele ficar docinho: a saliva começa a transformar o amido em açúcar.', passos: '1. Boca: dentes trituram, saliva começa a digerir o amido.\n2. Esôfago: tubo que leva o alimento ao estômago.\n3. Estômago: suco gástrico ácido digere proteínas.', compara: 'O estômago funciona como um liquidificador com ácido: mistura e quebra o alimento.' },
+      b3: { simples: 'O delgado absorve os nutrientes; o grosso absorve água e forma as fezes.', exemplo: 'O intestino delgado de um adulto tem cerca de 6 a 7 metros, dobrado dentro da barriga.', passos: '1. Intestino delgado: termina a digestão e absorve os nutrientes.\n2. Intestino grosso: absorve a água.\n3. O que sobra forma as fezes, eliminadas pelo ânus.', compara: 'O delgado é a “entrega” (distribui os nutrientes ao sangue); o grosso é a “secadora” (retira a água).' },
+      b4: { simples: 'Fígado e pâncreas não recebem comida, mas mandam sucos que ajudam a digerir.', exemplo: 'Depois de uma refeição gordurosa, a vesícula libera bile para ajudar a digerir a gordura.', passos: '1. Fígado: produz a bile (gorduras), guardada na vesícula.\n2. Pâncreas: produz o suco pancreático com enzimas.\n3. Os dois sucos atuam no intestino delgado.', compara: 'A bile age sobre a gordura como o detergente no prato: separa em gotinhas menores.' },
+    },
+    equivalentQuestions: eqsPt(['sistema digestório', 'digestão'], ['órgãos do sistema digestório', 'caminho do alimento no corpo', 'função do estômago', 'função do intestino delgado', 'função do intestino grosso', 'o que é bile', 'função do fígado na digestão', 'função do pâncreas', 'o que é suco gástrico', 'o que faz a saliva']),
+    commonErrors: ['Achar que a digestão acontece só no estômago.', 'Pensar que fígado e pâncreas fazem parte do caminho do alimento.', 'Confundir intestino delgado (nutrientes) com grosso (água).'],
+    sources: [SRC.bncc('Ciências — Anos Finais'), SRC.autoral()],
+    games: { words: [{ word: 'estômago', clue: 'órgão com suco gástrico ácido', difficulty: 1 }, { word: 'esôfago', clue: 'tubo que liga a boca ao estômago', difficulty: 2 }, { word: 'saliva', clue: 'começa a digerir o amido', difficulty: 1 }, { word: 'fígado', clue: 'produz a bile', difficulty: 1 }, { word: 'pâncreas', clue: 'produz o suco pancreático', difficulty: 2 }, { word: 'intestino', clue: 'delgado e grosso', difficulty: 1 }, { word: 'bile', clue: 'ajuda a digerir gorduras', difficulty: 2 }], sequences: [{ prompt: 'Coloque o caminho do alimento em ordem.', difficulty: 1, items: ['Boca', 'Faringe', 'Esôfago', 'Estômago', 'Intestino delgado', 'Intestino grosso'], explanation: 'Boca → faringe → esôfago → estômago → intestino delgado → intestino grosso.' }] },
   },
 }
