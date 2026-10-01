@@ -82,6 +82,16 @@ export default function Home() {
         </section>
 
         <section className="mt-8">
+          <h2 className="font-semibold">🌎 Aprenda Idiomas</h2>
+          <p className="mt-1 text-sm text-offwhite/75">Inglês avançado, Espanhol, Francês, Italiano</p>
+          <Link to="/idiomas" className="mt-3 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-laranja/20 to-laranja/10 px-4 py-3.5 text-offwhite border border-laranja/30">
+            <span className="text-2xl">🌍</span>
+            <span className="flex-1"><span className="block text-sm font-medium">Explorar Idiomas</span><span className="block text-xs text-offwhite/70">Cursos por nível CEFR</span></span>
+            <ChevronRight size={20} className="text-laranja" />
+          </Link>
+        </section>
+
+        <section className="mt-8">
           <h2 className="font-semibold">Escolha uma matéria</h2>
           {/* o LUMI vive atrás dos cards: aparece acima da 1ª fileira e pelas frestas entre as fileiras */}
           <div className="lumi-cards">
@@ -101,16 +111,6 @@ export default function Home() {
               })}
             </div>
           </div>
-        </section>
-
-        <section className="mt-8">
-          <h2 className="font-semibold">🌎 Aprenda Idiomas</h2>
-          <p className="mt-1 text-sm text-offwhite/75">Inglês avançado, Espanhol, Francês, Italiano</p>
-          <Link to="/idiomas" className="mt-3 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-laranja/20 to-laranja/10 px-4 py-3.5 text-offwhite border border-laranja/30">
-            <span className="text-2xl">🌍</span>
-            <span className="flex-1"><span className="block text-sm font-medium">Explorar Idiomas</span><span className="block text-xs text-offwhite/70">Cursos por nível CEFR</span></span>
-            <ChevronRight size={20} className="text-laranja" />
-          </Link>
         </section>
 
         <section className="mt-4 space-y-3">
