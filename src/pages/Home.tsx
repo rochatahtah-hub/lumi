@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LumiLogo } from '../components/ui'
 import { CardPeek, usePeekDirector } from '../components/mascot/CardPeek'
 import { SubjectIcon } from '../components/SubjectIcon'
+import { Prompt } from '../components/Prompt'
+import { NameSetup, useShouldSetupName } from '../components/NameSetup'
 import { HOME_SUBJECTS, subjectById } from '../content/subjects'
 import { currentStreak, useLumi, weakSkills } from '../lib/store'
 import { getLesson } from '../lib/repo'
@@ -13,11 +15,13 @@ const EXAMPLES = ['Frações', 'Equação do 2º grau', 'Fotossíntese', 'Revolu
 export default function Home() {
   const nav = useNavigate()
   const [q, setQ] = useState('')
+  const [setupComplete, setSetupComplete] = useState(false)
   const points = useLumi((s) => s.points)
   const streak = useLumi((s) => currentStreak(s.studyDays))
   const lastSession = useLumi((s) => s.history.find((h) => h.mode === 'aula'))
   const hasWeak = useLumi((s) => weakSkills(s).length > 0)
-  const nickname = useLumi((s) => s.profile.nickname)
+  const preferredName = useLumi((s) => s.profile.preferred_name || s.profile.nickname || 'você')
+  const shouldSetupName = useShouldSetupName()
   const peek = usePeekDirector(HOME_SUBJECTS.length)
 
   const go = (topic: string) => topic.trim() && nav(`/estudar?q=${encodeURIComponent(topic.trim())}`)
@@ -26,6 +30,11 @@ export default function Home() {
     go(q)
   }
   const last = lastSession && getLesson(lastSession.lessonId)
+
+  // Mostrar NameSetup se necessário
+  if (shouldSetupName && !setupComplete) {
+    return <NameSetup onComplete={() => setSetupComplete(true)} />
+  }
 
   return (
     <div className="relative min-h-dvh overflow-hidden bg-grafite pb-28 text-offwhite">
@@ -41,8 +50,12 @@ export default function Home() {
 
         <div className="pt-2"><LumiLogo /></div>
 
-        <section className="mt-8">
-          <h1 className="text-2xl font-bold">Olá{nickname ? `, ${nickname}` : ''}! 👋</h1>
+        {/* Saudação personalizada com frase motivacional */}
+        <div className="mt-6 px-4 sm:px-0">
+          <Prompt preferredName={preferredName} />
+        </div>
+
+        <section className="mt-6">
           <p className="text-lg text-offwhite/90">O que você quer aprender hoje?</p>
           <form onSubmit={submit} className="mt-4" role="search">
             <label className="flex items-center gap-3 rounded-2xl bg-white px-4 text-grafite shadow-lg focus-within:ring-4 focus-within:ring-laranja/40">

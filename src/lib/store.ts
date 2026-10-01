@@ -87,13 +87,14 @@ export interface LumiState {
   version: 1
   installId: string
   createdAt: string
-  profile: { level?: LevelId; age?: number; nickname?: string; userId?: string; englishLevel?: CefrLevel }
+  profile: { level?: LevelId; age?: number; nickname?: string; userId?: string; englishLevel?: CefrLevel; preferred_name?: string }
   points: number
   questionsAnswered: number
   correctAnswers: number
   studyDays: string[]
   lessons: Record<string, LessonStat>
   skills: Record<string, SkillStat>
+  prompt: { lastMotivationDate?: string }
   history: SessionRecord[]
   achievements: Record<string, string>
   customLessons: Record<string, Lesson>
@@ -117,7 +118,7 @@ function fresh(): LumiState {
   return {
     version: 1, installId: crypto.randomUUID(), createdAt: now, profile: {}, points: 0, questionsAnswered: 0, correctAnswers: 0,
     studyDays: [], lessons: {}, skills: {}, history: [], achievements: {}, customLessons: {}, reviewsDone: 0, pastedStudied: 0,
-    games: [], english: freshEnglish(), updatedAt: now,
+    games: [], english: freshEnglish(), prompt: { lastMotivationDate: undefined }, updatedAt: now,
   }
 }
 
@@ -170,6 +171,10 @@ export function useLumi<T>(selector: (s: LumiState) => T): T {
 
 export function setProfile(p: Partial<LumiState['profile']>) {
   setState((s) => ({ ...s, profile: { ...s.profile, ...p } }))
+}
+
+export function setPreferredName(name: string) {
+  setProfile({ preferred_name: name })
 }
 
 export function saveCustomLesson(lesson: Lesson) {
