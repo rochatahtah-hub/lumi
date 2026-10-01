@@ -4,7 +4,6 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { Mail, Smartphone } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
-import { MASCOT } from '../assets/lumi'
 import { cloudEnabled, supabase } from '../lib/supabase'
 import { useLumi } from '../lib/store'
 import { Button, Card, Page, TopBar } from './ui'
