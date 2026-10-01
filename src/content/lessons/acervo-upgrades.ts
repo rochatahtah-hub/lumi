@@ -1,7 +1,7 @@
 // Atualização das aulas do formato antigo para o formato completo do acervo, SEM reescrever o que já estava bom:
 // acrescenta objetivo, trilha (pré-requisito → próximo), reformulações que faltavam, perguntas equivalentes,
 // dúvidas e erros comuns, fórmulas, fontes institucionais e material de jogo. O banco guarda a versão anterior.
-import type { Block, Formula, Lesson, LessonGames, Source } from '../../types'
+import type { Block, Formula, HistoryInfo, Lesson, LessonGames, Source } from '../../types'
 import { eqsPt, formula, SRC } from '../dsl'
 
 export interface AcervoUpgrade {
@@ -17,6 +17,7 @@ export interface AcervoUpgrade {
   /** fontes institucionais a acrescentar (as da aula continuam) */
   sources?: Source[]
   games?: LessonGames
+  history?: HistoryInfo
   enem?: string
 }
 
@@ -36,6 +37,7 @@ export function applyUpgrade(l: Lesson, u?: AcervoUpgrade): Lesson {
     blocks: l.blocks.map((b) => ({ ...b, variants: { ...b.variants, ...u.variants?.[b.id] } })),
     sources: [...(u.sources ?? []).filter((s) => !titles.has(s.title)), ...(l.sources ?? [])],
     games: u.games ? { ...l.games, ...u.games } : l.games,
+    history: u.history ?? l.history,
     reviewedAt: '2026-09-30',
   }
 }
@@ -254,5 +256,100 @@ export const UPGRADES: Record<string, AcervoUpgrade> = {
     commonErrors: ['Achar que a digestão acontece só no estômago.', 'Pensar que fígado e pâncreas fazem parte do caminho do alimento.', 'Confundir intestino delgado (nutrientes) com grosso (água).'],
     sources: [SRC.bncc('Ciências — Anos Finais'), SRC.autoral()],
     games: { words: [{ word: 'estômago', clue: 'órgão com suco gástrico ácido', difficulty: 1 }, { word: 'esôfago', clue: 'tubo que liga a boca ao estômago', difficulty: 2 }, { word: 'saliva', clue: 'começa a digerir o amido', difficulty: 1 }, { word: 'fígado', clue: 'produz a bile', difficulty: 1 }, { word: 'pâncreas', clue: 'produz o suco pancreático', difficulty: 2 }, { word: 'intestino', clue: 'delgado e grosso', difficulty: 1 }, { word: 'bile', clue: 'ajuda a digerir gorduras', difficulty: 2 }], sequences: [{ prompt: 'Coloque o caminho do alimento em ordem.', difficulty: 1, items: ['Boca', 'Faringe', 'Esôfago', 'Estômago', 'Intestino delgado', 'Intestino grosso'], explanation: 'Boca → faringe → esôfago → estômago → intestino delgado → intestino grosso.' }] },
+  },
+
+  // ───────────── LOTE 4 · HISTÓRIA ─────────────
+  'his-revolucao-francesa': {
+    objective: 'Explicar as causas da Revolução Francesa (crise do Antigo Regime e sociedade de ordens), seus marcos (Estados Gerais, Bastilha, Declaração dos Direitos), suas fases até Napoleão e seu legado para a Idade Contemporânea.',
+    prerequisites: ['his-iluminismo-absolutismo'], next: ['his-revolucao-industrial', 'his-independencia-brasil'],
+    variants: {
+      b1: { passos: '1. Identifique quem governava: um rei absolutista.\n2. Liste os três estados e quem pagava impostos.\n3. Some a crise econômica e a fome.\n4. Conclua: a maioria estava insatisfeita.', compara: 'Imagine uma escola em que só uma turma paga a cantina de todas e não pode votar nas regras: cedo ou tarde, haveria revolta.' },
+      b2: { passos: '1. Rei convoca os Estados Gerais (maio de 1789).\n2. Terceiro Estado forma a Assembleia Nacional.\n3. Povo toma a Bastilha (14/07/1789).', compara: 'A Bastilha era mais símbolo que prisão cheia: derrubá-la foi como derrubar a estátua do poder do rei.' },
+      b3: { passos: '1. Leia o lema: liberdade, igualdade, fraternidade.\n2. Relacione à Declaração de 1789: todos nascem livres e iguais em direitos.\n3. Perceba a ruptura com os privilégios de nascimento.', compara: 'Antes, o que valia era a família em que você nascia; a Declaração passou a dizer que a lei vale igual para todos (embora, na prática, mulheres e escravizados tenham ficado de fora).' },
+      b4: { passos: '1. Monarquia constitucional (1789–1792).\n2. Convenção/República e Terror (1792–1795).\n3. Diretório (1795–1799).\n4. Golpe de Napoleão (18 Brumário, 1799).', compara: 'As fases são como um pêndulo: começa moderada, radicaliza no Terror e volta para um governo mais conservador.' },
+      b5: { passos: '1. Fim do Antigo Regime na França.\n2. Difusão das ideias de cidadania e direitos.\n3. Inspiração para outras revoluções.\n4. Marco do início da Idade Contemporânea (1789).', compara: 'Muitos direitos que hoje parecem óbvios, como igualdade perante a lei, ganharam força a partir daqui.' },
+    },
+    equivalentQuestions: eqsPt(['Revolução Francesa'], ['causas da revolução francesa', 'o que foi a queda da bastilha', 'o que eram os três estados', 'o que foi o terror', 'quem foi robespierre', 'o que foi a declaração dos direitos do homem e do cidadão', 'lema liberdade igualdade fraternidade', 'fases da revolução francesa', 'como napoleão chegou ao poder', 'o que era o antigo regime']),
+    commonErrors: ['Achar que o Terceiro Estado era só a burguesia (incluía camponeses e trabalhadores).', 'Confundir as fases da revolução.', 'Achar que a Declaração garantiu direitos a todos na prática (mulheres e escravizados ficaram de fora).'],
+    sources: [SRC.bncc('História — Anos Finais'), SRC.autoral()],
+    history: {
+      period: '1789–1799', place: 'França',
+      timeline: [{ date: 'maio de 1789', event: 'Convocação dos Estados Gerais' }, { date: '14 de julho de 1789', event: 'Queda da Bastilha' }, { date: 'agosto de 1789', event: 'Declaração dos Direitos do Homem e do Cidadão' }, { date: '1792', event: 'Proclamação da República' }, { date: '1793', event: 'Execução de Luís XVI; início do Terror' }, { date: '1799', event: 'Golpe do 18 Brumário: Napoleão chega ao poder' }],
+      people: [{ name: 'Luís XVI', role: 'rei da França, executado em 1793' }, { name: 'Maximilien de Robespierre', role: 'líder jacobino no período do Terror' }, { name: 'Napoleão Bonaparte', role: 'general que tomou o poder em 1799' }],
+      causes: ['Crise financeira do Estado francês', 'Privilégios do clero e da nobreza', 'Fome e alta dos preços do pão', 'Difusão das ideias iluministas'],
+      consequences: ['Fim do Antigo Regime na França', 'Difusão dos ideais de cidadania e direitos', 'Inspiração para revoluções e independências na América'],
+      interpretations: ['Historiadores de tradição marxista a interpretam como revolução burguesa; outras correntes destacam fatores políticos e culturais, como a nova linguagem dos direitos.'],
+    },
+  },
+  'his-brasil-colonia': {
+    objective: 'Descrever a ocupação portuguesa do território que viria a ser o Brasil (pau-brasil, capitanias hereditárias e governo-geral), reconhecer a presença indígena anterior e a centralidade do açúcar e da escravidão na economia colonial.',
+    prerequisites: ['his-grandes-navegacoes', 'his-povos-indigenas'], next: ['his-escravidao-abolicao', 'his-independencia-brasil'],
+    variants: {
+      b1: { simples: 'Em 1500 os portugueses chegaram a uma terra que já tinha milhões de indígenas e começaram tirando pau-brasil.', exemplo: 'O pau-brasil era trocado com indígenas por objetos (escambo) e levado para a Europa como corante vermelho.', passos: '1. Data: abril de 1500.\n2. Quem: esquadra de Cabral.\n3. Onde: litoral da atual Bahia.\n4. Primeira riqueza explorada: pau-brasil.', compara: 'Dizer que o Brasil foi “descoberto” apaga os povos que já viviam aqui há milhares de anos; historiadores preferem “chegada dos portugueses”.' },
+      b2: { simples: 'Portugal dividiu a terra em faixas e entregou cada uma a um donatário.', exemplo: 'Pernambuco, de Duarte Coelho, e São Vicente, de Martim Afonso, foram capitanias que prosperaram com o açúcar.', passos: '1. Ano: 1534.\n2. Território dividido em faixas.\n3. Donatários deviam povoar e defender por conta própria.\n4. A maioria fracassou por falta de recursos e conflitos.', compara: 'Era como um dono de terras que entrega lotes a gerentes para administrarem com o próprio dinheiro: poucos conseguiram.' },
+      b3: { simples: 'Portugal criou um governo central e Salvador virou a primeira capital.', exemplo: 'Com Tomé de Sousa vieram os primeiros jesuítas, liderados por Manuel da Nóbrega.', passos: '1. Problema: capitanias isoladas e fracas.\n2. Solução: governo-geral (1549).\n3. Primeiro governador: Tomé de Sousa.\n4. Fundou Salvador, capital até 1763.', compara: 'O governo-geral foi como colocar um coordenador para todos os gerentes: as capitanias continuaram, mas sob um comando central.' },
+      b4: { simples: 'O açúcar era a grande riqueza, produzido com trabalho escravizado de africanos e indígenas.', exemplo: 'Um engenho tinha canaviais, a moenda, a casa-grande do senhor e a senzala dos escravizados.', passos: '1. Produto principal: açúcar.\n2. Região: litoral do Nordeste.\n3. Mão de obra: africanos escravizados (e indígenas).\n4. Destino: mercado europeu.', compara: 'A colônia funcionava para enriquecer a metrópole: produzia o que a Europa queria comprar, com trabalho forçado.' },
+    },
+    equivalentQuestions: eqsPt(['Brasil Colônia'], ['chegada dos portugueses ao brasil', 'quem foi pedro álvares cabral', 'o que eram as capitanias hereditárias', 'o que foi o governo geral', 'primeira capital do brasil', 'quem foi tomé de sousa', 'ciclo do pau-brasil', 'economia açucareira', 'o que eram os engenhos', 'escravidão no brasil colônia']),
+    commonErrors: ['Dizer que a terra estava vazia em 1500.', 'Achar que o governo-geral acabou com as capitanias.', 'Esquecer que indígenas também foram escravizados.'],
+    sources: [SRC.bncc('História — Anos Finais'), SRC.autoral()],
+    history: {
+      period: '1500–1822', place: 'América portuguesa',
+      timeline: [{ date: 'abril de 1500', event: 'Chegada da esquadra de Pedro Álvares Cabral' }, { date: '1532', event: 'Fundação da vila de São Vicente' }, { date: '1534', event: 'Criação das capitanias hereditárias' }, { date: '1549', event: 'Governo-geral de Tomé de Sousa e fundação de Salvador' }, { date: '1763', event: 'Capital transferida para o Rio de Janeiro' }],
+      people: [{ name: 'Pedro Álvares Cabral', role: 'comandante da esquadra de 1500' }, { name: 'Tomé de Sousa', role: 'primeiro governador-geral' }, { name: 'Manuel da Nóbrega', role: 'líder dos primeiros jesuítas' }],
+      causes: ['Expansão marítima portuguesa', 'Busca de riquezas e rotas comerciais', 'Necessidade de defender o território de outros europeus'],
+      consequences: ['Ocupação do território e violência contra os povos indígenas', 'Economia açucareira baseada na escravidão africana', 'Formação de uma sociedade profundamente desigual'],
+    },
+    games: {
+      words: [{ word: 'Cabral', clue: 'comandou a esquadra de 1500', difficulty: 1 }, { word: 'capitanias', clue: 'faixas de terra hereditárias', difficulty: 2 }, { word: 'Salvador', clue: 'primeira capital', difficulty: 1 }, { word: 'engenho', clue: 'onde se produzia o açúcar', difficulty: 1 }, { word: 'donatário', clue: 'recebia uma capitania', difficulty: 3 }, { word: 'açúcar', clue: 'principal produto colonial', difficulty: 1 }, { word: 'paubrasil', clue: 'árvore do corante vermelho (sem hífen)', difficulty: 2 }],
+      sequences: [{ prompt: 'Coloque os acontecimentos do início da colonização em ordem.', difficulty: 2, items: ['Chegada da esquadra de Cabral (1500)', 'Exploração do pau-brasil', 'Criação das capitanias hereditárias (1534)', 'Criação do governo-geral e fundação de Salvador (1549)'], explanation: '1500 → pau-brasil → 1534 capitanias → 1549 governo-geral.' }],
+      map: { map: 'brasil', prompt: 'Lugares importantes no início da colonização (divisão atual dos estados).', targets: [{ id: 'BA', label: 'Bahia', clue: 'onde a esquadra de Cabral chegou e onde foi fundada Salvador', difficulty: 1 }, { id: 'PE', label: 'Pernambuco', clue: 'capitania de Duarte Coelho, grande produtora de açúcar', difficulty: 2 }, { id: 'SP', label: 'São Paulo', clue: 'onde ficava a vila de São Vicente, fundada em 1532', difficulty: 2 }, { id: 'RJ', label: 'Rio de Janeiro', clue: 'cidade fundada em 1565 que viraria capital em 1763', difficulty: 3 }] },
+    },
+  },
+  'his-independencia-brasil': {
+    objective: 'Relacionar a vinda da família real (1808) ao processo de independência, identificar os marcos de 1822 (Dia do Fico e 7 de Setembro) e reconhecer as guerras de independência e o reconhecimento por Portugal em 1825.',
+    prerequisites: ['his-brasil-colonia', 'his-revolucao-francesa'], next: ['his-brasil-imperio'],
+    variants: {
+      b1: { simples: 'A família real veio ao Brasil em 1808 fugindo de Napoleão, e o Brasil ganhou importância.', exemplo: 'A abertura dos portos às nações amigas (1808) permitiu o comércio direto com outros países, sobretudo a Inglaterra.', passos: '1. Causa: invasão de Portugal por Napoleão.\n2. 1808: corte chega ao Rio de Janeiro.\n3. Mudanças: portos abertos, Banco do Brasil, imprensa.\n4. 1815: Reino Unido a Portugal e Algarves.', compara: 'É como se a sede de uma empresa se mudasse para a filial: a filial passa a ser tratada como central.' },
+      b2: { simples: 'Portugal mandou Dom Pedro voltar, e ele decidiu ficar no Brasil.', exemplo: '“Se é para o bem de todos e felicidade geral da nação, diga ao povo que fico” — frase atribuída a Dom Pedro em 9/01/1822.', passos: '1. 1821: Dom João VI volta a Portugal.\n2. Cortes exigem a volta de Dom Pedro e querem recolonizar o Brasil.\n3. 9/01/1822: Dom Pedro decide ficar.', compara: 'Ficar foi como recusar a ordem de voltar para casa: um sinal claro de rompimento.' },
+      b3: { simples: 'No dia 7 de setembro de 1822, Dom Pedro declarou o Brasil independente.', exemplo: 'O episódio ficou conhecido como o “Grito do Ipiranga”, em São Paulo.', passos: '1. Data: 7/09/1822.\n2. Local: margens do Ipiranga (SP).\n3. Dezembro de 1822: Dom Pedro I coroado imperador.\n4. Forma de governo: monarquia.', compara: 'Diferente de vizinhos que viraram repúblicas, o Brasil se tornou independente mantendo um imperador da própria família real portuguesa.' },
+      b4: { simples: 'A independência não foi pacífica: houve guerras, e Portugal só reconheceu em 1825.', exemplo: 'Em 2 de julho de 1823 as tropas portuguesas deixaram Salvador; a data é feriado na Bahia.', passos: '1. Resistência portuguesa na Bahia, Maranhão, Piauí, Pará e Cisplatina.\n2. Vitórias brasileiras até 1823–1824.\n3. 1825: Tratado de reconhecimento, com indenização paga a Portugal.', compara: 'O 7 de setembro foi a declaração; as guerras e o tratado de 1825 foram o que tornou a independência real.' },
+    },
+    equivalentQuestions: eqsPt(['Independência do Brasil'], ['por que a família real veio para o brasil', 'o que foi o dia do fico', 'o que aconteceu em 7 de setembro de 1822', 'grito do ipiranga', 'quem proclamou a independência', 'independência da bahia 2 de julho', 'quando portugal reconheceu a independência', 'abertura dos portos 1808', 'primeiro imperador do brasil', 'o brasil virou república na independência']),
+    commonErrors: ['Achar que a independência foi pacífica e instantânea.', 'Achar que o Brasil virou república em 1822 (virou monarquia).', 'Confundir 1808 (chegada da corte) com 1822 (independência).'],
+    sources: [SRC.bncc('História — Anos Finais'), SRC.autoral()],
+    history: {
+      period: '1808–1825', place: 'Brasil',
+      timeline: [{ date: '1808', event: 'Chegada da família real ao Rio de Janeiro e abertura dos portos' }, { date: '1815', event: 'Brasil elevado a Reino Unido a Portugal e Algarves' }, { date: '1821', event: 'Retorno de Dom João VI a Portugal' }, { date: '9 de janeiro de 1822', event: 'Dia do Fico' }, { date: '7 de setembro de 1822', event: 'Proclamação da Independência' }, { date: '2 de julho de 1823', event: 'Independência da Bahia' }, { date: '1825', event: 'Reconhecimento por Portugal' }],
+      people: [{ name: 'Dom João VI', role: 'rei de Portugal que trouxe a corte ao Brasil' }, { name: 'Dom Pedro I', role: 'príncipe regente que proclamou a independência' }, { name: 'Maria Leopoldina', role: 'imperatriz que apoiou a ruptura com Portugal' }, { name: 'José Bonifácio', role: 'ministro e articulador político da independência' }],
+      causes: ['Vinda da corte e maior autonomia do Brasil', 'Tentativa das Cortes de Lisboa de recolonizar o Brasil', 'Interesses das elites locais'],
+      consequences: ['Brasil independente como monarquia', 'Manutenção da escravidão e da estrutura agrária', 'Dívida assumida com o reconhecimento'],
+      interpretations: ['Parte dos historiadores destaca o caráter negociado e elitista da independência; outros ressaltam as guerras e a participação popular nas províncias.'],
+    },
+    games: {
+      words: [{ word: 'Ipiranga', clue: 'riacho do 7 de setembro', difficulty: 1 }, { word: 'Fico', clue: 'dia em que Dom Pedro decidiu ficar', difficulty: 1 }, { word: 'imperador', clue: 'título de Dom Pedro I', difficulty: 2 }, { word: 'Napoleão', clue: 'invadiu Portugal em 1807', difficulty: 2 }, { word: 'monarquia', clue: 'forma de governo após 1822', difficulty: 2 }, { word: 'Leopoldina', clue: 'imperatriz que apoiou a independência', difficulty: 3 }],
+      sequences: [{ prompt: 'Coloque os fatos da Independência em ordem.', difficulty: 2, items: ['Chegada da família real ao Rio (1808)', 'Brasil elevado a Reino Unido (1815)', 'Dia do Fico (9 de janeiro de 1822)', 'Proclamação da Independência (7 de setembro de 1822)', 'Independência da Bahia (2 de julho de 1823)', 'Reconhecimento por Portugal (1825)'], explanation: '1808 → 1815 → jan/1822 → set/1822 → jul/1823 → 1825.' }],
+      map: { map: 'brasil', prompt: 'Lugares ligados à Independência (divisão atual dos estados).', targets: [{ id: 'SP', label: 'São Paulo', clue: 'onde fica o riacho Ipiranga', difficulty: 1 }, { id: 'RJ', label: 'Rio de Janeiro', clue: 'sede da corte a partir de 1808', difficulty: 1 }, { id: 'BA', label: 'Bahia', clue: 'onde a luta terminou em 2 de julho de 1823', difficulty: 2 }, { id: 'MA', label: 'Maranhão', clue: 'província que resistiu e só aderiu em 1823', difficulty: 3 }] },
+    },
+  },
+  'his-segunda-guerra': {
+    objective: 'Relacionar a crise do pós-Primeira Guerra à ascensão de regimes totalitários, identificar Eixo e Aliados, reconhecer o Holocausto e os principais marcos do conflito (1939–1945) e a participação brasileira com a FEB.',
+    prerequisites: ['his-primeira-guerra', 'his-era-vargas'], next: ['his-guerra-fria'],
+    variants: {
+      b1: { simples: 'Crise e ressentimento depois da Primeira Guerra ajudaram ditadores como Hitler a chegar ao poder; a guerra começou em 1939.', exemplo: 'O Tratado de Versalhes (1919) impôs perdas e indenizações à Alemanha, e a crise de 1929 piorou o desemprego.', passos: '1. Pós-1918: Tratado de Versalhes e ressentimento alemão.\n2. 1929: crise econômica mundial.\n3. Ascensão do fascismo (Itália) e do nazismo (Alemanha).\n4. 1º/09/1939: Alemanha invade a Polônia.', compara: 'Crise econômica e medo abriram espaço para líderes que prometiam soluções fáceis e culpavam grupos inteiros pelos problemas.' },
+      b2: { simples: 'De um lado o Eixo (Alemanha, Itália, Japão); do outro os Aliados (Reino Unido, França, URSS, EUA…).', exemplo: 'Os EUA entraram na guerra depois do ataque japonês a Pearl Harbor, em dezembro de 1941.', passos: '1. Eixo: Alemanha, Itália e Japão.\n2. Aliados: Reino Unido, França, depois URSS (1941) e EUA (1941).\n3. Brasil: Aliados a partir de 1942.', compara: 'A URSS começou com um pacto de não agressão com a Alemanha (1939) e mudou de lado quando foi invadida em 1941.' },
+      b3: { simples: 'O nazismo matou cerca de 6 milhões de judeus no Holocausto; a guerra terminou em 1945.', exemplo: 'Auschwitz, na Polônia ocupada, foi o maior campo de extermínio nazista.', passos: '1. Holocausto: perseguição e extermínio de judeus, ciganos e outros grupos.\n2. 1943: derrota alemã em Stalingrado.\n3. 06/1944: Dia D.\n4. 05/1945: rendição alemã; 08–09/1945: bombas atômicas e rendição japonesa.', compara: 'O Holocausto mostra até onde o ódio organizado pelo Estado pode chegar; por isso é lembrado para que nunca se repita.' },
+      b4: { simples: 'O Brasil entrou na guerra em 1942 e mandou a FEB lutar na Itália.', exemplo: 'O símbolo da FEB era uma cobra fumando: diziam que era “mais fácil uma cobra fumar” do que o Brasil ir à guerra.', passos: '1. 1942: navios brasileiros afundados por submarinos do Eixo.\n2. Brasil declara guerra ao Eixo.\n3. 1944: FEB embarca para a Itália.\n4. 21/02/1945: vitória em Monte Castelo.', compara: 'Havia uma contradição: o Brasil lutava contra ditaduras na Europa vivendo sob a ditadura do Estado Novo de Vargas.' },
+    },
+    equivalentQuestions: eqsPt(['Segunda Guerra Mundial'], ['causas da segunda guerra', 'quem eram os países do eixo', 'quem eram os aliados', 'o que foi o holocausto', 'o que foi o dia d', 'quando começou a segunda guerra', 'quando terminou a segunda guerra', 'o que foi a feb', 'monte castelo', 'bombas de hiroshima e nagasaki']),
+    commonErrors: ['Achar que a URSS esteve sempre ao lado dos Aliados (houve o pacto de 1939).', 'Esquecer que o Holocausto também atingiu ciganos, pessoas com deficiência e outros grupos.', 'Achar que a guerra terminou na Europa e no Pacífico ao mesmo tempo.'],
+    sources: [SRC.bncc('História — Anos Finais'), SRC.web('Enciclopédia do Holocausto', 'https://encyclopedia.ushmm.org/pt', 'Museu Memorial do Holocausto dos Estados Unidos (USHMM)', 'instituicao'), SRC.autoral()],
+    history: {
+      period: '1939–1945', place: 'Europa, Ásia, África e oceanos',
+      timeline: [{ date: '1º de setembro de 1939', event: 'Alemanha invade a Polônia' }, { date: 'junho de 1941', event: 'Alemanha invade a União Soviética' }, { date: 'dezembro de 1941', event: 'Ataque japonês a Pearl Harbor; EUA entram na guerra' }, { date: '1942', event: 'Brasil declara guerra ao Eixo' }, { date: 'fevereiro de 1943', event: 'Derrota alemã em Stalingrado' }, { date: '6 de junho de 1944', event: 'Dia D na Normandia' }, { date: '8 de maio de 1945', event: 'Rendição da Alemanha' }, { date: '2 de setembro de 1945', event: 'Rendição formal do Japão' }],
+      people: [{ name: 'Adolf Hitler', role: 'ditador nazista da Alemanha' }, { name: 'Benito Mussolini', role: 'ditador fascista da Itália' }, { name: 'Winston Churchill', role: 'primeiro-ministro do Reino Unido' }, { name: 'Franklin D. Roosevelt', role: 'presidente dos EUA' }, { name: 'Josef Stalin', role: 'líder da União Soviética' }],
+      causes: ['Ressentimentos do Tratado de Versalhes', 'Crise econômica de 1929', 'Ascensão de regimes totalitários e expansionistas'],
+      consequences: ['Dezenas de milhões de mortos e o Holocausto', 'Criação da ONU (1945)', 'Início da Guerra Fria entre EUA e URSS'],
+    },
   },
 }

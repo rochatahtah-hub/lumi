@@ -15,62 +15,18 @@ OFICIAL  mat-regra-de-tres
 OFICIAL  mat-sistemas-equacoes
    · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
 OFICIAL  his-revolucao-francesa
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "A França antes de 1789" sem reformulação "passos"
-   · bloco "O início: 1789" sem reformulação "passos"
-   · bloco "Liberdade, Igualdade, Fraternidade" sem reformulação "passos"
-   · bloco "As fases da revolução" sem reformulação "passos"
-   · bloco "O que ela deixou" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · História sem período e linha do tempo
+   · trilha aponta para conteúdo ainda não criado "his-iluminismo-absolutismo"
+   · trilha aponta para conteúdo ainda não criado "his-revolucao-industrial"
 OFICIAL  his-brasil-colonia
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "A chegada em 1500" sem reformulação "simples"
-   · bloco "A chegada em 1500" sem reformulação "exemplo"
-   · bloco "A chegada em 1500" sem reformulação "passos"
-   · bloco "As capitanias hereditárias (1534)" sem reformulação "simples"
-   · bloco "As capitanias hereditárias (1534)" sem reformulação "exemplo"
-   · bloco "As capitanias hereditárias (1534)" sem reformulação "passos"
-   · bloco "O governo-geral (1549)" sem reformulação "simples"
-   · bloco "O governo-geral (1549)" sem reformulação "exemplo"
-   · bloco "O governo-geral (1549)" sem reformulação "passos"
-   · bloco "Açúcar e escravidão" sem reformulação "simples"
-   · bloco "Açúcar e escravidão" sem reformulação "exemplo"
-   · bloco "Açúcar e escravidão" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · História sem período e linha do tempo
+   · trilha aponta para conteúdo ainda não criado "his-grandes-navegacoes"
+   · trilha aponta para conteúdo ainda não criado "his-povos-indigenas"
+   · trilha aponta para conteúdo ainda não criado "his-escravidao-abolicao"
 OFICIAL  his-independencia-brasil
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "A família real no Brasil" sem reformulação "simples"
-   · bloco "A família real no Brasil" sem reformulação "exemplo"
-   · bloco "A família real no Brasil" sem reformulação "passos"
-   · bloco "O Dia do Fico (1822)" sem reformulação "simples"
-   · bloco "O Dia do Fico (1822)" sem reformulação "exemplo"
-   · bloco "O Dia do Fico (1822)" sem reformulação "passos"
-   · bloco "O 7 de setembro" sem reformulação "simples"
-   · bloco "O 7 de setembro" sem reformulação "exemplo"
-   · bloco "O 7 de setembro" sem reformulação "passos"
-   · bloco "Guerras e reconhecimento" sem reformulação "simples"
-   · bloco "Guerras e reconhecimento" sem reformulação "exemplo"
-   · bloco "Guerras e reconhecimento" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · História sem período e linha do tempo
+   · trilha aponta para conteúdo ainda não criado "his-brasil-imperio"
 OFICIAL  his-segunda-guerra
-   · objetivo de aprendizagem vazio (formato antigo)
-   · bloco "Por que começou" sem reformulação "simples"
-   · bloco "Por que começou" sem reformulação "exemplo"
-   · bloco "Por que começou" sem reformulação "passos"
-   · bloco "Os dois lados" sem reformulação "simples"
-   · bloco "Os dois lados" sem reformulação "exemplo"
-   · bloco "Os dois lados" sem reformulação "passos"
-   · bloco "Fatos marcantes e o Holocausto" sem reformulação "simples"
-   · bloco "Fatos marcantes e o Holocausto" sem reformulação "exemplo"
-   · bloco "Fatos marcantes e o Holocausto" sem reformulação "passos"
-   · bloco "O Brasil na guerra" sem reformulação "simples"
-   · bloco "O Brasil na guerra" sem reformulação "exemplo"
-   · bloco "O Brasil na guerra" sem reformulação "passos"
-   · só 0 perguntas equivalentes (mínimo 20)
-   · História sem período e linha do tempo
+   · trilha aponta para conteúdo ainda não criado "his-primeira-guerra"
+   · trilha aponta para conteúdo ainda não criado "his-era-vargas"
+   · trilha aponta para conteúdo ainda não criado "his-guerra-fria"
 OFICIAL  geo-coordenadas
    · objetivo de aprendizagem vazio (formato antigo)
    · bloco "Paralelos e latitude" sem reformulação "passos"
