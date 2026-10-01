@@ -9,7 +9,7 @@ import { IT_COURSE } from './it-course'
 import { ES_PLACEMENT, FR_PLACEMENT, IT_PLACEMENT } from './placement'
 
 export type LangId = 'en' | 'es' | 'fr' | 'it'
-export const LANG_IDS: LangId[] = ['en', 'es', 'fr', 'it']
+export const LANG_IDS: LangId[] = ['en', 'es'] // Francês e Italiano: próxima semana após aulas criadas
 
 export interface LanguageDef {
   id: LangId
