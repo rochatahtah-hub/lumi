@@ -92,15 +92,25 @@ export default function Home() {
                 return (
                   <div key={id} className="relative">
                     {peek?.card === i && <CardPeek app={peek} row={Math.floor(i / 3)} />}
-                    <Link to={id === 'ingles' ? '/idiomas' : `/materia/${id}`} className="relative z-[1] flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
+                    <Link to={`/materia/${id}`} className="relative z-[1] flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
                       <SubjectIcon id={id} />
-                      <span className="text-sm font-medium leading-tight">{id === 'ingles' ? 'Idiomas' : s.name}</span>
+                      <span className="text-sm font-medium leading-tight">{s.name}</span>
                     </Link>
                   </div>
                 )
               })}
             </div>
           </div>
+        </section>
+
+        <section className="mt-8">
+          <h2 className="font-semibold">🌎 Aprenda Idiomas</h2>
+          <p className="mt-1 text-sm text-offwhite/75">Inglês avançado, Espanhol, Francês, Italiano</p>
+          <Link to="/idiomas" className="mt-3 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-laranja/20 to-laranja/10 px-4 py-3.5 text-offwhite border border-laranja/30">
+            <span className="text-2xl">🌍</span>
+            <span className="flex-1"><span className="block text-sm font-medium">Explorar Idiomas</span><span className="block text-xs text-offwhite/70">Cursos por nível CEFR</span></span>
+            <ChevronRight size={20} className="text-laranja" />
+          </Link>
         </section>
 
         <section className="mt-4 space-y-3">
