@@ -67,11 +67,7 @@ function LoginGate() {
     <>
       <TopBar title="🌎 Idiomas" />
       <Page>
-        <Card className="text-center">
-          <img src={MASCOT.peek.wave} alt="" aria-hidden className="mx-auto h-28 w-auto" />
-          <h1 className="mt-2 text-2xl font-bold">Entre para estudar idiomas</h1>
-          <p className="mt-2 text-cinza-texto">Na área de Idiomas o seu nível, a trilha e o vocabulário ficam salvos na sua conta — assim você continua de onde parou em qualquer aparelho. A área escolar continua livre, sem login.</p>
-        </Card>
+        <img src={new URL('../assets/idiomas-login.png', import.meta.url).href} alt="Entre para estudar idiomas" className="w-full rounded-3xl shadow-lg" />
         {!prov ? (
           <p className="mt-5 text-center text-sm text-cinza-texto">Carregando…</p>
         ) : (
