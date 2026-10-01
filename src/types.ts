@@ -1,5 +1,5 @@
 export type SubjectId =
-  | 'matematica' | 'portugues' | 'ciencias' | 'historia' | 'geografia' | 'ingles'
+  | 'matematica' | 'portugues' | 'ciencias' | 'historia' | 'geografia' | 'ingles' | 'espanhol' | 'frances' | 'italiano'
   | 'fisica' | 'quimica' | 'biologia' | 'literatura' | 'filosofia' | 'sociologia' | 'artes'
   | 'redacao' | 'edfisica'
 

@@ -57,9 +57,9 @@ export default function ProgressPage() {
         <GamesCard />
 
         {(s.english.placement || Object.keys(s.english.views).length > 0) && (
-          <Link to="/ingles" className="mt-4 flex items-center gap-3 rounded-3xl border border-cinza bg-white p-4 hover:border-laranja">
-            <span className="text-3xl" aria-hidden>🇬🇧</span>
-            <span className="flex-1"><span className="block font-semibold">Inglês · nível {buildTrail(s).level}</span><span className="block text-sm text-cinza-texto">{wordsLearned(s)} palavras aprendidas · {Object.values(s.english.unitTests).filter((t) => t.best >= 70).length} unidades dominadas</span></span>
+          <Link to="/idiomas/aprendizado" className="mt-4 flex items-center gap-3 rounded-3xl border border-cinza bg-white p-4 hover:border-laranja">
+            <span className="text-3xl" aria-hidden>🌎</span>
+            <span className="flex-1"><span className="block font-semibold">Idiomas · Inglês {buildTrail(s).level}</span><span className="block text-sm text-cinza-texto">{wordsLearned(s)} palavras aprendidas · {Object.values(s.english.unitTests).filter((t) => t.best >= 70).length} unidades dominadas</span></span>
             <ChevronRight size={18} className="text-cinza-texto" />
           </Link>
         )}

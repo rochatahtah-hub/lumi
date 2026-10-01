@@ -3,7 +3,7 @@ import type { SubjectId } from '../types'
 import { subjectById } from '../content/subjects'
 
 const ICONS: Record<SubjectId, LucideIcon> = {
-  matematica: Pi, portugues: BookOpen, ciencias: FlaskConical, historia: Landmark, geografia: Earth, ingles: Languages,
+  matematica: Pi, portugues: BookOpen, ciencias: FlaskConical, historia: Landmark, geografia: Earth, ingles: Languages, espanhol: Languages, frances: Languages, italiano: Languages,
   fisica: Atom, quimica: TestTubes, biologia: Dna, literatura: BookMarked, filosofia: Brain, sociologia: Users, artes: Palette, redacao: PenLine, edfisica: Dumbbell,
 }
 

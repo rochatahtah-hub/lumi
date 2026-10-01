@@ -9,6 +9,9 @@ import type { GameId } from './registry'
 
 const PRIORITY: Partial<Record<SubjectId, GameId[]>> = {
   ingles: ['memoria', 'quiz', 'complete', 'caca', 'ligue', 'dialogo', 'ordem', 'listening', 'reading', 'mapa', 'quebra'],
+  espanhol: ['memoria', 'quiz', 'complete', 'caca', 'ligue', 'dialogo', 'ordem', 'listening', 'reading', 'quebra'],
+  frances: ['memoria', 'quiz', 'complete', 'caca', 'ligue', 'dialogo', 'ordem', 'listening', 'reading', 'quebra'],
+  italiano: ['memoria', 'quiz', 'complete', 'caca', 'ligue', 'dialogo', 'ordem', 'listening', 'reading', 'quebra'],
   historia: ['caca', 'memoria', 'ordem', 'quiz', 'mapa', 'ligue', 'quebra', 'complete'],
   geografia: ['mapa', 'quiz', 'memoria', 'caca', 'ligue', 'quebra', 'ordem', 'complete'],
   matematica: ['quiz', 'complete', 'ordem', 'ligue', 'memoria', 'quebra', 'caca'],
@@ -41,7 +44,7 @@ export function recommendedGames(s: LumiState = getState(), max = 6): Recommenda
   // sem histórico ainda: sugestões variadas da base
   for (const l of allLessons().filter((x) => x.origin === 'base' || x.origin === 'nuvem')) {
     if (out.length >= Math.min(max, 4)) break
-    if (['ingles', 'historia', 'geografia', 'ciencias'].includes(l.subject)) add(l, 'Para começar')
+    if (['ingles', 'espanhol', 'frances', 'italiano', 'historia', 'geografia', 'ciencias'].includes(l.subject)) add(l, 'Para começar')
   }
   return out
 }

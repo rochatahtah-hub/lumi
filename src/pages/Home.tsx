@@ -79,9 +79,9 @@ export default function Home() {
                 return (
                   <div key={id} className="relative">
                     {peek?.card === i && <CardPeek app={peek} row={Math.floor(i / 3)} />}
-                    <Link to={`/materia/${id}`} className="relative z-[1] flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
+                    <Link to={id === 'ingles' ? '/idiomas' : `/materia/${id}`} className="relative z-[1] flex min-h-24 flex-col justify-between gap-2 rounded-2xl bg-white p-3 text-grafite shadow-sm transition hover:-translate-y-0.5 active:scale-[.98]">
                       <SubjectIcon id={id} />
-                      <span className="text-sm font-medium leading-tight">{s.name}</span>
+                      <span className="text-sm font-medium leading-tight">{id === 'ingles' ? 'Idiomas' : s.name}</span>
                     </Link>
                   </div>
                 )

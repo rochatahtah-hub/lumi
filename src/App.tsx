@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { BottomNav } from './components/BottomNav'
 import { Spinner } from './components/ui'
+import { RequireAccount } from './components/RequireAccount'
 import Home from './pages/Home'
 import SubjectPage from './pages/Subject'
 import StudyStart from './pages/StudyStart'
@@ -32,6 +33,16 @@ const EnglishHome = lazy(() => import('./pages/english/EnglishHome'))
 const EnglishUnit = lazy(() => import('./pages/english/EnglishUnit'))
 const EnglishReview = lazy(() => import('./pages/english/EnglishReview'))
 const Placement = lazy(() => import('./pages/english/Placement'))
+const Languages = lazy(() => import('./pages/languages/Languages'))
+const LanguageDashboard = lazy(() => import('./pages/languages/LanguageDashboard'))
+const Conversation = lazy(() => import('./pages/languages/Conversation'))
+
+/** endereços antigos do curso de Inglês → área de Idiomas */
+function LegacyEnglish() {
+  const { pathname, search } = useLocation()
+  return <Navigate to={pathname.replace(/^\/ingles/, '/idiomas/en') + search} replace />
+}
+const Lang = ({ children }: { children: React.ReactNode }) => <RequireAccount><Lazy>{children}</Lazy></RequireAccount>
 
 /** a navegação inferior só aparece nas telas "de casa" — nas aulas, a atenção fica no conteúdo */
 const NAV_ROUTES = ['/', '/jogos', '/progresso', '/conquistas', '/mais']
@@ -81,10 +92,14 @@ export default function App() {
         <Route path="/jogos" element={<Lazy><GamesPage /></Lazy>} />
         <Route path="/jogos/:game" element={<Lazy><GamePlayPage /></Lazy>} />
         <Route path="/jogos/:game/:lessonId" element={<Lazy><GamePlayPage /></Lazy>} />
-        <Route path="/ingles" element={<Lazy><EnglishHome /></Lazy>} />
-        <Route path="/ingles/nivelamento" element={<Lazy><Placement /></Lazy>} />
-        <Route path="/ingles/unidade/:id" element={<Lazy><EnglishUnit /></Lazy>} />
-        <Route path="/ingles/revisar" element={<Lazy><EnglishReview /></Lazy>} />
+        <Route path="/idiomas" element={<Lang><Languages /></Lang>} />
+        <Route path="/idiomas/conversacao" element={<Lang><Conversation /></Lang>} />
+        <Route path="/idiomas/aprendizado" element={<Lang><LanguageDashboard /></Lang>} />
+        <Route path="/idiomas/:lang" element={<Lang><EnglishHome /></Lang>} />
+        <Route path="/idiomas/:lang/nivelamento" element={<Lang><Placement /></Lang>} />
+        <Route path="/idiomas/:lang/unidade/:id" element={<Lang><EnglishUnit /></Lang>} />
+        <Route path="/idiomas/:lang/revisar" element={<Lang><EnglishReview /></Lang>} />
+        <Route path="/ingles/*" element={<LegacyEnglish />} />
         <Route path="/admin/*" element={<Suspense fallback={<Spinner label="Carregando painel…" />}><Admin /></Suspense>} />
         <Route path="*" element={<Home />} />
       </Routes>

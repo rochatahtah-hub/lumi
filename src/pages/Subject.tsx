@@ -1,3 +1,4 @@
+import { langOfSubject } from '../content/languages'
 import { useState } from 'react'
 import { CheckCircle2, ChevronRight, Search } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -34,10 +35,10 @@ export default function SubjectPage() {
           </div>
         </div>
 
-        {subject.id === 'ingles' && (
-          <Link to="/ingles" className="mt-5 flex items-center gap-3 rounded-3xl bg-grafite p-4 text-offwhite">
-            <span className="text-3xl" aria-hidden>🇬🇧</span>
-            <span className="flex-1"><span className="block font-semibold">Curso de Inglês do LUMI</span><span className="block text-sm text-offwhite/75">Trilha A1 → C1, nivelamento, revisão e jogos</span></span>
+        {langOfSubject(subject.id) && (
+          <Link to={`/idiomas/${langOfSubject(subject.id)!.id}`} className="mt-5 flex items-center gap-3 rounded-3xl bg-grafite p-4 text-offwhite">
+            <span className="text-3xl" aria-hidden>{langOfSubject(subject.id)!.flag}</span>
+            <span className="flex-1"><span className="block font-semibold">Curso de {subject.name} do LUMI</span><span className="block text-sm text-offwhite/75">Trilha A1 → C1, nivelamento, revisão e jogos</span></span>
             <ChevronRight className="text-laranja" />
           </Link>
         )}

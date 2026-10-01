@@ -1,8 +1,9 @@
 import { ArrowRight, Lightbulb } from 'lucide-react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Button, Card, Page, TopBar } from '../../components/ui'
 import { localReexplain } from '../../lib/ai'
-import { STATE_LABEL, buildEnglishReview, unitReviewPicks } from '../../lib/english'
+import { STATE_LABEL, buildEnglishReview, reviewId, unitReviewPicks } from '../../lib/english'
+import { langById } from '../../content/languages'
 import { resetVirtualLesson } from '../../lib/repo'
 import { getState } from '../../lib/store'
 
@@ -10,11 +11,12 @@ import { getState } from '../../lib/store'
 export default function EnglishReview() {
   const nav = useNavigate()
   const [params] = useSearchParams()
+  const lang = langById(useParams().lang)?.id ?? 'en'
   const unitId = params.get('unidade') ?? undefined
-  const picks = unitReviewPicks(getState(), unitId)
-  const id = unitId ? `revisao-ingles-${unitId}` : 'revisao-ingles'
+  const picks = unitReviewPicks(getState(), unitId, lang)
+  const id = reviewId(lang, unitId)
 
-  if (!picks.length || !buildEnglishReview(unitId)) {
+  if (!picks.length || !buildEnglishReview(unitId, lang)) {
     return (
       <>
         <TopBar title="Hora de revisar" />
@@ -23,7 +25,7 @@ export default function EnglishReview() {
             <p className="text-4xl">✨</p>
             <h2 className="mt-2 text-xl font-semibold">Nada para revisar agora</h2>
             <p className="mt-2 text-cinza-texto">Quando você errar alguma parte, ficar um tempo sem estudar um conteúdo ou tiver domínio baixo, ele aparece aqui.</p>
-            <Link to="/ingles" className="mt-5 inline-block font-semibold text-laranja">Voltar à trilha</Link>
+            <Link to={`/idiomas/${lang}`} className="mt-5 inline-block font-semibold text-laranja">Voltar à trilha</Link>
           </Card>
         </Page>
       </>

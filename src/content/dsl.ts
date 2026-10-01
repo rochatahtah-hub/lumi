@@ -124,3 +124,32 @@ export function eqsPt(names: string[], specific: string[]): string[] {
   for (const n of names) for (const x of t) out.push(x.replace('{n}', n))
   return [...new Map(out.map((q) => [q.toLowerCase(), q])).values()]
 }
+
+// ─────────────────────────── Espanhol, Francês e Italiano ───────────────────────────
+const CEFR_SRC = (): Source => SRC.web('Common European Framework of Reference for Languages (CEFR) — descritores de nível', 'https://www.coe.int/en/web/common-european-framework-reference-languages', 'Council of Europe', 'instituicao')
+export const esSources = (): Source[] => [
+  CEFR_SRC(),
+  SRC.web('Plan Curricular del Instituto Cervantes — Niveles de referencia para el español', 'https://cvc.cervantes.es/ensenanza/biblioteca_ele/plan_curricular/', 'Instituto Cervantes', 'instituicao'),
+  SRC.web('Diccionario de la lengua española', 'https://dle.rae.es/', 'Real Academia Española (RAE) / ASALE', 'instituicao'),
+  SRC.autoral(),
+]
+export const frSources = (): Source[] => [
+  CEFR_SRC(),
+  SRC.web('DELF / DALF — descritores dos níveis de francês', 'https://www.france-education-international.fr/', 'France Éducation international', 'instituicao'),
+  SRC.web('Dictionnaire de français', 'https://www.larousse.fr/dictionnaires/francais', 'Larousse', 'instituicao'),
+  SRC.autoral(),
+]
+export const itSources = (): Source[] => [
+  CEFR_SRC(),
+  SRC.web('Lingua italiana — consulenza e dúvidas linguísticas', 'https://accademiadellacrusca.it/', 'Accademia della Crusca', 'instituicao'),
+  SRC.web('Vocabolario della lingua italiana', 'https://www.treccani.it/vocabolario/', 'Istituto della Enciclopedia Italiana (Treccani)', 'instituicao'),
+  SRC.autoral(),
+]
+
+/** perguntas equivalentes para Espanhol/Francês/Italiano ("{n} em espanhol"…) */
+export function eqsLang(lang: 'espanhol' | 'francês' | 'italiano', names: string[], specific: string[]): string[] {
+  const t = ['o que é {n}', 'como usar {n}', 'me explica {n}', 'exemplos de {n}', '{n} em ' + lang, 'exercícios de {n}', 'aula de {n}', 'não entendi {n}', 'dúvida sobre {n}', 'resumo de {n}']
+  const out = [...specific]
+  for (const n of names) for (const x of t) out.push(x.replace('{n}', n))
+  return [...new Map(out.map((q) => [q.toLowerCase(), q])).values()]
+}

@@ -4,9 +4,15 @@
 
 export const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
 
-function englishVoice(): SpeechSynthesisVoice | undefined {
+/** idioma padrão da voz: a tela de idioma define (en-US, es-ES, fr-FR, it-IT) */
+let defaultLocale = 'en-US'
+export const setSpeechLocale = (locale: string) => { defaultLocale = locale }
+
+function voiceFor(locale: string): SpeechSynthesisVoice | undefined {
   const voices = window.speechSynthesis.getVoices()
-  return voices.find((v) => v.lang === 'en-US' && /google|samantha|microsoft/i.test(v.name)) ?? voices.find((v) => v.lang.startsWith('en'))
+  const base = locale.slice(0, 2)
+  return voices.find((v) => v.lang.replace('_', '-') === locale && /google|samantha|microsoft|natural/i.test(v.name))
+    ?? voices.find((v) => v.lang.replace('_', '-') === locale) ?? voices.find((v) => v.lang.startsWith(base))
 }
 
 /** fala um texto (ou vários, em sequência) e resolve quando termina */
@@ -18,10 +24,10 @@ export function speak(text: string | string[], opts: { rate?: number; lang?: str
     let left = parts.length
     for (const p of parts) {
       const u = new SpeechSynthesisUtterance(p)
-      u.lang = opts.lang ?? 'en-US'
+      u.lang = opts.lang ?? defaultLocale
       u.rate = opts.rate ?? 0.95
-      const v = englishVoice()
-      if (v && u.lang.startsWith('en')) u.voice = v
+      const v = voiceFor(u.lang)
+      if (v) u.voice = v
       u.onend = u.onerror = () => { if (--left === 0) resolve() }
       window.speechSynthesis.speak(u)
     }
@@ -37,12 +43,12 @@ const RecognitionCtor = typeof window !== 'undefined'
   : undefined
 export const canListen = !!RecognitionCtor
 
-/** escuta o aluno em inglês e devolve o que foi reconhecido ('' se não entendeu) */
-export function listen(timeoutMs = 9000): Promise<string> {
+/** escuta o aluno no idioma da aula e devolve o que foi reconhecido ('' se não entendeu) */
+export function listen(timeoutMs = 9000, lang = defaultLocale): Promise<string> {
   if (!RecognitionCtor) return Promise.resolve('')
   return new Promise((resolve) => {
     const r = new RecognitionCtor()
-    r.lang = 'en-US'
+    r.lang = lang
     r.interimResults = false
     r.maxAlternatives = 1
     let text = ''

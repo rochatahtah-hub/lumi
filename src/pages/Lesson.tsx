@@ -1,3 +1,5 @@
+import { setSpeechLocale } from '../lib/speech'
+import { localeOfSubject } from '../content/languages'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, CircleHelp, Lightbulb } from 'lucide-react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -7,7 +9,8 @@ import { aiEnabled, aiReexplain, localReexplain } from '../lib/ai'
 import { getLesson } from '../lib/repo'
 import { getState, markLessonViewed, setState, useLumi } from '../lib/store'
 import { EnglishPractice, GrammarBox, VocabularyList } from '../components/english/EnglishPractice'
-import { unitOfLesson } from '../content/english/course'
+import { unitOfLesson } from '../lib/english'
+import { langOfSubject } from '../content/languages'
 import type { Block, LevelId, ReexplainMode } from '../types'
 
 /** as reformulações da base: muito simples, exemplo do cotidiano, passo a passo, comparando (+ detalhada) */
@@ -31,6 +34,7 @@ export default function LessonPage() {
   const [params] = useSearchParams()
   const nav = useNavigate()
   const lesson = getLesson(id)
+  if (lesson) setSpeechLocale(localeOfSubject(lesson.subject))
   const level = useLumi((s) => s.profile.level)
   const startMode = params.get('modo')
   const [step, setStep] = useState(isMode(startMode) ? 0 : -1) // -1 = introdução
@@ -116,8 +120,8 @@ export default function LessonPage() {
             {lesson.summary && <p className="mt-3 text-cinza-texto">{lesson.summary}</p>}
             {lesson.enem && <p className="mt-3 inline-block rounded-full bg-grafite px-3 py-1 text-xs font-medium text-offwhite">🎯 ENEM: {lesson.enem}</p>}
             {lesson.english && (
-              <Link to={unit ? `/ingles/unidade/${unit.id}` : '/ingles'} className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-laranja-suave px-3 py-1 text-xs font-semibold text-laranja-escuro">
-                🇬🇧 {lesson.english.cefr}{unit ? ` · ${unit.title}` : ''} · ver trilha
+              <Link to={unit ? `/idiomas/${unit.lang}/unidade/${unit.id}` : `/idiomas/${langOfSubject(lesson.subject)?.id ?? 'en'}`} className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-laranja-suave px-3 py-1 text-xs font-semibold text-laranja-escuro">
+                {langOfSubject(lesson.subject)?.flag ?? '🌎'} {lesson.english.cefr}{unit ? ` · ${unit.title}` : ''} · ver trilha
               </Link>
             )}
 
@@ -160,7 +164,7 @@ export default function LessonPage() {
 
             <div className="mt-6 flex items-center gap-3 text-sm text-cinza-texto">
               <span>📖 {lesson.blocks.length} partes curtas</span>
-              {lesson.english && <span>🎧 prática de inglês</span>}
+              {lesson.english && <span>🎧 prática de {(langOfSubject(lesson.subject)?.name ?? 'idioma').toLowerCase()}</span>}
               <span>✏️ {Math.min(10, lesson.questions.length)} exercícios</span>
             </div>
             <Button className="mt-4 w-full" onClick={() => setStep(0)}>Vamos entender juntos <ArrowRight size={18} /></Button>

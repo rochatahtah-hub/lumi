@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { CheckCircle2, CloudOff } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Button, Card, Page, TopBar } from '../components/ui'
 import { cloudEnabled, supabase } from '../lib/supabase'
 import { setProfile, useLumi } from '../lib/store'
@@ -17,6 +17,10 @@ export default function AccountPage() {
   const [nick, setNick] = useState(nickname ?? '')
   const [accountEmail, setAccountEmail] = useState<string | null>(null)
   const [recovery, setRecovery] = useState(false)
+  const nav = useNavigate()
+  // volta = para onde ir depois de entrar (ex.: a área de Idiomas, que exige conta)
+  const volta = useSearchParams()[0].get('volta')
+  const back = volta && volta.startsWith('/') && !volta.startsWith('//') ? volta : null
 
   useEffect(() => {
     if (!supabase) return
@@ -63,6 +67,7 @@ export default function AccountPage() {
       if (data.user && data.session) {
         await pullAndMerge(data.user.id)
         setMsg({ ok: true, text: 'Pronto! Seu progresso agora fica salvo na nuvem.' })
+        if (back) nav(back, { replace: true })
       } else {
         setMsg({ ok: true, text: 'Enviamos um e-mail de confirmação. Depois de confirmar, entre com seu e-mail e senha.' })
         setMode('login')

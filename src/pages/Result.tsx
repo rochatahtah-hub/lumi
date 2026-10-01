@@ -8,7 +8,7 @@ import type { ResultState } from './Quiz'
 import { getLesson } from '../lib/repo'
 import { gamesForLesson } from '../games/recommend'
 import { gameById } from '../games/registry'
-import { unitById } from '../content/english/course'
+import { unitById } from '../lib/english'
 
 export default function ResultPage() {
   const nav = useNavigate()
@@ -75,8 +75,8 @@ export default function ResultPage() {
             <p className="font-semibold">{r.passed ? '★ Unidade dominada!' : 'Vamos revisar este conteúdo antes de continuar.'}</p>
             <p className="mt-1 text-sm">{r.passed ? `Você passou na avaliação de “${unit.title}”. A próxima unidade está liberada.` : `Para liberar a próxima unidade, é preciso 70% na avaliação de “${unit.title}”. Uma revisão rápida ajuda muito.`}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {!r.passed && <Button onClick={() => nav(`/ingles/revisar?unidade=${unit.id}`)}><RotateCcw size={18} /> Revisar a unidade</Button>}
-              <Button variant="outline" onClick={() => nav(`/ingles/unidade/${unit.id}`)}>Ver unidade</Button>
+              {!r.passed && <Button onClick={() => nav(`/idiomas/${unit.lang}/revisar?unidade=${unit.id}`)}><RotateCcw size={18} /> Revisar a unidade</Button>}
+              <Button variant="outline" onClick={() => nav(`/idiomas/${unit.lang}/unidade/${unit.id}`)}>Ver unidade</Button>
             </div>
           </Card>
         )}

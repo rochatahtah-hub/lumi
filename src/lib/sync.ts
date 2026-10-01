@@ -30,6 +30,8 @@ export function mergeStates(local: LumiState, remote: LumiState): LumiState {
   const byId = <T extends { id: string }>(a: T[], b: T[]) => [...new Map([...a, ...b].map((x) => [x.id, x])).values()]
   const english = {
     placement: [le.placement, re.placement].filter((x) => !!x).sort((a, b) => b!.at.localeCompare(a!.at))[0],
+    placements: Object.fromEntries([...new Set([...Object.keys(le.placements ?? {}), ...Object.keys(re.placements ?? {})])].map((k) => [k, [le.placements?.[k], re.placements?.[k]].filter((x) => !!x).sort((a, b) => b!.at.localeCompare(a!.at))[0]!])),
+    lastLang: le.lastLang ?? re.lastLang,
     unitTests, vocab, views,
     activities: byId(re.activities, le.activities).sort((a, b) => b.at.localeCompare(a.at)).slice(0, 400),
   }

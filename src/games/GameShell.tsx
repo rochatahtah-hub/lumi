@@ -1,3 +1,4 @@
+import { isLanguageSubject } from '../content/languages'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowLeft, Lightbulb, RotateCcw, Timer } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -70,7 +71,7 @@ export function GameShell({ game, lesson, difficulty, progress, hint, children, 
     hit: (ok, meta) => {
       stats.current[ok ? 'correct' : 'wrong']++
       if (meta?.key) skillHits.current.push({ key: meta.key, label: meta.label ?? meta.key, right: ok })
-      if (meta?.word && lesson.subject === 'ingles') words.current.push({ word: meta.word, right: ok })
+      if (meta?.word && isLanguageSubject(lesson.subject)) words.current.push({ word: meta.word, right: ok })
     },
     move: () => { stats.current.moves++ },
     say: (text, pose = 'look') => setBubble({ text, pose }),

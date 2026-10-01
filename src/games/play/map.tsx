@@ -1,3 +1,4 @@
+import { isLanguageSubject } from '../../content/languages'
 import { useEffect, useMemo, useState } from 'react'
 import type { GameMap, MapId, MapTarget } from '../../types'
 import { shuffle } from '../../lib/text'
@@ -44,7 +45,7 @@ export function MapGame(p: GameProps) {
   const ask = mode === 'options' ? 'Que lugar está destacado no mapa?' : p.difficulty === 3 && t.clue ? `Toque no mapa: ${t.clue}` : `Toque no mapa: ${t.label}`
 
   const right = (api: GameApi) => {
-    if (!missed) api.hit(true, { word: p.lesson.subject === 'ingles' ? t.label : undefined })
+    if (!missed) api.hit(true, { word: isLanguageSubject(p.lesson.subject) ? t.label : undefined })
     setSolved(true)
     api.say(`${PRAISE[t.difficulty]}\nEsse é ${t.label}${t.clue && p.difficulty < 3 ? ` — ${t.clue}` : ''}.`, poseFor(t.difficulty))
   }

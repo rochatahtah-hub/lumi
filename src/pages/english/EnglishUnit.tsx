@@ -4,15 +4,16 @@ import { MASCOT } from '../../assets/lumi'
 import { Button, Card, Page, ProgressBar, TopBar } from '../../components/ui'
 import { gamesForLesson } from '../../games/recommend'
 import { gameById } from '../../games/registry'
-import { MARK, PASS_UNIT, STATE_LABEL, buildTrail } from '../../lib/english'
+import { MARK, PASS_UNIT, STATE_LABEL, buildTrail, unitById } from '../../lib/english'
 import { getLesson, resetVirtualLesson } from '../../lib/repo'
 import { getState, useLumi } from '../../lib/store'
 
 export default function EnglishUnit() {
   const { id = '' } = useParams()
+  const lang = unitById(id)?.lang ?? 'en'
   const nav = useNavigate()
   useLumi((s) => s.updatedAt)
-  const u = buildTrail(getState()).levels.flatMap((l) => l.units).find((x) => x.unit.id === id)
+  const u = buildTrail(getState(), lang).levels.flatMap((l) => l.units).find((x) => x.unit.id === id)
   if (!u) return <><TopBar title="Unidade" /><Page><Card>Unidade não encontrada.</Card></Page></>
 
   const startTest = () => {
@@ -36,7 +37,7 @@ export default function EnglishUnit() {
         {!u.unlocked && (
           <Card className="mt-4 flex gap-3">
             <Lock className="shrink-0 text-cinza-texto" />
-            <p className="text-sm">Esta unidade abre quando você passar na avaliação da unidade anterior (ou pelo teste de nivelamento). <Link to="/ingles" className="font-semibold text-laranja">Ver trilha</Link></p>
+            <p className="text-sm">Esta unidade abre quando você passar na avaliação da unidade anterior (ou pelo teste de nivelamento). <Link to={`/idiomas/${lang}`} className="font-semibold text-laranja">Ver trilha</Link></p>
           </Card>
         )}
 
@@ -67,7 +68,7 @@ export default function EnglishUnit() {
               <ProgressBar value={u.mastery} className="mt-2" />
               {u.test && <p className="mt-3 text-sm">Melhor nota na avaliação: <b className={u.test.best >= PASS_UNIT ? 'text-sucesso' : 'text-laranja-escuro'}>{u.test.best}%</b> ({u.test.tries} {u.test.tries === 1 ? 'tentativa' : 'tentativas'})</p>}
               <div className="mt-4 grid gap-2">
-                <Button variant="outline" onClick={() => nav(`/ingles/revisar?unidade=${id}`)}><RotateCcw size={18} /> Revisão da unidade</Button>
+                <Button variant="outline" onClick={() => nav(`/idiomas/${lang}/revisar?unidade=${id}`)}><RotateCcw size={18} /> Revisão da unidade</Button>
                 <Button onClick={startTest} disabled={!u.testUnlocked}><ClipboardCheck size={18} /> {u.passed ? 'Refazer avaliação de domínio' : 'Avaliação de domínio'}</Button>
                 {!u.testUnlocked && <p className="text-center text-xs text-cinza-texto">A avaliação abre quando você concluir todas as aulas desta unidade com pelo menos 60%.</p>}
               </div>

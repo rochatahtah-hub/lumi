@@ -1,3 +1,5 @@
+import { setSpeechLocale } from '../lib/speech'
+import { langOfSubject, localeOfSubject } from '../content/languages'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check, ChevronRight, Lightbulb, X } from 'lucide-react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -39,6 +41,7 @@ export default function QuizPage() {
   const reviewOf = new URLSearchParams(location.search).get('de') ?? undefined
   // a revisão é uma aula montada na hora a partir dos erros; fica fixa durante a atividade
   const [lesson] = useState<Lesson | undefined>(() => (id === 'revisao' ? buildReviewLesson(getState(), reviewOf) : getLesson(id)))
+  if (lesson) setSpeechLocale(localeOfSubject(lesson.subject))
   if (!lesson) {
     return (
       <>
@@ -120,7 +123,7 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
 
   return (
     <>
-      <TopBar title={mode === 'revisao' ? 'Revisão' : mode === 'avaliacao' ? 'Avaliação de domínio' : subject?.name ?? 'Exercícios'} right={`${Math.min(number, quiz.total)}/${quiz.total}`} close onBack={() => nav(lesson.subject === 'ingles' && mode !== 'aula' ? '/ingles' : mode === 'revisao' ? '/' : `/aula/${lesson.id}`)} />
+      <TopBar title={mode === 'revisao' ? 'Revisão' : mode === 'avaliacao' ? 'Avaliação de domínio' : subject?.name ?? 'Exercícios'} right={`${Math.min(number, quiz.total)}/${quiz.total}`} close onBack={() => nav(langOfSubject(lesson.subject) && mode !== 'aula' ? `/idiomas/${langOfSubject(lesson.subject)!.id}` : mode === 'revisao' ? '/' : `/aula/${lesson.id}`)} />
       <Page>
         <ProgressBar value={(quiz.served.length / quiz.total) * 100} className="mb-5" />
         {remediation ? (

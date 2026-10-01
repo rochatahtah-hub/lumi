@@ -71,6 +71,10 @@ export interface EnglishActivity {
 export interface EnglishProgress {
   /** nível estimado pelo teste de nivelamento (não é certificação) */
   placement?: { level: CefrLevel; at: string; correct: number; total: number }
+  /** nivelamento dos outros idiomas (o do Inglês continua em placement) */
+  placements?: Record<string, { level: CefrLevel; at: string; correct: number; total: number }>
+  /** último idioma estudado */
+  lastLang?: string
   unitTests: Record<string, { best: number; last: number; at: string; tries: number }>
   activities: EnglishActivity[]
   /** palavras praticadas (jogos e revisões de vocabulário) */
@@ -262,8 +266,17 @@ export function recordUnitTest(unitId: string, pct: number) {
   })
 }
 
-export function recordPlacement(level: CefrLevel, correct: number, total: number) {
-  setState((s) => ({ ...s, profile: { ...s.profile, englishLevel: level }, english: { ...s.english, placement: { level, correct, total, at: new Date().toISOString() } } }))
+export function recordPlacement(level: CefrLevel, correct: number, total: number, lang = 'en') {
+  const p = { level, correct, total, at: new Date().toISOString() }
+  if (lang === 'en') setState((s) => ({ ...s, profile: { ...s.profile, englishLevel: level }, english: { ...s.english, placement: p, lastLang: lang } }))
+  else setState((s) => ({ ...s, english: { ...s.english, placements: { ...s.english.placements, [lang]: p }, lastLang: lang } }))
+}
+
+/** nivelamento de um idioma (Inglês usa o campo antigo) */
+export const placementOf = (s: LumiState, lang: string) => (lang === 'en' ? s.english.placement : s.english.placements?.[lang])
+
+export function setLastLang(lang: string) {
+  if (getState().english.lastLang !== lang) setState((s) => ({ ...s, english: { ...s.english, lastLang: lang } }))
 }
 
 export function markLessonViewed(lessonId: string) {

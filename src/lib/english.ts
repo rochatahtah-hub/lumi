@@ -1,10 +1,20 @@
 // Motor do Curso de Inglês: domínio, trilha (liberado/bloqueado), perguntas equivalentes, avaliação de unidade,
 // revisão inteligente, nivelamento, perfil das 6 habilidades e o "English Mode" das instruções.
-import { COURSE, allUnits, unitById, type CourseLevel, type CourseUnit } from '../content/english/course'
+import type { CourseLevel, CourseSection, CourseUnit } from '../content/english/course'
+import { LANGUAGES, LANG_IDS, langOfSubject, type LangId } from '../content/languages'
 import { CEFR_LEVELS, type Block, type CefrLevel, type EnglishSkill, type Lesson, type MCItem, type Question } from '../types'
 import { allLessons, getLesson, registerVirtualLessons } from './repo'
-import { getState, weakSkills, type LumiState } from './store'
+import { getState, placementOf, weakSkills, type LumiState } from './store'
 import { shuffle } from './text'
+
+// ─────────────────────────── trilhas (todos os idiomas) ───────────────────────────
+export type LangUnit = CourseUnit & { level: CefrLevel; section: CourseSection; lang: LangId }
+let unitCache: LangUnit[] | undefined
+export const allUnits = (): LangUnit[] => (unitCache ??= LANG_IDS.flatMap((lang) => LANGUAGES[lang].course.flatMap((lv) => lv.sections.flatMap((section) => section.units.map((u) => ({ ...u, level: lv.id, section, lang }))))))
+export const unitById = (id: string) => allUnits().find((u) => u.id === id)
+export const unitOfLesson = (lessonId: string) => allUnits().find((u) => u.lessons.some((l) => l.id === lessonId))
+/** idioma de uma aula (pela matéria) */
+export const langOfLesson = (l: Pick<Lesson, 'subject'> | undefined): LangId | undefined => langOfSubject(l?.subject)?.id
 
 // ─────────────────────────── domínio ───────────────────────────
 export type MasteryState = 'NOT_STARTED' | 'LEARNING' | 'PRACTICING' | 'REVIEW' | 'MASTERED'
@@ -100,14 +110,16 @@ export interface TrailUnit {
   /** unidade sem nenhuma aula pronta ainda: aparece, mas não trava a trilha */
   planned: boolean
 }
-export interface Trail { levels: { level: CourseLevel; units: TrailUnit[]; pct: number }[]; current?: { unitId: string; lessonId?: string }; level: CefrLevel }
+export interface Trail { lang: LangId; levels: { level: CourseLevel; units: TrailUnit[]; pct: number }[]; current?: { unitId: string; lessonId?: string }; level: CefrLevel }
 
-export function buildTrail(s: LumiState = getState()): Trail {
+export function buildTrail(s: LumiState = getState(), lang: LangId = 'en'): Trail {
+  const course = LANGUAGES[lang].course
+  const placement = placementOf(s, lang)
   const exists = new Set(allLessons().map((l) => l.id))
-  const placed = s.english.placement ? CEFR_LEVELS.indexOf(s.english.placement.level) : -1
+  const placed = placement ? CEFR_LEVELS.indexOf(placement.level) : -1
   let prevPassed = true
   let current: Trail['current']
-  const levels = COURSE.map((lv, li) => {
+  const levels = course.map((lv, li) => {
     const units = lv.sections.flatMap((sec) => sec.units.map((unit, ui) => {
       const lessons: TrailLesson[] = unit.lessons.map((l) => ({ id: l.id, title: l.title, available: exists.has(l.id), mark: 'planned' as TrailMark }))
       const avail = lessons.filter((l) => l.available)
@@ -150,8 +162,8 @@ export function buildTrail(s: LumiState = getState()): Trail {
     return { level: lv, units, pct }
   })
   const curUnit = current && allUnits().find((u) => u.id === current!.unitId)
-  const level = curUnit?.level ?? s.english.placement?.level ?? 'A1'
-  return { levels, current, level }
+  const level = curUnit?.level ?? placement?.level ?? 'A1'
+  return { lang, levels, current, level }
 }
 
 // ─────────────────────────── English Mode ───────────────────────────
@@ -175,7 +187,7 @@ const POS_PT: Record<string, string> = {
   'phrasal verb': 'phrasal verb', idiom: 'expressão idiomática', conjunction: 'conjunção', determiner: 'determinante', number: 'número', interjection: 'interjeição',
 }
 
-const englishLessons = () => allLessons().filter((l) => l.subject === 'ingles' && l.english)
+const langLessons = (lang: LangId = 'en') => allLessons().filter((l) => l.subject === LANGUAGES[lang].subject && l.english)
 
 function mcQuestion(id: string, skill: string, prompt: string, options: string[], answer: number, difficulty: 1 | 2 | 3, hints: [string, string, string], explanation: string): Question {
   return { id, type: 'mc', skill, prompt, options, answer, difficulty, hints, explanation }
@@ -194,9 +206,11 @@ function withDistractors(right: string, pool: string[]): { options: string[]; an
  * diálogos e leitura) — assim a avaliação e a revisão não repetem só as mesmas questões.
  */
 export function equivalentQuestions(lesson: Lesson, max = 4, prefix = 'eq'): Question[] {
+  const lang = langOfLesson(lesson) ?? 'en'
+  const L = LANGUAGES[lang]
   const out: Question[] = []
   const vocab = lesson.english?.vocabulary ?? []
-  const sameLevel = englishLessons().filter((l) => l.english?.cefr === lesson.english?.cefr).flatMap((l) => l.english?.vocabulary ?? [])
+  const sameLevel = langLessons(lang).filter((l) => l.english?.cefr === lesson.english?.cefr).flatMap((l) => l.english?.vocabulary ?? [])
   const pool = [...vocab, ...sameLevel]
   const skill = `${lesson.id}:vocab`
   shuffle(vocab).forEach((e, i) => {
@@ -205,10 +219,10 @@ export function equivalentQuestions(lesson: Lesson, max = 4, prefix = 'eq'): Que
     const expl = `“${e.word}” = ${e.translation}. Ex.: ${e.example}`
     if (kind === 0) {
       const d = withDistractors(e.translation, pool.map((p) => p.translation))
-      if (d) out.push(mcQuestion(`${prefix}-v${i}`, skill, `What does “${e.word}” mean? · O que significa “${e.word}”?`, d.options, d.answer, e.difficulty, hints, expl))
+      if (d) out.push(mcQuestion(`${prefix}-v${i}`, skill, `${L.ui.whatMeans(e.word)} · O que significa “${e.word}”?`, d.options, d.answer, e.difficulty, hints, expl))
     } else if (kind === 1) {
       const d = withDistractors(e.word, pool.map((p) => p.word))
-      if (d) out.push(mcQuestion(`${prefix}-v${i}`, skill, `Como se diz “${e.translation}” em inglês?`, d.options, d.answer, e.difficulty, hints, expl))
+      if (d) out.push(mcQuestion(`${prefix}-v${i}`, skill, `Como se diz “${e.translation}” em ${L.name.toLowerCase()}?`, d.options, d.answer, e.difficulty, hints, expl))
     } else {
       const re = new RegExp(`\\b${e.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i')
       const d = withDistractors(e.word, pool.map((p) => p.word))
@@ -232,7 +246,7 @@ const fromMCItem = (id: string, skill: string, q: MCItem, prompt = q.prompt): Qu
 /** questões originais da aula com ids/habilidades prefixados para a aula montada */
 const prefixed = (l: Lesson, qs: Question[]) => qs.map((q) => ({ ...q, id: `${l.id}:${q.id}`, skill: q.skill.includes(':') ? q.skill : `${l.id}:${q.skill}` }) as Question)
 
-function virtualLesson(id: string, title: string, sources: Lesson[], questions: Question[], summary: string, intro: string): Lesson {
+function virtualLesson(id: string, title: string, sources: Lesson[], questions: Question[], summary: string, intro: string, lang: LangId = 'en'): Lesson {
   const skills: Record<string, string> = {}
   const blocks: Block[] = []
   for (const l of sources) {
@@ -242,7 +256,7 @@ function virtualLesson(id: string, title: string, sources: Lesson[], questions: 
     for (const b of l.blocks) blocks.push({ ...b, id: `${l.id}:${b.id}`, skill: b.skill ? `${l.id}:${b.skill}` : undefined })
   }
   return {
-    id, subject: 'ingles', title, levels: ['fund1', 'fund2', 'medio'], grade: '', aliases: [], summary, intro,
+    id, subject: LANGUAGES[lang].subject, title, levels: ['fund1', 'fund2', 'medio'], grade: '', aliases: [], summary, intro,
     blocks, questions, skills, review: sources.map((l) => l.title), origin: 'base',
   }
 }
@@ -262,15 +276,15 @@ export function buildUnitTest(unitId: string): Lesson | undefined {
   }
   qs = shuffle(qs).slice(0, 10)
   return virtualLesson(`avaliacao-${unitId}`, `Avaliação: ${unit.title}`, lessons, qs,
-    `Avaliação de domínio da unidade “${unit.title}”.`, `Objetivo da unidade: ${unit.objective}`)
+    `Avaliação de domínio da unidade “${unit.title}”.`, `Objetivo da unidade: ${unit.objective}`, unit.lang)
 }
 
 export interface ReviewPick { lesson: Lesson; reason: string; m: LessonMastery }
 
 /** o que revisar agora: erros recorrentes, baixo domínio e conteúdos estudados há algum tempo */
-export function reviewPicks(s: LumiState = getState(), max = 3): ReviewPick[] {
+export function reviewPicks(s: LumiState = getState(), max = 3, lang: LangId = 'en'): ReviewPick[] {
   const picks: (ReviewPick & { score: number })[] = []
-  for (const l of englishLessons()) {
+  for (const l of langLessons(lang)) {
     const m = lessonMastery(s, l.id)
     if (m.state === 'NOT_STARTED' || m.state === 'LEARNING') continue
     const days = daysSince(m.lastAt)
@@ -286,9 +300,13 @@ export function reviewPicks(s: LumiState = getState(), max = 3): ReviewPick[] {
 }
 
 /** revisão de Inglês com perguntas NOVAS do mesmo conceito (não repete as que o aluno errou) */
-export function buildEnglishReview(unitId?: string): Lesson | undefined {
+/** id da revisão montada (Inglês mantém os ids antigos) */
+export const reviewId = (lang: LangId = 'en', unitId?: string) =>
+  lang === 'en' ? (unitId ? `revisao-ingles-${unitId}` : 'revisao-ingles') : unitId ? `revisao-idioma-${lang}-${unitId}` : `revisao-idioma-${lang}`
+
+export function buildEnglishReview(unitId?: string, lang: LangId = unitId ? unitById(unitId)?.lang ?? 'en' : 'en'): Lesson | undefined {
   const s = getState()
-  const picks = unitReviewPicks(s, unitId)
+  const picks = unitReviewPicks(s, unitId, lang)
   if (!picks.length) return undefined
   const missed = new Set(s.history.flatMap((h) => h.attempts.filter((a) => !a.firstCorrect).map((a) => a.questionId)))
   let qs: Question[] = []
@@ -299,13 +317,13 @@ export function buildEnglishReview(unitId?: string): Lesson | undefined {
   }
   qs = shuffle(qs).slice(0, 8)
   if (qs.length < 3) return undefined
-  return virtualLesson(unitId ? `revisao-ingles-${unitId}` : 'revisao-ingles', unitId ? `Revisão: ${unitById(unitId)?.title ?? 'unidade'}` : 'Hora de revisar: Inglês', picks.map((p) => p.lesson), qs,
-    `Revisão de: ${picks.map((p) => p.lesson.title).join(', ')}.`, 'Perguntas novas sobre o que você já estudou.')
+  return virtualLesson(reviewId(lang, unitId), unitId ? `Revisão: ${unitById(unitId)?.title ?? 'unidade'}` : `Hora de revisar: ${LANGUAGES[lang].name}`, picks.map((p) => p.lesson), qs,
+    `Revisão de: ${picks.map((p) => p.lesson.title).join(', ')}.`, 'Perguntas novas sobre o que você já estudou.', lang)
 }
 
 /** revisão geral (o que mais precisa) ou revisão de uma unidade (todas as aulas já estudadas dela) */
-export function unitReviewPicks(s: LumiState, unitId?: string): ReviewPick[] {
-  if (!unitId) return reviewPicks(s)
+export function unitReviewPicks(s: LumiState, unitId?: string, lang: LangId = 'en'): ReviewPick[] {
+  if (!unitId) return reviewPicks(s, 3, lang)
   const unit = unitById(unitId)
   return (unit?.lessons ?? []).map((x) => getLesson(x.id)).filter((l): l is Lesson => !!l)
     .map((l) => ({ lesson: l, m: lessonMastery(s, l.id), reason: 'Aula desta unidade' }))
@@ -315,7 +333,9 @@ export function unitReviewPicks(s: LumiState, unitId?: string): ReviewPick[] {
 registerVirtualLessons((id) => {
   if (id.startsWith('avaliacao-')) return buildUnitTest(id.slice('avaliacao-'.length))
   if (id === 'revisao-ingles') return buildEnglishReview()
-  if (id.startsWith('revisao-ingles-')) return buildEnglishReview(id.slice('revisao-ingles-'.length))
+  if (id.startsWith('revisao-ingles-')) return buildEnglishReview(id.slice('revisao-ingles-'.length), 'en')
+  const m = /^revisao-idioma-([a-z]{2})(?:-(.+))?$/.exec(id)
+  if (m && m[1] in LANGUAGES) return buildEnglishReview(m[2], m[1] as LangId)
   return undefined
 })
 
@@ -356,28 +376,29 @@ export function areaOfSkill(key: string): EnglishSkill {
   return 'grammar'
 }
 
-export function skillProfile(s: LumiState = getState()): Record<EnglishSkill, { pct: number | null; n: number }> {
-  const ids = new Set(englishLessons().map((l) => l.id))
+export function skillProfile(s: LumiState = getState(), lang: LangId = 'en'): Record<EnglishSkill, { pct: number | null; n: number }> {
+  const ids = new Set(langLessons(lang).map((l) => l.id))
   const acc: Record<EnglishSkill, [number, number]> = { reading: [0, 0], writing: [0, 0], listening: [0, 0], speaking: [0, 0], vocabulary: [0, 0], grammar: [0, 0] }
   for (const k of Object.values(s.skills)) if (ids.has(k.lessonId)) { const a = acc[areaOfSkill(k.key)]; a[0] += k.right; a[1] += k.right + k.wrong }
-  for (const a of s.english.activities) { const sk: EnglishSkill = a.kind === 'desafio' ? 'writing' : a.kind; acc[sk][0] += a.correct; acc[sk][1] += a.total }
+  for (const a of s.english.activities) if (ids.has(a.lessonId)) { const sk: EnglishSkill = a.kind === 'desafio' ? 'writing' : a.kind; acc[sk][0] += a.correct; acc[sk][1] += a.total }
   for (const g of s.games) if (ids.has(g.lessonId)) { const a = acc[GAME_SKILL[g.game] ?? 'vocabulary']; a[0] += g.correct; a[1] += g.correct + g.wrong }
   return Object.fromEntries(Object.entries(acc).map(([k, [r, n]]) => [k, { pct: n ? Math.round((100 * r) / n) : null, n }])) as Record<EnglishSkill, { pct: number | null; n: number }>
 }
 
-export function wordsLearned(s: LumiState = getState()): number {
+export function wordsLearned(s: LumiState = getState(), lang: LangId = 'en'): number {
   const words = new Set<string>()
-  for (const l of englishLessons()) if ((s.lessons[l.id]?.best ?? 0) >= PASS_LESSON) for (const v of l.english?.vocabulary ?? []) words.add(v.word.toLowerCase())
-  for (const [w, v] of Object.entries(s.english.vocab)) if (v.right > v.wrong) words.add(w)
+  for (const l of langLessons(lang)) if ((s.lessons[l.id]?.best ?? 0) >= PASS_LESSON) for (const v of l.english?.vocabulary ?? []) words.add(v.word.toLowerCase())
+  const mine = new Set(langLessons(lang).flatMap((l) => (l.english?.vocabulary ?? []).map((v) => v.word.toLowerCase())))
+  for (const [w, v] of Object.entries(s.english.vocab)) if (v.right > v.wrong && mine.has(w.toLowerCase())) words.add(w.toLowerCase())
   return words.size
 }
 
 /** recomendações curtas do painel ("Você está tendo dificuldade com… / Você já domina…") */
-export function englishTips(s: LumiState = getState()): { text: string; to: string; cta: string }[] {
+export function englishTips(s: LumiState = getState(), lang: LangId = 'en'): { text: string; to: string; cta: string }[] {
   const tips: { text: string; to: string; cta: string }[] = []
-  const pick = reviewPicks(s, 1)[0]
-  if (pick) tips.push({ text: `Você está tendo dificuldade com ${pick.lesson.title}. Vamos praticar um pouco?`, to: '/ingles/revisar', cta: 'Praticar' })
-  const trail = buildTrail(s)
+  const pick = reviewPicks(s, 1, lang)[0]
+  if (pick) tips.push({ text: `Você está tendo dificuldade com ${pick.lesson.title}. Vamos praticar um pouco?`, to: `/idiomas/${lang}/revisar`, cta: 'Praticar' })
+  const trail = buildTrail(s, lang)
   const mastered = trail.levels.flatMap((l) => l.units).flatMap((u) => u.lessons).find((l) => l.mark === 'mastered')
   if (mastered && trail.current?.lessonId) tips.push({ text: `Você já domina ${mastered.title}. Que tal avançar?`, to: `/estudar?lesson=${trail.current.lessonId}`, cta: 'Avançar' })
   return tips

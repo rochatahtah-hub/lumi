@@ -9,8 +9,8 @@ import { normalize } from '../../lib/text'
 import { MASCOT } from '../../assets/lumi'
 
 /** título das seções no English Mode: mais inglês conforme o nível do aluno */
-function H({ icon, pt, en }: { icon: string; pt: string; en: string }) {
-  const t = bilingual(studentEnglishLevel(), pt, en)
+function H({ s, icon, pt, en }: { s: string; icon: string; pt: string; en: string }) {
+  const t = s === 'ingles' ? bilingual(studentEnglishLevel(), pt, en) : { main: pt, sub: undefined }
   return (
     <h3 className="text-lg font-bold">
       {icon} {t.main}
@@ -154,12 +154,12 @@ export function EnglishPractice({ lesson }: { lesson: Lesson }) {
 
   return (
     <div className="space-y-4">
-      {!!e.vocabulary?.length && <Section><H icon="📚" pt="Vocabulário" en="Vocabulary" /><div className="mt-3"><VocabularyList lesson={lesson} /></div></Section>}
-      {e.grammar && <Section><H icon="🔤" pt="Gramática" en="Grammar" /><div className="mt-3"><GrammarBox lesson={lesson} /></div></Section>}
+      {!!e.vocabulary?.length && <Section><H s={lesson.subject} icon="📚" pt="Vocabulário" en="Vocabulary" /><div className="mt-3"><VocabularyList lesson={lesson} /></div></Section>}
+      {e.grammar && <Section><H s={lesson.subject} icon="🔤" pt="Gramática" en="Grammar" /><div className="mt-3"><GrammarBox lesson={lesson} /></div></Section>}
 
       {e.reading && (
         <Section>
-          <H icon="📖" pt="Leia e responda" en="Read and answer" />
+          <H s={lesson.subject} icon="📖" pt="Leia e responda" en="Read and answer" />
           <p className="mt-2 text-sm text-cinza-texto">{e.reading.title} · {e.reading.genre}</p>
           <p className="mt-2 whitespace-pre-line rounded-2xl bg-offwhite p-4 leading-relaxed">{e.reading.text}</p>
           <InlineMC items={e.reading.questions} onDone={(c, t) => recordEnglishActivity({ lessonId: lesson.id, kind: 'reading', correct: c, total: t })} />
@@ -168,7 +168,7 @@ export function EnglishPractice({ lesson }: { lesson: Lesson }) {
 
       {e.listening && (
         <Section>
-          <H icon="🎧" pt="Ouça e responda" en="Listen and answer" />
+          <H s={lesson.subject} icon="🎧" pt="Ouça e responda" en="Listen and answer" />
           <p className="mt-2 text-sm text-cinza-texto">{e.listening.title}</p>
           <div className="mt-3 rounded-2xl bg-grafite p-3 text-offwhite"><AudioPlayer script={e.listening.script} rate={e.listening.rate} audioUrl={e.listening.audioUrl} /></div>
           <InlineMC items={e.listening.questions} onDone={(c, t) => recordEnglishActivity({ lessonId: lesson.id, kind: 'listening', correct: c, total: t })} />
@@ -177,7 +177,7 @@ export function EnglishPractice({ lesson }: { lesson: Lesson }) {
 
       {e.speaking && (
         <Section>
-          <H icon="🗣️" pt="Fale" en="Speaking" />
+          <H s={lesson.subject} icon="🗣️" pt="Fale" en="Speaking" />
           <p className="mt-2"><b>Situação:</b> {e.speaking.situation}</p>
           <p className="mt-2 text-sm"><b>Vocabulário:</b> {e.speaking.vocabulary.join(' · ')}</p>
           <ul className="mt-2 space-y-1">{e.speaking.phrases.map((p) => <li key={p} className="flex items-center gap-2 rounded-xl bg-offwhite px-3 py-1.5">{p} <SpeakButton text={p} /></li>)}</ul>
@@ -197,7 +197,7 @@ export function EnglishPractice({ lesson }: { lesson: Lesson }) {
 
       {e.writing && (
         <Section>
-          <H icon="✍️" pt="Escreva" en="Writing" />
+          <H s={lesson.subject} icon="✍️" pt="Escreva" en="Writing" />
           <p className="mt-2">{e.writing.prompt}</p>
           <p className="mt-2 text-sm text-cinza-texto">Mínimo de {e.writing.minWords} palavras. Critérios: {e.writing.criteria.join(' · ')}</p>
           <textarea value={text} onChange={(ev) => setText(ev.target.value)} rows={5} maxLength={2000} className="mt-3 w-full rounded-2xl border-2 border-cinza p-3 outline-none focus:border-laranja" placeholder="Write here…" />
@@ -217,13 +217,13 @@ export function EnglishPractice({ lesson }: { lesson: Lesson }) {
         <Section>
           <div className="flex items-center gap-3">
             <img src={MASCOT.peek.look} alt="" aria-hidden className="h-16 w-auto" />
-            <div className="flex-1"><H icon="🏁" pt="Mini desafio" en="Mini challenge" /><p className="mt-1">{e.challenge}</p></div>
+            <div className="flex-1"><H s={lesson.subject} icon="🏁" pt="Mini desafio" en="Mini challenge" /><p className="mt-1">{e.challenge}</p></div>
           </div>
           <button onClick={() => { if (!challengeDone) recordEnglishActivity({ lessonId: lesson.id, kind: 'desafio', correct: 1, total: 1 }); setChallengeDone(true) }} className={`mt-3 min-h-11 rounded-2xl px-4 text-sm font-semibold ${challengeDone ? 'bg-sucesso-suave text-sucesso' : 'border-2 border-laranja text-laranja-escuro'}`}>{challengeDone ? '✓ Desafio feito!' : 'Fiz o desafio'}</button>
         </Section>
       )}
       {!!e.tips?.length && (
-        <Section><H icon="💡" pt="Dicas" en="Tips" /><ul className="mt-2 list-disc space-y-1 pl-5 text-grafite-3">{e.tips.map((t) => <li key={t}>{t}</li>)}</ul></Section>
+        <Section><H s={lesson.subject} icon="💡" pt="Dicas" en="Tips" /><ul className="mt-2 list-disc space-y-1 pl-5 text-grafite-3">{e.tips.map((t) => <li key={t}>{t}</li>)}</ul></Section>
       )}
     </div>
   )

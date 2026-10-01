@@ -1,3 +1,5 @@
+import { setSpeechLocale } from '../lib/speech'
+import { localeOfSubject } from '../content/languages'
 import { useState, type ComponentType } from 'react'
 import { ArrowLeft, ChevronRight } from 'lucide-react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -38,6 +40,7 @@ function Play({ gameId, lessonId }: { gameId: GameId; lessonId: string }) {
   const level = useLumi((s) => s.profile.level)
   const [round, setRound] = useState(0)
   const lesson = getLesson(lessonId)
+  if (lesson) setSpeechLocale(localeOfSubject(lesson.subject))
   const g = gameById(gameId)!
   if (!lesson) return <Missing text="Não encontrei esse conteúdo neste aparelho." />
   if (!hasGame(lesson, gameId)) return <Missing text={`“${lesson.title}” ainda não tem material suficiente para ${g.name}. Experimente outro jogo deste conteúdo.`} to={`/jogos?aula=${lesson.id}`} />
