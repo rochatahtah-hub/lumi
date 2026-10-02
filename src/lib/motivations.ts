@@ -36,9 +36,23 @@ export function getTodayMotivation(): { text: string; index: number } {
 }
 
 /** Frase de saudação baseada no horário local */
-export function getGreeting(preferredName: string): { greeting: string; period: 'morning' | 'afternoon' | 'evening' } {
+export function getGreeting(preferredName?: string): { greeting: string; period: 'morning' | 'afternoon' | 'evening' } {
   const hour = new Date().getHours()
-  if (hour >= 5 && hour < 12) return { greeting: `Bom dia, ${preferredName}! ☀️`, period: 'morning' }
-  if (hour >= 12 && hour < 18) return { greeting: `Boa tarde, ${preferredName}! 🌤️`, period: 'afternoon' }
-  return { greeting: `Boa noite, ${preferredName}! 🌙`, period: 'evening' }
+  const hasName = preferredName && preferredName.trim() && preferredName !== 'visitante' && preferredName !== 'você'
+
+  let greeting: string
+  let period: 'morning' | 'afternoon' | 'evening'
+
+  if (hour >= 5 && hour < 12) {
+    greeting = hasName ? `☀️ Bom dia, ${preferredName}!` : '☀️ Bom dia!'
+    period = 'morning'
+  } else if (hour >= 12 && hour < 18) {
+    greeting = hasName ? `🌤️ Boa tarde, ${preferredName}!` : '🌤️ Boa tarde!'
+    period = 'afternoon'
+  } else {
+    greeting = hasName ? `🌙 Boa noite, ${preferredName}!` : '🌙 Boa noite!'
+    period = 'evening'
+  }
+
+  return { greeting, period }
 }
