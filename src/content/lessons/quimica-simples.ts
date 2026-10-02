@@ -1,0 +1,45 @@
+// Química 1º Médio — LUMI. Ultra-simples.
+import { block, lesson, mc, tf, SRC } from '../dsl'
+
+export const químicaSimples = lesson({
+  id: 'qui-1med-simples', subject: 'quimica', title: 'Matéria e Transformações', levels: ['medio'], grade: '1º Ensino Médio',
+  topic: 'Química 1º Médio — Introdução', subtopic: 'Matéria, mudanças físicas e químicas',
+  aliases: ['matéria', 'transformação', 'reação química', 'mudança física'],
+  summary: 'Aprenda sobre matéria e seus tipos de transformação.',
+  intro: 'Tudo é matéria. Matéria pode mudar de forma (física) ou virar outra coisa (química).',
+  objective: 'Diferenciar mudanças físicas e químicas.',
+  prerequisites: [], next: [],
+  skills: { g_mat: 'Matéria', g_fis: 'Mudança física', g_quim: 'Mudança química' },
+  blocks: [
+    block('g_mat', 'O que é matéria',
+      'Matéria: tudo que tem massa e ocupa espaço. Você, ar, água, ouro. Tem propriedades: cor, densidade, ponto de fusão.',
+      'Água: matéria. Luz: não é matéria (sem massa, sem espaço). Ar: matéria (tem peso).',
+      'Matéria = massa + volume',
+      'Você consegue tocar matéria.', 'Tudo ao seu redor é matéria'),
+    block('g_fis', 'Mudança física',
+      'Mudança física: matéria muda de forma mas continua sendo a mesma substância. Gelo vira água (ainda H₂O). Papel rasgado (ainda papel).',
+      'Água em estado sólido, líquido ou gás = ainda água. Ouro derretido = ainda ouro.',
+      'Forma muda, substância não',
+      'Congelador: água vira gelo (física).', 'Reversível em geral'),
+    block('g_quim', 'Mudança química',
+      'Mudança química: matéria vira outra substância diferente. Papel queimado = carvão + fumaça (não é mais papel). Maçã apodrecendo = novas substâncias.',
+      'Gasolina queimando = CO₂ + água (não é mais gasolina). Ferro enferrujando = óxido de ferro (não é mais ferro puro).',
+      'Substância vira outra',
+      'Irreversível em geral.', 'Produz energia ou luz'),
+  ],
+  questions: [
+    mc(1, 'g_mat', 'Qual é um exemplo de matéria?', ['luz', 'calor', 'água', 'som'], 2, ['Água tem massa e volume', 'Luz não tem massa', 'Água é matéria'], 'Água é matéria.'),
+    tf(1, 'g_fis', 'Quando gelo vira água, é uma mudança química.', false, ['Ainda é H₂O', 'Mudança física', 'Forma muda, substância não'], 'Falso: é mudança física.'),
+    mc(2, 'g_quim', 'Qual é uma mudança química?', ['papel rasgado', 'gelo derretendo', 'papel queimando', 'água congelando'], 2, ['Papel vira cinzas', 'Nova substância', 'Mudança química'], 'Papel queimando é química.'),
+  ],
+  review: ['Matéria = massa + volume', 'Mudança física = forma muda', 'Mudança química = substância vira outra'],
+  relatedQuestions: [],
+  equivalentQuestions: [],
+  commonErrors: ['Confundir mudança física com química', 'Achar que tudo que muda é químico'],
+  games: { pairs: [
+    { a: 'matéria', b: 'massa + volume', difficulty: 1 },
+    { a: 'mudança física', b: 'forma muda', difficulty: 2 },
+    { a: 'mudança química', b: 'substância vira outra', difficulty: 2 },
+  ]},
+  sources: [SRC.bncc('Ciências da Natureza'), SRC.autoral()],
+})

@@ -1,0 +1,100 @@
+import type { Lesson } from '../../types'
+
+const BNCC = { title: 'Base Nacional Comum Curricular (BNCC) — Ciências da Natureza e suas Tecnologias', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' } as const
+const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
+
+export const velocidadeMedia: Lesson = {
+  id: 'fis-velocidade-media',
+  subject: 'fisica',
+  title: 'Velocidade média',
+  levels: ['fund2', 'medio'],
+  grade: '9º ano e 1ª série',
+  aliases: ['velocidade media', 'cinematica', 'movimento uniforme', 'mru', 'km/h para m/s', 'deslocamento e tempo', 'distancia tempo velocidade'],
+  summary: 'Calcule a velocidade média e converta entre km/h e m/s.',
+  intro: 'Se uma viagem de 300 km leva 3 horas, qual foi a velocidade? Vamos descobrir.',
+  skills: { conceito: 'Conceito de velocidade média', calculo: 'Calcular v = Δs/Δt', unidades: 'Conversão km/h ↔ m/s', mru: 'Movimento uniforme' },
+  blocks: [
+    { id: 'b1', skill: 'conceito', title: 'O que é velocidade média', text: 'Velocidade média é quanto um corpo se desloca, em média, por unidade de tempo. Ela não diz se o carro parou ou acelerou no caminho — só o resultado geral.', example: 'Mesmo parando num pedágio, se você percorreu 120 km em 2 h, sua velocidade média foi 60 km/h.' },
+    { id: 'b2', skill: 'calculo', title: 'A fórmula', text: 'v = Δs ÷ Δt, em que Δs é o deslocamento (variação da posição) e Δt é o intervalo de tempo. Isolando: Δs = v · Δt e Δt = Δs ÷ v.', example: '300 km em 3 h → v = 300 ÷ 3 = 100 km/h.' },
+    { id: 'b3', skill: 'unidades', title: 'km/h e m/s', text: 'No Sistema Internacional, velocidade é medida em m/s. Para passar de km/h para m/s, divida por 3,6; de m/s para km/h, multiplique por 3,6.', example: '72 km/h ÷ 3,6 = 20 m/s · 10 m/s × 3,6 = 36 km/h.' },
+    { id: 'b4', skill: 'mru', title: 'Movimento uniforme', text: 'No movimento retilíneo uniforme (MRU), a velocidade é constante: o corpo percorre distâncias iguais em tempos iguais. A posição segue s = s₀ + v·t.', example: 'Um carro a 20 m/s constantes, saindo do marco 100 m, estará em s = 100 + 20·5 = 200 m após 5 s.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'calculo', prompt: 'Um carro percorre 300 km em 3 horas. Qual foi sua velocidade média?', options: ['900 km/h', '100 km/h', '303 km/h', '60 km/h'], answer: 1, hints: ['v = Δs ÷ Δt.', '300 ÷ 3.', 'Resultado em km/h.'], explanation: 'v = 300 ÷ 3 = 100 km/h.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'calculo', prompt: 'Qual é a fórmula da velocidade média?', options: ['v = Δs × Δt', 'v = Δs ÷ Δt', 'v = Δt ÷ Δs', 'v = Δs + Δt'], answer: 1, hints: ['km/h = quilômetros POR hora.', '"Por" indica divisão.', 'Distância dividida por tempo.'], explanation: 'v = Δs ÷ Δt.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'unidades', prompt: 'Para converter km/h em m/s, dividimos por 3,6.', answer: true, hints: ['1 km = 1000 m; 1 h = 3600 s.', '1000 ÷ 3600 = 1/3,6.', 'Divide.'], explanation: 'Verdadeiro.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'unidades', prompt: 'Converta 72 km/h para m/s.', answers: ['20', '20 m/s'], hints: ['Divida por 3,6.', '72 ÷ 3,6.', 'Dá um número redondo.'], explanation: '72 ÷ 3,6 = 20 m/s.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'calculo', prompt: 'Um ciclista anda a 15 km/h durante 2 horas. Quantos km ele percorre?', answers: ['30', '30 km'], hints: ['Δs = v × Δt.', '15 × 2.', 'Resultado em km.'], explanation: 'Δs = 15 × 2 = 30 km.' },
+    { id: 'q6', type: 'match', difficulty: 2, skill: 'unidades', prompt: 'Ligue cada velocidade à equivalente.', pairs: [['36 km/h', '10 m/s'], ['72 km/h', '20 m/s'], ['108 km/h', '30 m/s'], ['18 km/h', '5 m/s']], hints: ['Divida cada valor por 3,6.', '36 ÷ 3,6 = 10.', '18 ÷ 3,6 = 5.'], explanation: '36→10 · 72→20 · 108→30 · 18→5.' },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'conceito', prompt: 'Numa viagem, um carro parou 30 minutos no posto. A velocidade média considera esse tempo parado?', options: ['Não, só o tempo em movimento', 'Sim, conta o tempo total da viagem', 'Só se a parada for maior que 1 h', 'Depende do motorista'], answer: 1, hints: ['Δt é o intervalo total.', 'Do início ao fim.', 'Inclui as paradas.'], explanation: 'Sim: Δt é o tempo total.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'calculo', prompt: 'Quanto tempo leva para percorrer 240 km a 80 km/h?', options: ['2 h', '3 h', '4 h', '320 h'], answer: 1, hints: ['Δt = Δs ÷ v.', '240 ÷ 80.', 'Resultado em horas.'], explanation: 'Δt = 240 ÷ 80 = 3 h.' },
+    { id: 'q9', type: 'tf', difficulty: 3, skill: 'mru', prompt: 'No MRU, o corpo percorre distâncias iguais em intervalos de tempo iguais.', answer: true, hints: ['Uniforme = constante.', 'A velocidade não muda.', 'Mesma distância a cada segundo.'], explanation: 'Verdadeiro.' },
+    { id: 'q10', type: 'fill', difficulty: 3, skill: 'mru', prompt: 'Um corpo em MRU parte de s₀ = 100 m com v = 20 m/s. Qual sua posição, em metros, após 5 s?', answers: ['200', '200 m'], hints: ['s = s₀ + v·t.', '100 + 20·5.', '100 + 100.'], explanation: 's = 100 + 100 = 200 m.' },
+  ],
+  review: ['v = Δs ÷ Δt (tempo total)', 'Δs = v·Δt · Δt = Δs ÷ v', 'km/h ÷ 3,6 = m/s', 'MRU: velocidade constante, s = s₀ + v·t'],
+  sources: [BNCC, AUTORAL],
+}
+
+export const ligacoesQuimicas: Lesson = {
+  id: 'qui-ligacoes-quimicas',
+  subject: 'quimica',
+  title: 'Ligações químicas',
+  levels: ['medio'],
+  grade: '1ª série',
+  aliases: ['ligacoes quimicas', 'ligacao ionica', 'ligacao covalente', 'ligacao metalica', 'regra do octeto', 'ions', 'compartilhamento de eletrons'],
+  summary: 'Entenda por que os átomos se ligam e diferencie as ligações iônica, covalente e metálica.',
+  intro: 'Por que o sal é sólido e a água é líquida? A resposta está no jeito como os átomos se ligam.',
+  skills: { octeto: 'Regra do octeto', ionica: 'Ligação iônica', covalente: 'Ligação covalente', metalica: 'Ligação metálica' },
+  blocks: [
+    { id: 'b1', skill: 'octeto', title: 'Por que os átomos se ligam', text: 'Os átomos tendem a ficar estáveis com 8 elétrons na camada de valência (ou 2, no caso do hidrogênio e do hélio), como os gases nobres. Para isso, eles ganham, perdem ou compartilham elétrons: é a regra do octeto.', example: 'O sódio tem 1 elétron de valência e tende a perdê-lo; o cloro tem 7 e tende a ganhar 1.' },
+    { id: 'b2', skill: 'ionica', title: 'Ligação iônica', text: 'Ocorre entre um metal e um ametal: o metal perde elétrons (vira cátion, +) e o ametal ganha (vira ânion, −). Os íons de cargas opostas se atraem. Compostos iônicos costumam ser sólidos e conduzir eletricidade quando dissolvidos em água.', example: 'NaCl (sal de cozinha): Na perde 1 elétron → Na⁺; Cl ganha → Cl⁻.' },
+    { id: 'b3', skill: 'covalente', title: 'Ligação covalente', text: 'Ocorre entre ametais (e hidrogênio), que compartilham pares de elétrons. Forma moléculas. Pode ser simples, dupla ou tripla, conforme o número de pares compartilhados.', example: 'H₂O: o oxigênio compartilha um par de elétrons com cada hidrogênio. O₂ tem ligação dupla.' },
+    { id: 'b4', skill: 'metalica', title: 'Ligação metálica', text: 'Ocorre entre átomos de metais. Os elétrons de valência ficam livres, formando um "mar de elétrons" ao redor dos cátions. Isso explica o brilho e a boa condução de calor e eletricidade dos metais.', example: 'Fios de cobre conduzem eletricidade graças à ligação metálica.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'octeto', prompt: 'Segundo a regra do octeto, os átomos tendem a ficar estáveis com quantos elétrons na camada de valência?', options: ['2', '4', '8', '18'], answer: 2, hints: ['"Octeto" lembra qual número?', 'Octógono tem 8 lados.', 'Oito.'], explanation: '8 elétrons (2 para H e He).' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'ionica', prompt: 'A ligação iônica ocorre geralmente entre:', options: ['Dois metais', 'Metal e ametal', 'Dois gases nobres', 'Dois ametais'], answer: 1, hints: ['Um átomo perde e outro ganha elétrons.', 'Metais tendem a perder.', 'Ametais tendem a ganhar.'], explanation: 'Entre metal e ametal.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'covalente', prompt: 'Na ligação covalente, os átomos compartilham elétrons.', answer: true, hints: ['Co-valente: valência em conjunto.', 'Ninguém perde nem ganha.', 'Dividem.'], explanation: 'Verdadeiro.' },
+    { id: 'q4', type: 'match', difficulty: 2, skill: 'metalica', prompt: 'Ligue cada substância ao tipo de ligação.', pairs: [['NaCl (sal)', 'Iônica'], ['H₂O (água)', 'Covalente'], ['Fio de cobre', 'Metálica']], hints: ['Na é metal e Cl é ametal.', 'H e O são ametais.', 'Cobre é metal puro.'], explanation: 'NaCl: iônica · H₂O: covalente · Cu: metálica.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'ionica', prompt: 'Um átomo que perde elétrons fica com carga positiva e é chamado de ________.', answers: ['cation', 'cátion'], hints: ['Íon positivo.', 'O oposto de ânion.', 'Cát…'], explanation: 'Cátion.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'octeto', prompt: 'O sódio (Na) tem 1 elétron na camada de valência. Para ficar estável, ele tende a:', options: ['Ganhar 7 elétrons', 'Perder 1 elétron', 'Compartilhar 4 elétrons', 'Não se ligar'], answer: 1, hints: ['O que é mais fácil: perder 1 ou ganhar 7?', 'Metais tendem a perder.', 'Perder 1.'], explanation: 'Perde 1 elétron e vira Na⁺.' },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'metalica', prompt: 'O que explica a boa condução elétrica dos metais?', options: ['Elétrons livres ("mar de elétrons")', 'Compartilhamento de pares fixos', 'Ausência de elétrons', 'Presença de ânions'], answer: 0, hints: ['Corrente elétrica é movimento de cargas.', 'Os elétrons precisam se mover.', 'Nos metais eles ficam livres.'], explanation: 'O "mar de elétrons" livres.' },
+    { id: 'q8', type: 'tf', difficulty: 3, skill: 'ionica', prompt: 'O sal de cozinha dissolvido em água conduz eletricidade.', answer: true, hints: ['Na água, os íons se separam.', 'Íons têm carga.', 'Cargas livres conduzem.'], explanation: 'Verdadeiro: os íons livres conduzem.' },
+    { id: 'q9', type: 'mc', difficulty: 3, skill: 'covalente', prompt: 'Na molécula de O₂, os dois oxigênios compartilham:', options: ['1 par de elétrons (ligação simples)', '2 pares de elétrons (ligação dupla)', '3 pares de elétrons (ligação tripla)', 'Nenhum elétron'], answer: 1, hints: ['O oxigênio tem 6 elétrons de valência.', 'Faltam 2 para o octeto.', 'Cada um "divide" 2 elétrons.'], explanation: 'Ligação dupla: 2 pares compartilhados.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'octeto', prompt: 'Explique a diferença entre ligação iônica e covalente.', modelAnswer: 'Na ligação iônica há transferência de elétrons: um átomo (geralmente metal) perde e outro (ametal) ganha, formando íons que se atraem. Na covalente, átomos de ametais compartilham pares de elétrons, formando moléculas.', keywords: ['transferencia', 'perde', 'ganha', 'ions', 'compartilh', 'metal', 'ametal', 'molecula'], hints: ['Em uma, os elétrons mudam de dono.', 'Na outra, são divididos.', 'Fale de íons e de compartilhamento.'], explanation: 'Iônica: transferência e íons · covalente: compartilhamento.' },
+  ],
+  review: ['Regra do octeto: 8 elétrons de valência', 'Iônica: metal + ametal, transferência, íons', 'Covalente: ametais, compartilhamento', 'Metálica: mar de elétrons, conduz'],
+  sources: [BNCC, { title: 'Toda Matéria — Ligações Químicas', url: 'https://www.todamateria.com.br/ligacoes-quimicas/', kind: 'site' }, AUTORAL],
+}
+
+export const genetica: Lesson = {
+  id: 'bio-primeira-lei-mendel',
+  subject: 'biologia',
+  title: 'Genética: 1ª Lei de Mendel',
+  levels: ['medio'],
+  grade: '3ª série',
+  aliases: ['genetica', 'mendel', 'primeira lei de mendel', 'lei da segregacao', 'dominante e recessivo', 'heranca genetica', 'alelos', 'genotipo fenotipo', 'quadro de punnett'],
+  summary: 'Genes, alelos dominantes e recessivos, genótipo, fenótipo e a proporção 3:1.',
+  intro: 'Por que você tem olhos parecidos com os do seu pai ou da sua mãe? Um monge e suas ervilhas ajudaram a explicar.',
+  skills: { conceitos: 'Gene, alelo, genótipo e fenótipo', dominancia: 'Dominante e recessivo', mendel: 'Experimentos de Mendel', cruzamentos: 'Cruzamentos e proporções' },
+  blocks: [
+    { id: 'b1', skill: 'conceitos', title: 'Vocabulário básico', text: 'Gene é um trecho de DNA que influencia uma característica. Alelos são versões de um gene. Recebemos um alelo da mãe e um do pai. Genótipo é o conjunto de alelos (ex.: Aa); fenótipo é a característica observada (ex.: semente amarela).', example: 'Para a cor da semente de ervilha, A = amarelo e a = verde.' },
+    { id: 'b2', skill: 'dominancia', title: 'Dominante e recessivo', text: 'O alelo dominante (letra maiúscula) se manifesta mesmo em dose única (AA ou Aa). O recessivo (minúscula) só aparece em dose dupla (aa). Quem tem alelos iguais é homozigoto; diferentes, heterozigoto.', example: 'Aa tem semente amarela (A domina), mas carrega o alelo a.' },
+    { id: 'b3', skill: 'mendel', title: 'Mendel e as ervilhas', text: 'Gregor Mendel cruzou ervilhas puras amarelas com verdes: todas as filhas (F1) nasceram amarelas. Cruzando as F1 entre si, na F2 surgiram amarelas e verdes na proporção de 3 para 1. Ele concluiu que cada característica depende de um par de fatores, que se separam na formação dos gametas: a Lei da Segregação.', example: 'Em cada 4 plantas da F2, cerca de 3 eram amarelas e 1 verde.' },
+    { id: 'b4', skill: 'cruzamentos', title: 'O quadro de Punnett', text: 'Para prever os descendentes, cruzamos os gametas num quadro. Aa × Aa dá AA, Aa, Aa, aa: genótipos 1:2:1 e fenótipos 3 dominantes : 1 recessivo (75% e 25%).', example: 'Aa × aa dá 50% Aa (amarelas) e 50% aa (verdes).' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'mendel', prompt: 'Com que planta Mendel fez seus experimentos?', options: ['Feijão', 'Ervilha', 'Milho', 'Rosa'], answer: 1, hints: ['É uma leguminosa.', 'Tem sementes amarelas ou verdes.', 'Erv…'], explanation: 'Com ervilhas.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'conceitos', prompt: 'Recebemos um alelo de cada gene da mãe e outro do pai.', answer: true, hints: ['Os genes vêm em pares.', 'Um de cada genitor.', 'Metade de cada.'], explanation: 'Verdadeiro.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'dominancia', prompt: 'Um alelo recessivo só se manifesta quando:', options: ['Está em dose única', 'Está em dose dupla (aa)', 'Está junto do dominante', 'Nunca se manifesta'], answer: 1, hints: ['O dominante "esconde" o recessivo.', 'Então não pode haver dominante.', 'Os dois alelos precisam ser recessivos.'], explanation: 'Só no homozigoto recessivo (aa).' },
+    { id: 'q4', type: 'match', difficulty: 2, skill: 'conceitos', prompt: 'Ligue cada termo ao significado.', pairs: [['Genótipo', 'Conjunto de alelos (ex.: Aa)'], ['Fenótipo', 'Característica observável'], ['Homozigoto', 'Alelos iguais (AA ou aa)'], ['Heterozigoto', 'Alelos diferentes (Aa)']], hints: ['"Geno" lembra gene.', '"Feno" lembra o que aparece.', 'Homo = igual; hetero = diferente.'], explanation: 'Genótipo: alelos · fenótipo: característica · homo: iguais · hetero: diferentes.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'mendel', prompt: 'Na geração F2 de Mendel, a proporção entre amarelas e verdes foi de ___ para 1.', answers: ['3'], hints: ['Em cada 4 plantas…', '…uma era verde.', 'As outras eram amarelas.'], explanation: '3 : 1.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'cruzamentos', prompt: 'No cruzamento Aa × Aa, qual a porcentagem esperada de descendentes aa?', options: ['0%', '25%', '50%', '75%'], answer: 1, hints: ['Monte o quadro: AA, Aa, Aa, aa.', 'Quantos aa em 4?', '1 em 4.'], explanation: '1/4 = 25%.' },
+    { id: 'q7', type: 'tf', difficulty: 2, skill: 'dominancia', prompt: 'Uma ervilha Aa tem sementes verdes.', answer: false, hints: ['A (amarelo) é dominante.', 'Em Aa, quem se manifesta?', 'O dominante.'], explanation: 'Falso. Aa é amarela.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'cruzamentos', prompt: 'No cruzamento Aa × aa, qual a proporção de fenótipos?', options: ['100% amarelas', '75% amarelas e 25% verdes', '50% amarelas e 50% verdes', '100% verdes'], answer: 2, hints: ['Gametas: A e a × a e a.', 'Resultados: Aa, Aa, aa, aa.', 'Metade de cada.'], explanation: '50% Aa (amarelas) e 50% aa (verdes).' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'mendel', prompt: 'A 1ª Lei de Mendel também é chamada de Lei da ________.', answers: ['segregacao', 'segregação', 'segregacao dos fatores'], hints: ['Os fatores se separam nos gametas.', 'Separar = segregar.', 'Segreg…'], explanation: 'Lei da Segregação.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'dominancia', prompt: 'Explique como dois pais de sementes amarelas podem ter descendentes com sementes verdes.', modelAnswer: 'Se os dois pais forem heterozigotos (Aa), cada um pode passar o alelo recessivo a. O descendente que receber a de cada um será aa e terá semente verde, o que acontece em cerca de 25% dos casos.', keywords: ['heterozigot', 'aa', 'recessivo', '25', 'alelo', 'cada'], hints: ['Qual o genótipo dos pais?', 'Eles "escondem" um alelo.', 'O filho recebe um de cada.'], explanation: 'Pais Aa podem gerar filhos aa (25%).' },
+  ],
+  review: ['Gene, alelo, genótipo (Aa) e fenótipo (característica)', 'Dominante aparece em AA/Aa; recessivo só em aa', 'Mendel: F1 toda dominante; F2 3:1', 'Aa × Aa → 1:2:1 (genótipos), 3:1 (fenótipos)'],
+  sources: [BNCC, { title: 'Toda Matéria — Primeira Lei de Mendel', url: 'https://www.todamateria.com.br/primeira-lei-de-mendel/', kind: 'site' }, AUTORAL],
+}

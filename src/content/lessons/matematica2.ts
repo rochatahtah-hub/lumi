@@ -1,0 +1,100 @@
+import type { Lesson } from '../../types'
+
+const BNCC = { title: 'Base Nacional Comum Curricular (BNCC) — Matemática', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' } as const
+const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
+
+export const equacao1grau: Lesson = {
+  id: 'mat-equacao-1-grau',
+  subject: 'matematica',
+  title: 'Equação do 1º grau',
+  levels: ['fund2', 'medio'],
+  grade: '7º ano',
+  aliases: ['equacao do primeiro grau', 'equacao do 1 grau', 'equacao simples', 'incognita', 'achar o x', 'isolar o x'],
+  summary: 'Aprenda a encontrar o valor desconhecido (x) mantendo a equação equilibrada.',
+  intro: 'Uma equação é como uma balança em equilíbrio. Vamos descobrir o peso escondido!',
+  skills: { conceito: 'O que é uma equação', operacoes: 'Operações inversas', resolucao: 'Resolver passo a passo', problemas: 'Montar equações a partir de problemas' },
+  blocks: [
+    { id: 'b1', skill: 'conceito', title: 'Uma balança em equilíbrio', text: 'Equação é uma igualdade com um valor desconhecido, a incógnita (geralmente x). Resolver é descobrir o valor de x que torna a igualdade verdadeira.', example: 'Em x + 3 = 10, o valor de x é 7, porque 7 + 3 = 10.' },
+    { id: 'b2', skill: 'operacoes', title: 'Operações inversas', text: 'Para isolar o x, desfazemos as operações usando a inversa: a soma se desfaz com subtração, e a multiplicação, com divisão. O que fazemos de um lado, fazemos do outro.', example: 'x + 5 = 12 → subtraia 5 dos dois lados → x = 7. E 3x = 18 → divida os dois lados por 3 → x = 6.' },
+    { id: 'b3', skill: 'resolucao', title: 'Passo a passo', text: 'Primeiro junte os números sem x de um lado e os termos com x do outro. Depois, divida pelo número que multiplica o x.', example: '2x + 4 = 14 → 2x = 14 − 4 → 2x = 10 → x = 5. Confira: 2·5 + 4 = 14 ✓.' },
+    { id: 'b4', skill: 'problemas', title: 'Transformando problemas em equações', text: 'Chame o valor desconhecido de x e traduza a frase em matemática: "o dobro" é 2x, "o triplo" é 3x, "somado a" é +.', example: '"O dobro de um número mais 3 é 11" → 2x + 3 = 11 → x = 4.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'conceito', prompt: 'Qual é o valor de x em x + 3 = 10?', options: ['13', '7', '3', '30'], answer: 1, hints: ['Que número somado a 3 dá 10?', 'Desfaça a soma.', '10 − 3.'], explanation: 'x = 10 − 3 = 7.' },
+    { id: 'q2', type: 'fill', difficulty: 1, skill: 'operacoes', prompt: 'Resolva: x − 4 = 9. x = ?', answers: ['13'], hints: ['A subtração se desfaz com…', 'Some 4 aos dois lados.', '9 + 4.'], explanation: 'x = 9 + 4 = 13.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'operacoes', prompt: 'Resolva: 3x = 18.', options: ['x = 6', 'x = 15', 'x = 21', 'x = 54'], answer: 0, hints: ['3x quer dizer 3 vezes x.', 'A multiplicação se desfaz com divisão.', '18 ÷ 3.'], explanation: 'x = 18 ÷ 3 = 6.' },
+    { id: 'q4', type: 'tf', difficulty: 1, skill: 'conceito', prompt: 'Numa equação, o que fazemos de um lado devemos fazer também do outro.', answer: true, hints: ['Lembre da balança.', 'Tirar peso só de um lado desequilibra.', 'Os dois lados mudam juntos.'], explanation: 'Verdadeiro. Assim a igualdade continua valendo.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'resolucao', prompt: 'Resolva: 2x + 4 = 14. x = ?', answers: ['5'], hints: ['Primeiro tire o 4.', '2x = 10.', 'Divida por 2.'], explanation: '2x = 10 → x = 5.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'resolucao', prompt: 'Resolva: 5x − 10 = 15.', options: ['x = 1', 'x = 5', 'x = 25', 'x = 3'], answer: 1, hints: ['Some 10 aos dois lados.', '5x = 25.', '25 ÷ 5.'], explanation: '5x = 25 → x = 5.' },
+    { id: 'q7', type: 'match', difficulty: 2, skill: 'problemas', prompt: 'Ligue cada frase à expressão.', pairs: [['O dobro de um número', '2x'], ['O triplo de um número', '3x'], ['Um número mais 5', 'x + 5'], ['A metade de um número', 'x ÷ 2']], hints: ['Dobro = 2 vezes.', 'Triplo = 3 vezes.', 'Metade = dividir por 2.'], explanation: 'Dobro: 2x · triplo: 3x · mais 5: x + 5 · metade: x ÷ 2.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'problemas', prompt: 'O dobro de um número mais 3 é igual a 11. Que número é esse?', options: ['4', '7', '8', '14'], answer: 0, hints: ['Monte: 2x + 3 = 11.', '2x = 8.', 'x = 8 ÷ 2.'], explanation: '2x + 3 = 11 → 2x = 8 → x = 4.' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'resolucao', prompt: 'Resolva: 4x + 2 = 2x + 10. x = ?', answers: ['4'], hints: ['Junte os x de um lado: 4x − 2x.', '2x = 10 − 2.', '2x = 8.'], explanation: '2x = 8 → x = 4. Confira: 18 = 18 ✓.' },
+    { id: 'q10', type: 'tf', difficulty: 3, skill: 'operacoes', prompt: 'Em x ÷ 3 = 5, o valor de x é 15.', answer: true, hints: ['A divisão se desfaz com…', 'Multiplique os dois lados por 3.', '5 × 3.'], explanation: 'Verdadeiro: x = 5 × 3 = 15.' },
+  ],
+  review: ['Equação = igualdade com incógnita', 'Use operações inversas dos dois lados', 'Junte x de um lado e números do outro', 'Sempre confira substituindo o valor'],
+  sources: [BNCC, AUTORAL],
+}
+
+export const pitagoras: Lesson = {
+  id: 'mat-teorema-pitagoras',
+  subject: 'matematica',
+  title: 'Teorema de Pitágoras',
+  levels: ['fund2', 'medio'],
+  grade: '9º ano',
+  aliases: ['pitagoras', 'teorema de pitagoras', 'triangulo retangulo', 'hipotenusa', 'catetos'],
+  summary: 'Descubra a relação entre os lados de um triângulo retângulo e use-a para calcular medidas.',
+  intro: 'Há mais de 2 mil anos já se sabia um segredo dos triângulos com um ângulo reto. Vamos a ele!',
+  skills: { elementos: 'Hipotenusa e catetos', teorema: 'A fórmula a² = b² + c²', calculo: 'Calcular um lado', aplicacoes: 'Aplicações' },
+  blocks: [
+    { id: 'b1', skill: 'elementos', title: 'O triângulo retângulo', text: 'Triângulo retângulo é o que tem um ângulo de 90° (ângulo reto). O lado oposto ao ângulo reto é a hipotenusa — sempre o maior lado. Os outros dois são os catetos.', example: 'No canto de uma folha de papel há um ângulo reto. A diagonal da folha faria o papel de hipotenusa.' },
+    { id: 'b2', skill: 'teorema', title: 'A relação de Pitágoras', text: 'Em todo triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos: a² = b² + c², em que a é a hipotenusa.', example: 'Catetos 3 e 4: 3² + 4² = 9 + 16 = 25 = 5². A hipotenusa mede 5.' },
+    { id: 'b3', skill: 'calculo', title: 'Calculando o lado que falta', text: 'Para achar a hipotenusa, some os quadrados dos catetos e tire a raiz. Para achar um cateto, subtraia do quadrado da hipotenusa o quadrado do outro cateto e tire a raiz.', example: 'Hipotenusa 13 e cateto 5: c² = 169 − 25 = 144 → c = 12.' },
+    { id: 'b4', skill: 'aplicacoes', title: 'Onde isso aparece', text: 'O teorema calcula distâncias em diagonal: a altura que uma escada alcança numa parede, a diagonal de uma tela ou de um terreno.', example: 'Escada de 5 m com o pé a 3 m da parede alcança √(25 − 9) = 4 m de altura.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'elementos', prompt: 'Num triângulo retângulo, o lado oposto ao ângulo reto se chama:', options: ['Cateto', 'Hipotenusa', 'Base', 'Mediana'], answer: 1, hints: ['É o maior lado.', 'Não é cateto.', 'Começa com H.'], explanation: 'A hipotenusa fica oposta ao ângulo de 90°.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'elementos', prompt: 'A hipotenusa é sempre o maior lado do triângulo retângulo.', answer: true, hints: ['Ela fica oposta ao maior ângulo.', 'O maior ângulo é o de 90°.', 'Maior ângulo → maior lado.'], explanation: 'Verdadeiro.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'teorema', prompt: 'Qual é a fórmula do Teorema de Pitágoras (a = hipotenusa)?', options: ['a = b + c', 'a² = b² + c²', 'a² = b + c', 'a = b² − c²'], answer: 1, hints: ['Envolve quadrados.', 'A hipotenusa fica sozinha de um lado.', 'Soma dos quadrados dos catetos.'], explanation: 'a² = b² + c².' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'calculo', prompt: 'Os catetos medem 3 e 4. Quanto mede a hipotenusa?', answers: ['5'], hints: ['Calcule 3² + 4².', '9 + 16 = 25.', 'Raiz de 25.'], explanation: 'a² = 25 → a = 5.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'calculo', prompt: 'Os catetos medem 6 e 8. Quanto mede a hipotenusa?', answers: ['10'], hints: ['6² + 8².', '36 + 64 = 100.', '√100.'], explanation: 'a² = 100 → a = 10.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'calculo', prompt: 'A hipotenusa mede 13 e um cateto mede 5. Quanto mede o outro cateto?', options: ['8', '12', '18', '10'], answer: 1, hints: ['c² = 13² − 5².', '169 − 25 = 144.', '√144.'], explanation: 'c² = 144 → c = 12.' },
+    { id: 'q7', type: 'match', difficulty: 2, skill: 'elementos', prompt: 'Ligue cada termo à descrição.', pairs: [['Hipotenusa', 'Maior lado, oposto ao ângulo reto'], ['Catetos', 'Lados que formam o ângulo reto'], ['Ângulo reto', 'Mede 90°'], ['a² = b² + c²', 'Teorema de Pitágoras']], hints: ['O ângulo reto é o do "canto".', 'Os catetos o formam.', 'A fórmula tem nome de um matemático grego.'], explanation: 'Hipotenusa: maior lado · catetos: formam o ângulo reto · ângulo reto: 90° · a² = b² + c²: Pitágoras.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'aplicacoes', prompt: 'Uma escada de 5 m está apoiada numa parede, com o pé a 3 m dela. Que altura ela alcança?', options: ['2 m', '4 m', '8 m', '√34 m'], answer: 1, hints: ['A escada é a hipotenusa.', 'h² = 5² − 3².', '25 − 9 = 16.'], explanation: 'h = √16 = 4 m.' },
+    { id: 'q9', type: 'tf', difficulty: 3, skill: 'teorema', prompt: 'O Teorema de Pitágoras vale para qualquer triângulo.', answer: false, hints: ['Releia a condição do teorema.', 'Precisa ter um ângulo especial.', 'Só com ângulo de 90°.'], explanation: 'Falso. Vale apenas para triângulos retângulos.' },
+    { id: 'q10', type: 'open', difficulty: 3, skill: 'aplicacoes', prompt: 'Explique como você usaria o Teorema de Pitágoras para descobrir a diagonal de um terreno retangular de 30 m por 40 m.', modelAnswer: 'A diagonal divide o retângulo em dois triângulos retângulos. Os lados 30 e 40 são os catetos e a diagonal é a hipotenusa: d² = 30² + 40² = 900 + 1600 = 2500, então d = 50 m.', keywords: ['cateto', 'hipotenusa', 'triangulo', '2500', '50', 'quadrado', 'raiz'], hints: ['A diagonal forma que tipo de triângulo?', 'Quem são os catetos?', 'Some 30² e 40² e tire a raiz.'], explanation: 'Catetos 30 e 40, hipotenusa = diagonal = 50 m.' },
+  ],
+  review: ['Triângulo retângulo: um ângulo de 90°', 'Hipotenusa = maior lado; catetos formam o ângulo reto', 'a² = b² + c²', 'Serve para distâncias em diagonal'],
+  sources: [BNCC, AUTORAL],
+}
+
+export const funcao1grau: Lesson = {
+  id: 'mat-funcao-1-grau',
+  subject: 'matematica',
+  title: 'Função do 1º grau',
+  levels: ['medio'],
+  grade: '1ª série',
+  aliases: ['funcao afim', 'funcao do primeiro grau', 'funcao do 1 grau', 'funcao linear', 'coeficiente angular', 'grafico de funcao'],
+  summary: 'Entenda a função f(x) = ax + b, seus coeficientes, a raiz e o gráfico em linha reta.',
+  intro: 'Funções descrevem relações: quanto mais você anda de táxi, mais paga. Vamos ver a mais simples delas.',
+  skills: { forma: 'Forma f(x) = ax + b', coeficientes: 'Coeficientes a e b', raiz: 'Raiz da função', grafico: 'Gráfico e crescimento' },
+  blocks: [
+    { id: 'b1', skill: 'forma', title: 'O que é a função afim', text: 'A função do 1º grau tem a forma f(x) = ax + b, com a ≠ 0. Para cada valor de x, a função devolve um único valor f(x).', example: 'Táxi com bandeirada de R$ 5 e R$ 2 por km: f(x) = 2x + 5. Em 10 km: f(10) = 25 reais.' },
+    { id: 'b2', skill: 'coeficientes', title: 'Os coeficientes a e b', text: 'O coeficiente a (angular) indica quanto f(x) muda quando x aumenta 1. O coeficiente b (linear) é o valor de f(x) quando x = 0 — o ponto onde a reta corta o eixo y.', example: 'Em f(x) = 2x + 5, cada km a mais custa 2 reais (a = 2), e o valor inicial é 5 (b = 5).' },
+    { id: 'b3', skill: 'raiz', title: 'A raiz (zero da função)', text: 'A raiz é o valor de x que faz f(x) = 0. Basta resolver ax + b = 0, que dá x = −b/a. No gráfico, é onde a reta corta o eixo x.', example: 'f(x) = 2x − 6 → 2x − 6 = 0 → x = 3.' },
+    { id: 'b4', skill: 'grafico', title: 'Gráfico: uma reta', text: 'O gráfico da função afim é sempre uma reta. Se a > 0, a função é crescente (a reta sobe); se a < 0, é decrescente (a reta desce).', example: 'f(x) = −x + 4 é decrescente: quando x aumenta, f(x) diminui.' },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'forma', prompt: 'Qual destas é uma função do 1º grau?', options: ['f(x) = x² + 1', 'f(x) = 3x − 2', 'f(x) = 5', 'f(x) = 1/x'], answer: 1, hints: ['A forma é ax + b.', 'O x não pode estar ao quadrado.', 'Procure "número vezes x mais número".'], explanation: 'f(x) = 3x − 2 tem a forma ax + b com a = 3.' },
+    { id: 'q2', type: 'fill', difficulty: 1, skill: 'forma', prompt: 'Se f(x) = 2x + 5, quanto vale f(10)?', answers: ['25'], hints: ['Troque x por 10.', '2 · 10 + 5.', '20 + 5.'], explanation: 'f(10) = 20 + 5 = 25.' },
+    { id: 'q3', type: 'mc', difficulty: 1, skill: 'coeficientes', prompt: 'Em f(x) = 4x − 7, qual é o coeficiente angular?', options: ['4', '−7', 'x', '−3'], answer: 0, hints: ['O angular acompanha o x.', 'É o "a" de ax + b.', 'O número na frente do x.'], explanation: 'a = 4.' },
+    { id: 'q4', type: 'tf', difficulty: 1, skill: 'grafico', prompt: 'O gráfico de uma função do 1º grau é uma reta.', answer: true, hints: ['Pense na forma do desenho.', 'Não é curva.', 'É uma linha reta.'], explanation: 'Verdadeiro.' },
+    { id: 'q5', type: 'fill', difficulty: 2, skill: 'raiz', prompt: 'Qual é a raiz de f(x) = 2x − 6?', answers: ['3'], hints: ['Faça f(x) = 0.', '2x − 6 = 0.', '2x = 6.'], explanation: 'x = 3.' },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'grafico', prompt: 'A função f(x) = −3x + 1 é:', options: ['Crescente', 'Decrescente', 'Constante', 'Não é função'], answer: 1, hints: ['Olhe o sinal de a.', 'a = −3.', 'a negativo → reta desce.'], explanation: 'a < 0: decrescente.' },
+    { id: 'q7', type: 'match', difficulty: 2, skill: 'coeficientes', prompt: 'Ligue cada termo ao significado.', pairs: [['Coeficiente a', 'Taxa de variação'], ['Coeficiente b', 'Onde a reta corta o eixo y'], ['Raiz', 'Onde a reta corta o eixo x'], ['a > 0', 'Função crescente']], hints: ['b é o valor quando x = 0.', 'A raiz faz f(x) = 0.', 'a positivo sobe.'], explanation: 'a: variação · b: corte no eixo y · raiz: corte no eixo x · a > 0: crescente.' },
+    { id: 'q8', type: 'mc', difficulty: 3, skill: 'forma', prompt: 'Um plano de celular custa R$ 30 fixos mais R$ 0,50 por minuto. Qual função representa o valor f(x) para x minutos?', options: ['f(x) = 30x + 0,5', 'f(x) = 0,5x + 30', 'f(x) = 30,5x', 'f(x) = 0,5x − 30'], answer: 1, hints: ['O que depende dos minutos?', 'R$ 0,50 multiplica x.', 'O fixo é o b.'], explanation: 'f(x) = 0,5x + 30.' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'raiz', prompt: 'Qual é a raiz de f(x) = −4x + 12?', answers: ['3'], hints: ['−4x + 12 = 0.', '−4x = −12.', 'x = −12 ÷ −4.'], explanation: 'x = 3.' },
+    { id: 'q10', type: 'tf', difficulty: 3, skill: 'coeficientes', prompt: 'Em f(x) = 5x + 2, o gráfico corta o eixo y no ponto (0, 2).', answer: true, hints: ['O eixo y é onde x = 0.', 'f(0) = 5·0 + 2.', 'f(0) = 2.'], explanation: 'Verdadeiro: f(0) = b = 2.' },
+  ],
+  review: ['f(x) = ax + b, com a ≠ 0', 'a = taxa de variação · b = valor inicial', 'Raiz: x = −b/a', 'a > 0 cresce · a < 0 decresce · gráfico é reta'],
+  sources: [BNCC, AUTORAL],
+}

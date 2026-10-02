@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-grafite: #1B2430;
+  --color-grafite-2: #252F3D;
+  --color-grafite-3: #334155;
+  --color-laranja: #FF8A1F;
+  --color-laranja-escuro: #E6700A;
+  --color-laranja-claro: #FFB347;
+  --color-laranja-suave: #FFF3E6;
+  --color-cinza: #E5E7EB;
+  --color-cinza-texto: #64748B;
+  --color-offwhite: #F8FAFC;
+  --color-sucesso: #22A06B;
+  --color-sucesso-suave: #E7F7EF;
+  --color-erro: #E5484D;
+  --color-erro-suave: #FDECEC;
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-offwhite text-grafite font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--color-laranja-claro); outline-offset: 2px; }
+}
+
+@utility safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+@utility safe-top { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+
+@keyframes pop { 0% { transform: scale(.6); opacity: 0 } 70% { transform: scale(1.08) } 100% { transform: scale(1); opacity: 1 } }
+@keyframes rise { from { transform: translateY(8px); opacity: 0 } to { transform: none; opacity: 1 } }
+@utility animate-pop { animation: pop .45s ease-out both; }
+@utility animate-rise { animation: rise .3s ease-out both; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ───────── Mascote LUMI: aparições atrás dos cards da Home ─────────
+   Camadas: fundo → mascote (fatia acima da borda do card) → card → texto/ícone.
+   --peek-band = espaço acima da 1ª fileira · --peek-gap = fresta entre fileiras (também o row-gap do grid) */
+.lumi-cards { --peek-band: 76px; --peek-gap: 20px; }
+@media (min-width: 640px) { .lumi-cards { --peek-band: 112px; --peek-gap: 26px; } }
+.lumi-cards-grid { row-gap: var(--peek-gap); }
+/* a janela: tudo abaixo da borda superior do card é cortado (o card, na frente, esconde o corpo) */
+.lumi-peek-slot {
+  position: absolute; left: 0; right: 0; bottom: 100%; z-index: 0; pointer-events: none;
+  height: var(--peek-band); clip-path: inset(-200px -80px 0 -80px);
+}
+.lumi-peek-slot.is-gap { height: var(--peek-gap); }
+.lumi-peek {
+  position: absolute; bottom: 0; height: calc(var(--peek-band) - 2px); will-change: transform;
+  animation: lumi-peek-rise 5s both;
+}
+.lumi-peek.is-ears { height: calc(var(--peek-gap) + 4px); }
+.lumi-peek.is-still, .lumi-peek.is-still * { animation: none !important; }
+.lumi-peek-l { left: 4%; }
+.lumi-peek-r { right: 4%; }
+.lumi-peek-c { left: 0; right: 0; margin-inline: auto; width: fit-content; }
+.lumi-peek-act { position: relative; height: 100%; transform-origin: 50% 100%; animation: 5s ease-in-out both; }
+.lumi-peek-img {
+  display: block; height: 100%; width: auto; max-width: none; user-select: none;
+  /* luz do ambiente: sombra projetada no fundo + leve brilho laranja, como o resto da Home */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .5)) drop-shadow(0 0 12px rgba(255, 138, 31, .14)) saturate(.97);
+}
+.act-head .lumi-peek-img { height: 45%; margin-top: auto; }
+.act-head { display: flex; align-items: flex-end; }
+/* sobe devagar de trás do card, fica e volta a se esconder */
+@keyframes lumi-peek-rise {
+  0% { transform: translateY(104%); animation-timing-function: cubic-bezier(.2, .75, .3, 1) }
+  18% { transform: translateY(0) }
+  84% { transform: translateY(0); animation-timing-function: cubic-bezier(.6, 0, .8, .4) }
+  100% { transform: translateY(104%) }
+}
+.act-look { animation-name: lumi-act-look; }   /* olha para um lado, para o outro, pisca */
+.act-grip { animation-name: lumi-act-grip; }   /* apoiado na borda, inclina a cabeça */
+.act-wave { animation-name: lumi-act-wave; }   /* tchau: 3 balanços */
+.act-kiss { animation-name: lumi-act-kiss; }
+.act-smile { animation-name: lumi-act-smile; }
+.act-head { animation-name: lumi-act-head; }   /* espia por cima da borda */
+.act-ears { animation-name: lumi-act-ears; }   /* aparece rapidinho pela fresta */
+@keyframes lumi-act-look { 0%, 24% { rotate: 0deg } 34%, 46% { rotate: -5deg } 56%, 68% { rotate: 4deg } 78%, 100% { rotate: 0deg } }
+@keyframes lumi-act-grip { 0%, 26% { rotate: 0deg; translate: 0 0 } 38%, 52% { rotate: 4deg; translate: 0 -2% } 64% { rotate: -2deg; translate: 0 0 } 74%, 100% { rotate: 0deg } }
+@keyframes lumi-act-wave { 0%, 22% { rotate: 0deg } 29% { rotate: -3deg } 36% { rotate: 3deg } 43% { rotate: -3deg } 50% { rotate: 3deg } 57% { rotate: -2deg } 64%, 100% { rotate: 0deg } }
+@keyframes lumi-act-kiss { 0%, 24% { rotate: 0deg; scale: 1 } 34% { rotate: -4deg; scale: 1.03 } 44%, 70% { rotate: -2deg; scale: 1.02 } 80%, 100% { rotate: 0deg; scale: 1 } }
+@keyframes lumi-act-smile { 0%, 22% { rotate: 0deg } 36%, 52% { rotate: 5deg } 66%, 100% { rotate: 0deg } }
+@keyframes lumi-act-head { 0%, 22% { rotate: 0deg } 34%, 44% { rotate: -6deg } 56%, 66% { rotate: 5deg } 78%, 100% { rotate: 0deg } }
+@keyframes lumi-act-ears { 0%, 30% { rotate: 0deg } 45% { rotate: 6deg } 60% { rotate: -5deg } 72%, 100% { rotate: 0deg } }
+/* piscada: uma "pálpebra" da cor do visor fecha e abre rápido sobre cada olho */
+.lumi-peek-lid {
+  position: absolute; translate: -50% -50%; border-radius: 50%; background: #0d0a09; box-shadow: 0 0 3px 2px #0d0a09;
+  transform: scaleY(0); transform-origin: 50% 0; animation: lumi-blink 5s linear both;
+}
+@keyframes lumi-blink {
+  0%, 29% { transform: scaleY(0) } 30.5% { transform: scaleY(1) } 32%, 71% { transform: scaleY(0) }
+  72.5% { transform: scaleY(1) } 74%, 100% { transform: scaleY(0) }
+}
+/* beijinho: dois coraçõezinhos laranja que sobem e somem */
+.lumi-peek-heart { position: absolute; width: 11%; color: #FF8A1F; filter: drop-shadow(0 0 4px rgba(255, 138, 31, .7)); opacity: 0; animation: lumi-heart 5s ease-out both; }
+.lumi-peek-heart.h0 { left: 14%; top: 30%; }
+.lumi-peek-heart.h1 { left: 4%; top: 46%; width: 8%; animation-name: lumi-heart-2; }
+@keyframes lumi-heart { 0%, 34% { opacity: 0; transform: translate(0, 0) scale(.6) } 42% { opacity: 1; transform: translate(-10%, -30%) scale(1) } 70%, 100% { opacity: 0; transform: translate(-40%, -160%) scale(.9) } }
+@keyframes lumi-heart-2 { 0%, 42% { opacity: 0; transform: translate(0, 0) scale(.6) } 50% { opacity: .9; transform: translate(-10%, -30%) scale(1) } 76%, 100% { opacity: 0; transform: translate(-50%, -170%) scale(.9) } }
+/* sombra de contato das mãos na borda do card (fica na frente do card, bem sutil) */
+.lumi-peek-contact {
+  position: absolute; top: -3px; height: 8px; width: calc(var(--peek-band) * .95); z-index: 2; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(27, 36, 48, .32), transparent); border-radius: 50%;
+  animation: lumi-contact 5s both;
+}
+.lumi-peek-contact.is-still { animation: none; }
+@keyframes lumi-contact { 0%, 14% { opacity: 0 } 20%, 82% { opacity: 1 } 88%, 100% { opacity: 0 } }
+
+/* ───────── Mascote LUMI: reações ao acertar ───────── */
+.lumi-feedback { animation: rise .3s ease-out both; }
+.lumi-feedback-easy .lumi-mascot { animation: lumi-in-easy .55s cubic-bezier(.2, .8, .3, 1.2) both; }
+.lumi-feedback-medium .lumi-mascot { animation: lumi-in-medium .8s cubic-bezier(.2, .8, .3, 1.3) both; }
+.lumi-feedback-hard .lumi-mascot { animation: lumi-in-hard .9s cubic-bezier(.2, .9, .3, 1.4) both; }
+.lumi-feedback-hard .lumi-feedback-title { animation: pop .5s .25s ease-out both; }
+@keyframes lumi-in-easy { from { opacity: 0; transform: translateY(14px) rotate(-3deg) } to { opacity: 1; transform: none } }
+@keyframes lumi-in-medium {
+  0% { opacity: 0; transform: translateY(20px) scale(.92) }
+  55% { opacity: 1; transform: translateY(-8px) scale(1.03) }
+  75% { transform: translateY(2px) } 100% { transform: none }
+}
+@keyframes lumi-in-hard {
+  0% { opacity: 0; transform: scale(.78) translateY(10px) }
+  45% { opacity: 1; transform: scale(1.08) translateY(-6px) }
+  65% { transform: scale(.98) } 100% { transform: none }
+}
+.lumi-sparkle { font-size: 14px; opacity: 0; animation: lumi-twinkle 1.6s ease-in-out .2s 2 both; }
+@keyframes lumi-twinkle { 0%, 100% { opacity: 0; transform: scale(.6) } 40% { opacity: 1; transform: scale(1.15) } }

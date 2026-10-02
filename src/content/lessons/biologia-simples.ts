@@ -1,0 +1,45 @@
+// Biologia 1º Médio — LUMI. Ultra-simples.
+import { block, lesson, mc, tf, SRC } from '../dsl'
+
+export const biologiaSimples = lesson({
+  id: 'bio-1med-simples', subject: 'biologia', title: 'Características da Vida', levels: ['medio'], grade: '1º Ensino Médio',
+  topic: 'Biologia 1º Médio — Fundamentais', subtopic: 'Propriedades dos seres vivos',
+  aliases: ['vida', 'ser vivo', 'características', 'propriedades', 'organismo'],
+  summary: 'Entenda o que torna algo vivo.',
+  intro: 'O que separa um carro de um gato? A vida. Seres vivos têm características especiais.',
+  objective: 'Conhecer as propriedades dos seres vivos.',
+  prerequisites: [], next: [],
+  skills: { g_vivo: 'Ser vivo', g_prop: 'Propriedades', g_ex: 'Exemplos' },
+  blocks: [
+    block('g_vivo', 'O que é um ser vivo',
+      'Ser vivo: organismo com vida. Tem metabolismo (come, respira), cresce, se reproduz, responde a estímulos, evolui.',
+      'Você: ser vivo. Gato: ser vivo. Bactéria: ser vivo (é célula única). Carro: não é vivo (não come, não cresce sozinho).',
+      'Organismo = tem vida',
+      'Plantas são vivas (crescem, sentem luz).', 'Fungos são vivos (comem decadência)'),
+    block('g_prop', 'Propriedades dos seres vivos',
+      'Metabolismo: usa energia (come, respira). Crescimento: fica maior. Reprodução: faz cópias (filhos). Adaptação: muda para ambiente. Homeostase: mantém equilíbrio interno.',
+      'Você respira = metabolismo. Você cresce até 18-20 anos = crescimento. Você tem filhos = reprodução. Você sua quando quente = homeostase.',
+      'Características da vida',
+      'Todas as vidas têm essas propriedades.', 'Nenhuma coisa morta tem todas juntas'),
+    block('g_ex', 'Vivos vs não-vivos',
+      'Vivo: você, gato, árvore, bactéria, vírus (debate). Não-vivo: carro, pedra, computador, água pura. Fronteiriço: vírus (tem DNA mas não eat sozinho).',
+      'Planta: viva (cresce, se reproduz). Rocha: não-viva (não muda de sozinha). Semente: viva (pode germinar).',
+      'Vivo ou não-vivo',
+      'Critério: tem vida própria.', 'Semente dormindo ainda é viva'),
+  ],
+  questions: [
+    mc(1, 'g_vivo', 'Qual é um ser vivo?', ['carro', 'pedra', 'bactéria', 'computador'], 2, ['Bactéria come', 'Bactéria cresce', 'Bactéria se reproduz'], 'Bactéria é ser vivo.'),
+    tf(1, 'g_prop', 'Um robô é vivo porque se move.', false, ['Movimento não define vida', 'Falta metabolismo', 'Falta reprodução'], 'Falso: robô não é vivo.'),
+    mc(2, 'g_ex', 'Qual NÃO é um ser vivo?', ['árvore', 'formiga', 'pedra', 'fungo'], 2, ['Pedra não cresce sozinha', 'Pedra não come', 'Pedra é não-viva'], 'Pedra não é ser vivo.'),
+  ],
+  review: ['Ser vivo = metabolismo, crescimento, reprodução', 'Vivos comem e respiram', 'Não-vivos não têm vida própria'],
+  relatedQuestions: [],
+  equivalentQuestions: [],
+  commonErrors: ['Confundir movimento com vida', 'Achar que tudo que cresce é vivo', 'Não entender o que é metabolismo'],
+  games: { pairs: [
+    { a: 'ser vivo', b: 'tem metabolismo', difficulty: 1 },
+    { a: 'crescimento', b: 'propriedade de vivos', difficulty: 1 },
+    { a: 'reprodução', b: 'faz cópias', difficulty: 2 },
+  ]},
+  sources: [SRC.bncc('Ciências da Natureza'), SRC.autoral()],
+})

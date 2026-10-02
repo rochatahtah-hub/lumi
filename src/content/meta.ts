@@ -1,0 +1,61 @@
+// Organização da base: assunto, subassunto e perguntas como os alunos costumam fazer.
+// As perguntas relacionadas alimentam a busca (o aluno não precisa digitar o nome exato do conteúdo).
+
+export const LESSON_META: Record<string, { topic: string; subtopic: string; relatedQuestions: string[] }> = {
+  'mat-fracoes': { topic: 'Números racionais', subtopic: 'Frações', relatedQuestions: ['O que é numerador e denominador?', 'Como simplificar uma fração?', 'O que são frações equivalentes?', 'Como ler uma fração?'] },
+  'mat-porcentagem': { topic: 'Proporcionalidade', subtopic: 'Porcentagem', relatedQuestions: ['Como calcular porcentagem?', 'Como calcular desconto?', 'Quanto é 10% de um valor?', 'Como calcular aumento percentual?'] },
+  'mat-equacao-2-grau': { topic: 'Álgebra', subtopic: 'Equação do 2º grau', relatedQuestions: ['Como usar a fórmula de Bhaskara?', 'Como calcular o delta?', 'Como achar as raízes de uma equação do segundo grau?'] },
+  'mat-equacao-1-grau': { topic: 'Álgebra', subtopic: 'Equação do 1º grau', relatedQuestions: ['Como achar o valor de x?', 'Como resolver uma equação simples?', 'O que é incógnita?'] },
+  'mat-teorema-pitagoras': { topic: 'Geometria', subtopic: 'Triângulo retângulo', relatedQuestions: ['Como calcular a hipotenusa?', 'O que diz o teorema de Pitágoras?', 'Como achar o cateto?'] },
+  'mat-funcao-1-grau': { topic: 'Funções', subtopic: 'Função afim', relatedQuestions: ['O que é função do primeiro grau?', 'Como achar a raiz da função?', 'O que é coeficiente angular?'] },
+  'por-substantivo-adjetivo': { topic: 'Gramática', subtopic: 'Substantivo e adjetivo', relatedQuestions: ['O que é substantivo?', 'O que é adjetivo?', 'Qual a diferença entre substantivo próprio e comum?'] },
+  'por-verbos': { topic: 'Gramática', subtopic: 'Verbo', relatedQuestions: ['O que é verbo?', 'Quais são os tempos verbais?', 'O que é modo subjuntivo?', 'Como conjugar um verbo?'] },
+  'por-sujeito-predicado': { topic: 'Sintaxe', subtopic: 'Termos essenciais da oração', relatedQuestions: ['Como encontrar o sujeito da frase?', 'O que é predicado?', 'O que é sujeito oculto?', 'O que é oração sem sujeito?'] },
+  'por-tipos-generos-textuais': { topic: 'Leitura e produção de texto', subtopic: 'Tipos e gêneros textuais', relatedQuestions: ['Qual a diferença entre tipo e gênero textual?', 'O que é texto narrativo?', 'O que é texto dissertativo?', 'Como interpretar um texto?'] },
+  'cie-fotossintese': { topic: 'Plantas', subtopic: 'Fotossíntese', relatedQuestions: ['Como as plantas produzem seu próprio alimento?', 'Como a planta se alimenta?', 'Por que as folhas são verdes?', 'Como as plantas fazem comida?', 'Para que serve a clorofila?'] },
+  'cie-sistema-solar': { topic: 'Terra e Universo', subtopic: 'Sistema Solar', relatedQuestions: ['Quantos planetas existem?', 'Qual é o maior planeta?', 'Por que existe dia e noite?', 'O Sol é uma estrela?'] },
+  'cie-ciclo-da-agua': { topic: 'Água', subtopic: 'Ciclo hidrológico', relatedQuestions: ['Como a chuva se forma?', 'Como as nuvens se formam?', 'Para onde vai a água da chuva?', 'O que é evaporação?'] },
+  'cie-sistema-digestorio': { topic: 'Corpo humano', subtopic: 'Sistema digestório', relatedQuestions: ['Como funciona a digestão?', 'Para onde vai a comida que comemos?', 'O que faz o estômago?', 'Para que serve o intestino?'] },
+  'bio-celula': { topic: 'Citologia', subtopic: 'Célula e organelas', relatedQuestions: ['O que é célula?', 'Para que serve a mitocôndria?', 'Qual a diferença entre célula animal e vegetal?'] },
+  'bio-cadeias-alimentares': { topic: 'Ecologia', subtopic: 'Cadeias e teias alimentares', relatedQuestions: ['O que é cadeia alimentar?', 'O que são produtores e consumidores?', 'Quem são os decompositores?', 'Quem come quem na natureza?'] },
+  'bio-primeira-lei-mendel': { topic: 'Genética', subtopic: '1ª Lei de Mendel', relatedQuestions: ['O que é gene dominante e recessivo?', 'O que diz a primeira lei de Mendel?', 'Como fazer o quadro de Punnett?', 'O que é genótipo e fenótipo?'] },
+  'his-revolucao-francesa': { topic: 'Idade Contemporânea', subtopic: 'Revolução Francesa', relatedQuestions: ['O que foi a Revolução Francesa?', 'O que foi a Queda da Bastilha?', 'O que foi o período do Terror?'] },
+  'his-brasil-colonia': { topic: 'História do Brasil', subtopic: 'Período colonial', relatedQuestions: ['Como foi a chegada dos portugueses ao Brasil?', 'O que foram as capitanias hereditárias?', 'Quem foi Tomé de Sousa?', 'Como era a economia do açúcar?'] },
+  'his-independencia-brasil': { topic: 'História do Brasil', subtopic: 'Independência', relatedQuestions: ['Como foi a Independência do Brasil?', 'O que foi o Dia do Fico?', 'O que aconteceu em 7 de setembro?', 'Quem proclamou a independência?'] },
+  'his-segunda-guerra': { topic: 'Idade Contemporânea', subtopic: 'Segunda Guerra Mundial', relatedQuestions: ['Por que começou a Segunda Guerra Mundial?', 'O que foi o Holocausto?', 'O Brasil participou da Segunda Guerra?', 'Quem eram os Aliados e o Eixo?'] },
+  'geo-coordenadas': { topic: 'Cartografia', subtopic: 'Coordenadas geográficas', relatedQuestions: ['O que é latitude e longitude?', 'O que é a Linha do Equador?', 'O que é o Meridiano de Greenwich?'] },
+  'geo-biomas-brasileiros': { topic: 'Natureza e paisagem', subtopic: 'Biomas do Brasil', relatedQuestions: ['Quais são os biomas brasileiros?', 'Qual é o maior bioma do Brasil?', 'O que é a Caatinga?', 'O que é o Cerrado?'] },
+  'geo-regioes-brasil': { topic: 'Espaço brasileiro', subtopic: 'Regiões do Brasil', relatedQuestions: ['Quais são as regiões do Brasil?', 'Quantos estados tem o Brasil?', 'Quais estados ficam no Nordeste?', 'Em que região fica Santa Catarina?'] },
+  'ing-verb-to-be': { topic: 'Gramática', subtopic: 'Verb to be', relatedQuestions: ['Quando usar am, is e are?', 'Como fazer pergunta com verbo to be?', 'Como negar em inglês?'] },
+  'ing-simple-present': { topic: 'Gramática', subtopic: 'Simple present', relatedQuestions: ['Quando usar do e does?', 'Quando colocar s no verbo em inglês?', 'Como falar da rotina em inglês?'] },
+  'fis-leis-de-newton': { topic: 'Dinâmica', subtopic: 'Leis de Newton', relatedQuestions: ['O que é inércia?', 'O que diz a segunda lei de Newton?', 'O que é ação e reação?', 'Como calcular força?'] },
+  'fis-velocidade-media': { topic: 'Cinemática', subtopic: 'Velocidade média', relatedQuestions: ['Como calcular velocidade média?', 'Como transformar km/h em m/s?', 'O que é movimento uniforme?'] },
+  'qui-atomo-tabela': { topic: 'Estrutura da matéria', subtopic: 'Átomo e tabela periódica', relatedQuestions: ['Do que o átomo é formado?', 'O que é número atômico?', 'Como a tabela periódica é organizada?'] },
+  'qui-ligacoes-quimicas': { topic: 'Estrutura da matéria', subtopic: 'Ligações químicas', relatedQuestions: ['O que é ligação iônica?', 'O que é ligação covalente?', 'O que é a regra do octeto?', 'Por que os átomos se ligam?'] },
+  'lit-modernismo': { topic: 'Escolas literárias', subtopic: 'Modernismo brasileiro', relatedQuestions: ['O que foi a Semana de Arte Moderna?', 'Quais são as fases do Modernismo?', 'Quem foi Mário de Andrade?'] },
+  'fil-socrates-platao-aristoteles': { topic: 'Filosofia antiga', subtopic: 'Período clássico', relatedQuestions: ['Quem foi Sócrates?', 'O que é o mito da caverna?', 'O que Aristóteles pensava sobre a virtude?', 'O que é maiêutica?'] },
+  'soc-classicos-sociologia': { topic: 'Teoria sociológica', subtopic: 'Clássicos da Sociologia', relatedQuestions: ['O que é fato social?', 'O que é ação social para Weber?', 'O que é luta de classes?', 'O que é mais-valia?'] },
+  'art-cores': { topic: 'Artes visuais', subtopic: 'Teoria das cores', relatedQuestions: ['Quais são as cores primárias?', 'Que cor dá azul com amarelo?', 'O que são cores quentes e frias?', 'O que são cores complementares?'] },
+}
+
+/**
+ * Sinônimos e formas de falar dos alunos → termo usado na base.
+ * A busca troca cada palavra da pergunta pelo termo canônico antes de comparar.
+ */
+export const SYNONYMS: Record<string, string> = {
+  comida: 'alimento', comer: 'alimento', alimentacao: 'alimento', alimentar: 'alimento', alimenta: 'alimento', alimentos: 'alimento',
+  fabricar: 'produzir', fazer: 'produzir', fazem: 'produzir', faz: 'produzir', produz: 'produzir', produzem: 'produzir', cria: 'produzir',
+  vegetal: 'planta', vegetais: 'planta', arvore: 'planta', arvores: 'planta',
+  vezes: 'multiplicacao', multiplicar: 'multiplicacao', tabuada: 'multiplicacao',
+  conta: 'calculo', calcular: 'calculo', calcula: 'calculo',
+  chover: 'chuva', chove: 'chuva',
+  digerir: 'digestao', digerimos: 'digestao', barriga: 'digestao', estomago: 'digestao',
+  planeta: 'planetas', astros: 'planetas',
+  guerra: 'guerra', nazista: 'nazismo', nazistas: 'nazismo',
+  mata: 'floresta', florestas: 'floresta',
+  gramatica: 'gramatica', frase: 'oracao', frases: 'oracao',
+  x: 'incognita',
+  porcento: 'porcentagem', percentual: 'porcentagem', desconto: 'porcentagem',
+  genes: 'gene', heranca: 'genetica', hereditariedade: 'genetica',
+  ingles: 'ingles',
+}

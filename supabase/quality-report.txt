@@ -1,0 +1,234 @@
+OFICIAL  mat-sistema-decimal
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-formas-geometricas
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-numeros-inteiros
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-mmc-mdc
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-fracoes
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-numeros-decimais
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-regra-de-tres
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  mat-sistemas-equacoes
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  his-revolucao-francesa
+   · trilha aponta para conteúdo ainda não criado "his-iluminismo-absolutismo"
+   · trilha aponta para conteúdo ainda não criado "his-revolucao-industrial"
+OFICIAL  his-brasil-colonia
+   · trilha aponta para conteúdo ainda não criado "his-grandes-navegacoes"
+   · trilha aponta para conteúdo ainda não criado "his-povos-indigenas"
+   · trilha aponta para conteúdo ainda não criado "his-escravidao-abolicao"
+OFICIAL  his-independencia-brasil
+   · trilha aponta para conteúdo ainda não criado "his-brasil-imperio"
+OFICIAL  his-segunda-guerra
+   · trilha aponta para conteúdo ainda não criado "his-primeira-guerra"
+   · trilha aponta para conteúdo ainda não criado "his-era-vargas"
+   · trilha aponta para conteúdo ainda não criado "his-guerra-fria"
+OFICIAL  geo-coordenadas
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Paralelos e latitude" sem reformulação "passos"
+   · bloco "Meridianos e longitude" sem reformulação "passos"
+   · bloco "Coordenadas: o endereço do planeta" sem reformulação "passos"
+   · bloco "Hemisférios e o Brasil" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  geo-biomas-brasileiros
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "O que é um bioma" sem reformulação "exemplo"
+   · bloco "O que é um bioma" sem reformulação "passos"
+   · bloco "As florestas" sem reformulação "exemplo"
+   · bloco "As florestas" sem reformulação "passos"
+   · bloco "Cerrado, Caatinga, Pampa e Pantanal" sem reformulação "exemplo"
+   · bloco "Cerrado, Caatinga, Pampa e Pantanal" sem reformulação "passos"
+   · bloco "Ameaças e preservação" sem reformulação "simples"
+   · bloco "Ameaças e preservação" sem reformulação "exemplo"
+   · bloco "Ameaças e preservação" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  geo-regioes-brasil
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Cinco regiões" sem reformulação "exemplo"
+   · bloco "Cinco regiões" sem reformulação "passos"
+   · bloco "Quem está em cada região" sem reformulação "exemplo"
+   · bloco "Quem está em cada região" sem reformulação "passos"
+   · bloco "Cada região tem seu jeito" sem reformulação "exemplo"
+   · bloco "Cada região tem seu jeito" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  ing-verb-to-be
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Am, is, are" sem reformulação "passos"
+   · bloco "Contrações" sem reformulação "passos"
+   · bloco "Forma negativa" sem reformulação "passos"
+   · bloco "Perguntas e respostas curtas" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  ing-simple-present
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Rotinas e verdades" sem reformulação "simples"
+   · bloco "Rotinas e verdades" sem reformulação "exemplo"
+   · bloco "Rotinas e verdades" sem reformulação "passos"
+   · bloco "He, she, it ganham -s" sem reformulação "simples"
+   · bloco "He, she, it ganham -s" sem reformulação "exemplo"
+   · bloco "He, she, it ganham -s" sem reformulação "passos"
+   · bloco "Negativa" sem reformulação "simples"
+   · bloco "Negativa" sem reformulação "exemplo"
+   · bloco "Negativa" sem reformulação "passos"
+   · bloco "Perguntas" sem reformulação "simples"
+   · bloco "Perguntas" sem reformulação "exemplo"
+   · bloco "Perguntas" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  ing-a1-this-that
+   · trilha aponta para conteúdo ainda não criado "ing-a1-colors-adjectives"
+OFICIAL  ing-a2-comparatives
+   · trilha aponta para conteúdo ainda não criado "ing-a2-quantifiers"
+OFICIAL  ing-b1-present-perfect
+   · trilha aponta para conteúdo ainda não criado "ing-b1-present-perfect-continuous"
+OFICIAL  ing-b1-collocations
+   · trilha aponta para conteúdo ainda não criado "ing-b1-past-perfect"
+OFICIAL  ing-b2-reported-speech
+   · trilha aponta para conteúdo ainda não criado "ing-b2-relative-clauses"
+OFICIAL  ing-b2-idioms
+   · trilha aponta para conteúdo ainda não criado "ing-b2-modal-perfect"
+OFICIAL  ing-c1-conditionals
+   · trilha aponta para conteúdo ainda não criado "ing-c1-inversion-cleft"
+OFICIAL  ing-c1-reading-between-lines
+   · trilha aponta para conteúdo ainda não criado "ing-c1-academic-writing"
+OFICIAL  fis-leis-de-newton
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "1ª lei: Inércia" sem reformulação "passos"
+   · bloco "2ª lei: F = m · a" sem reformulação "passos"
+   · bloco "3ª lei: Ação e reação" sem reformulação "passos"
+   · bloco "Unidades de medida" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  fis-velocidade-media
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "O que é velocidade média" sem reformulação "simples"
+   · bloco "O que é velocidade média" sem reformulação "exemplo"
+   · bloco "O que é velocidade média" sem reformulação "passos"
+   · bloco "A fórmula" sem reformulação "simples"
+   · bloco "A fórmula" sem reformulação "exemplo"
+   · bloco "A fórmula" sem reformulação "passos"
+   · bloco "km/h e m/s" sem reformulação "simples"
+   · bloco "km/h e m/s" sem reformulação "exemplo"
+   · bloco "km/h e m/s" sem reformulação "passos"
+   · bloco "Movimento uniforme" sem reformulação "simples"
+   · bloco "Movimento uniforme" sem reformulação "exemplo"
+   · bloco "Movimento uniforme" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  qui-atomo-tabela
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "As partes do átomo" sem reformulação "passos"
+   · bloco "Número atômico (Z) e de massa (A)" sem reformulação "passos"
+   · bloco "Como a tabela é organizada" sem reformulação "passos"
+   · bloco "Metais, ametais e gases nobres" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  qui-ligacoes-quimicas
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Por que os átomos se ligam" sem reformulação "simples"
+   · bloco "Por que os átomos se ligam" sem reformulação "exemplo"
+   · bloco "Por que os átomos se ligam" sem reformulação "passos"
+   · bloco "Ligação iônica" sem reformulação "simples"
+   · bloco "Ligação iônica" sem reformulação "exemplo"
+   · bloco "Ligação iônica" sem reformulação "passos"
+   · bloco "Ligação covalente" sem reformulação "simples"
+   · bloco "Ligação covalente" sem reformulação "exemplo"
+   · bloco "Ligação covalente" sem reformulação "passos"
+   · bloco "Ligação metálica" sem reformulação "simples"
+   · bloco "Ligação metálica" sem reformulação "exemplo"
+   · bloco "Ligação metálica" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+   · sem fórmulas cadastradas (confirme se o conteúdo não usa fórmula)
+OFICIAL  bio-celula
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "A unidade da vida" sem reformulação "passos"
+   · bloco "As três partes básicas" sem reformulação "passos"
+   · bloco "Procariontes e eucariontes" sem reformulação "passos"
+   · bloco "Organelas e suas funções" sem reformulação "passos"
+   · bloco "Célula animal × vegetal" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  bio-cadeias-alimentares
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Os produtores" sem reformulação "exemplo"
+   · bloco "Os produtores" sem reformulação "passos"
+   · bloco "Os consumidores" sem reformulação "exemplo"
+   · bloco "Os consumidores" sem reformulação "passos"
+   · bloco "Os decompositores" sem reformulação "exemplo"
+   · bloco "Os decompositores" sem reformulação "passos"
+   · bloco "Teias e energia" sem reformulação "simples"
+   · bloco "Teias e energia" sem reformulação "exemplo"
+   · bloco "Teias e energia" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  bio-primeira-lei-mendel
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Vocabulário básico" sem reformulação "simples"
+   · bloco "Vocabulário básico" sem reformulação "exemplo"
+   · bloco "Vocabulário básico" sem reformulação "passos"
+   · bloco "Dominante e recessivo" sem reformulação "simples"
+   · bloco "Dominante e recessivo" sem reformulação "exemplo"
+   · bloco "Dominante e recessivo" sem reformulação "passos"
+   · bloco "Mendel e as ervilhas" sem reformulação "simples"
+   · bloco "Mendel e as ervilhas" sem reformulação "exemplo"
+   · bloco "Mendel e as ervilhas" sem reformulação "passos"
+   · bloco "O quadro de Punnett" sem reformulação "simples"
+   · bloco "O quadro de Punnett" sem reformulação "exemplo"
+   · bloco "O quadro de Punnett" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  lit-modernismo
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "A Semana de 1922" sem reformulação "simples"
+   · bloco "A Semana de 1922" sem reformulação "exemplo"
+   · bloco "A Semana de 1922" sem reformulação "passos"
+   · bloco "O que os modernistas queriam" sem reformulação "simples"
+   · bloco "O que os modernistas queriam" sem reformulação "exemplo"
+   · bloco "O que os modernistas queriam" sem reformulação "passos"
+   · bloco "As fases" sem reformulação "simples"
+   · bloco "As fases" sem reformulação "exemplo"
+   · bloco "As fases" sem reformulação "passos"
+   · bloco "Autores e obras" sem reformulação "simples"
+   · bloco "Autores e obras" sem reformulação "exemplo"
+   · bloco "Autores e obras" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  fil-socrates-platao-aristoteles
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Sócrates: perguntar para pensar" sem reformulação "simples"
+   · bloco "Sócrates: perguntar para pensar" sem reformulação "exemplo"
+   · bloco "Sócrates: perguntar para pensar" sem reformulação "passos"
+   · bloco "Platão: o mundo das ideias" sem reformulação "simples"
+   · bloco "Platão: o mundo das ideias" sem reformulação "exemplo"
+   · bloco "Platão: o mundo das ideias" sem reformulação "passos"
+   · bloco "Aristóteles: observar e o meio-termo" sem reformulação "simples"
+   · bloco "Aristóteles: observar e o meio-termo" sem reformulação "exemplo"
+   · bloco "Aristóteles: observar e o meio-termo" sem reformulação "passos"
+   · bloco "Mestre e alunos" sem reformulação "simples"
+   · bloco "Mestre e alunos" sem reformulação "exemplo"
+   · bloco "Mestre e alunos" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  soc-classicos-sociologia
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "Durkheim: o fato social" sem reformulação "simples"
+   · bloco "Durkheim: o fato social" sem reformulação "exemplo"
+   · bloco "Durkheim: o fato social" sem reformulação "passos"
+   · bloco "Weber: a ação social" sem reformulação "simples"
+   · bloco "Weber: a ação social" sem reformulação "exemplo"
+   · bloco "Weber: a ação social" sem reformulação "passos"
+   · bloco "Marx: luta de classes" sem reformulação "simples"
+   · bloco "Marx: luta de classes" sem reformulação "exemplo"
+   · bloco "Marx: luta de classes" sem reformulação "passos"
+   · bloco "Três olhares" sem reformulação "simples"
+   · bloco "Três olhares" sem reformulação "exemplo"
+   · bloco "Três olhares" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)
+OFICIAL  art-cores
+   · objetivo de aprendizagem vazio (formato antigo)
+   · bloco "As cores primárias" sem reformulação "exemplo"
+   · bloco "As cores primárias" sem reformulação "passos"
+   · bloco "As cores secundárias" sem reformulação "exemplo"
+   · bloco "As cores secundárias" sem reformulação "passos"
+   · bloco "Quentes e frias" sem reformulação "exemplo"
+   · bloco "Quentes e frias" sem reformulação "passos"
+   · bloco "Cores complementares" sem reformulação "exemplo"
+   · bloco "Cores complementares" sem reformulação "passos"
+   · só 0 perguntas equivalentes (mínimo 20)

@@ -1,0 +1,151 @@
+import type { Lesson } from '../../types'
+
+const AUTORAL = { title: 'Conteúdo autoral LUMI', kind: 'autoral' } as const
+
+export const substantivoAdjetivo: Lesson = {
+  id: 'por-substantivo-adjetivo',
+  subject: 'portugues',
+  title: 'Substantivo e adjetivo',
+  levels: ['fund1', 'fund2'],
+  grade: '3º ao 6º ano',
+  aliases: ['gramatica', 'substantivo', 'adjetivo', 'substantivo proprio', 'substantivo comum', 'concordancia nominal'],
+  summary: 'Aprenda a reconhecer substantivos e adjetivos e a fazer a concordância entre eles.',
+  intro: 'As palavras têm "profissões" diferentes numa frase. Hoje vamos conhecer duas muito importantes: o substantivo e o adjetivo.',
+  skills: { substantivo: 'Reconhecer substantivos', tipos: 'Substantivo comum e próprio', adjetivo: 'Reconhecer adjetivos', concordancia: 'Concordância' },
+  blocks: [
+    {
+      id: 'b1', skill: 'substantivo', title: 'Substantivo: a palavra que dá nome',
+      text: 'Substantivo é a palavra que dá nome a pessoas, animais, lugares, objetos, sentimentos e ideias.',
+      example: 'Em "O cachorro correu no parque", as palavras cachorro e parque são substantivos.',
+      variants: {
+        simples: 'Tudo o que tem nome é substantivo: mesa, gato, mãe, escola, alegria.',
+        exemplo: 'Olhe ao seu redor: celular, cadeira, janela, caderno. Todos esses nomes são substantivos.',
+        outra: 'Um teste: se dá para colocar "o", "a", "um" ou "uma" antes da palavra, ela provavelmente é um substantivo. "Um sonho", "a amizade", "o lápis".',
+        detalhado: 'Os substantivos podem ser concretos (seres com existência própria, reais ou imaginários: casa, fada) ou abstratos (dependem de outro ser para existir: saudade, beleza, coragem). Também variam em gênero (menino/menina) e número (menino/meninos).',
+      },
+    },
+    {
+      id: 'b2', skill: 'tipos', title: 'Comum ou próprio',
+      text: 'O substantivo comum nomeia qualquer ser de uma espécie (cidade, rio, menina). O substantivo próprio nomeia um ser específico e é escrito com letra maiúscula (Itajaí, Amazonas, Maria).',
+      example: '"rio" é comum; "Rio Amazonas" usa um substantivo próprio para dizer qual rio.',
+      variants: {
+        simples: 'Comum: nome de qualquer um (cachorro). Próprio: nome de um só, com letra maiúscula (Totó).',
+        exemplo: 'Você mora numa cidade (comum). O nome da sua cidade, como Florianópolis, é próprio.',
+        outra: 'Pergunte: "é o nome de um tipo de coisa ou o nome de alguém/lugar em especial?". Tipo = comum. Especial = próprio.',
+        detalhado: 'Nomes de pessoas, cidades, países, rios, planetas, instituições e datas comemorativas costumam ser próprios. Um mesmo termo pode mudar: "sol" (qualquer estrela) × "Sol" (a estrela do nosso sistema).',
+      },
+    },
+    {
+      id: 'b3', skill: 'adjetivo', title: 'Adjetivo: a palavra que caracteriza',
+      text: 'Adjetivo é a palavra que dá uma característica ao substantivo: qualidade, estado, cor, tamanho, origem.',
+      example: 'Em "A casa amarela é bonita", as palavras amarela e bonita são adjetivos que caracterizam "casa".',
+      variants: {
+        simples: 'Adjetivo diz "como é" a coisa: grande, azul, feliz, gostoso.',
+        exemplo: 'Um cachorro. Um cachorro pequeno. Um cachorro pequeno e brincalhão. Pequeno e brincalhão são adjetivos.',
+        outra: 'Pergunte "como é?" para o substantivo. A resposta é o adjetivo. "Como é o menino?" → "inteligente".',
+        detalhado: 'A classe de uma palavra depende da função na frase. Em "O velho abriu a porta", velho nomeia a pessoa (substantivo). Em "O homem velho abriu a porta", velho caracteriza o homem (adjetivo). Adjetivos também têm locuções: "amor de mãe" = amor materno.',
+      },
+    },
+    {
+      id: 'b4', skill: 'concordancia', title: 'Concordância',
+      text: 'O adjetivo concorda com o substantivo em gênero (masculino/feminino) e número (singular/plural).',
+      example: 'Menino cansado → meninas cansadas. Blusa bonita → blusas bonitas.',
+      variants: {
+        simples: 'Se o nome está no plural, o adjetivo também vai. Se o nome é feminino, o adjetivo também fica feminino.',
+        exemplo: '"As meninas estão cansadas" está certo. "As meninas estão cansado" está errado, porque "cansado" não acompanhou "meninas".',
+        outra: 'Substantivo e adjetivo andam "de mãos dadas": o que acontece com um (plural, feminino) acontece com o outro.',
+        detalhado: 'Quando um adjetivo se refere a substantivos de gêneros diferentes, costuma ir para o masculino plural: "O menino e a menina estão atentos". Alguns adjetivos têm forma única para os dois gêneros: feliz, inteligente, azul.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'substantivo', prompt: 'Em "O cachorro correu", qual palavra é um substantivo?', options: ['O', 'cachorro', 'correu', 'Nenhuma'], answer: 1, hints: ['Substantivo dá nome.', 'Qual palavra é o nome de um animal?', 'Dá para dizer "um ______".'], explanation: '"Cachorro" dá nome a um animal: é substantivo.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'adjetivo', prompt: 'Em "A casa amarela é bonita", quais são os adjetivos?', options: ['casa e bonita', 'amarela e bonita', 'A e casa', 'casa e é'], answer: 1, hints: ['Adjetivo responde "como é?".', 'Como é a casa?', 'Tem uma cor e uma qualidade.'], explanation: '"Amarela" (cor) e "bonita" (qualidade) caracterizam a casa.' },
+    { id: 'q3', type: 'tf', difficulty: 1, skill: 'tipos', prompt: '"Brasil" é um substantivo próprio.', answer: true, hints: ['É o nome de um lugar específico?', 'Existe só um Brasil.', 'E é escrito com maiúscula.'], explanation: 'Verdadeiro. Nomeia um país específico e vai com maiúscula.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'tipos', prompt: 'O substantivo próprio é escrito com letra ________.', answers: ['maiuscula', 'maiúscula'], hints: ['Olhe como se escreve "Maria".', 'A primeira letra é grande.', 'O contrário de minúscula.'], explanation: 'Com letra maiúscula.' },
+    { id: 'q5', type: 'mc', difficulty: 2, skill: 'tipos', prompt: 'Qual destas palavras é um substantivo comum?', options: ['Itajaí', 'Maria', 'cidade', 'Amazonas'], answer: 2, hints: ['Comum nomeia qualquer ser de um tipo.', 'Três delas estão com maiúscula.', 'Qual nomeia um tipo de lugar?'], explanation: '"Cidade" nomeia qualquer cidade: é comum.' },
+    { id: 'q6', type: 'match', difficulty: 2, skill: 'adjetivo', prompt: 'Ligue cada palavra à sua classe.', pairs: [['gato', 'Substantivo comum'], ['Paulo', 'Substantivo próprio'], ['alegre', 'Adjetivo'], ['correr', 'Verbo (ação)']], hints: ['Qual é nome de pessoa?', 'Qual diz "como é"?', 'Qual indica uma ação?'], explanation: 'gato → comum; Paulo → próprio; alegre → adjetivo; correr → verbo.' },
+    { id: 'q7', type: 'tf', difficulty: 2, skill: 'adjetivo', prompt: 'Em "o menino inteligente", a palavra "inteligente" é um substantivo.', answer: false, hints: ['Como é o menino?', 'A palavra responde "como é?".', 'Isso é função de adjetivo.'], explanation: 'Falso. "Inteligente" caracteriza o menino: é adjetivo.' },
+    { id: 'q8', type: 'mc', difficulty: 2, skill: 'concordancia', prompt: 'Qual frase está com a concordância correta?', options: ['As meninas estão cansado.', 'As meninas estão cansadas.', 'A meninas estão cansadas.', 'As menina estão cansadas.'], answer: 1, hints: ['"Meninas" é feminino e plural.', 'O adjetivo acompanha.', 'Procure "-as" no adjetivo.'], explanation: '"As meninas estão cansadas": tudo no feminino plural.' },
+    { id: 'q9', type: 'fill', difficulty: 3, skill: 'concordancia', prompt: 'Complete com o adjetivo "bonito" na forma correta: "Comprei duas blusas ________."', answers: ['bonitas'], hints: ['"Blusas" é feminino.', 'E está no plural.', 'Bonit + as.'], explanation: '"Bonitas", concordando com "blusas" (feminino plural).' },
+    { id: 'q10', type: 'mc', difficulty: 3, skill: 'substantivo', prompt: 'Em "O velho abriu a porta", a palavra "velho" é:', options: ['Adjetivo', 'Substantivo', 'Verbo', 'Artigo'], answer: 1, hints: ['Aqui não existe "homem" na frase.', 'A palavra está nomeando quem abriu a porta.', 'Tem "o" antes dela.'], explanation: 'Aqui "velho" nomeia a pessoa, funcionando como substantivo.' },
+    { id: 'q11', type: 'tf', difficulty: 3, skill: 'concordancia', prompt: 'O adjetivo concorda em gênero e número com o substantivo.', answer: true, hints: ['Lembre do "de mãos dadas".', 'Blusa bonita → blusas bonitas.', 'Muda junto.'], explanation: 'Verdadeiro. É a regra da concordância nominal.' },
+    { id: 'q12', type: 'open', difficulty: 2, skill: 'adjetivo', prompt: 'Explique com suas palavras a diferença entre substantivo e adjetivo.', modelAnswer: 'O substantivo dá nome às coisas, pessoas, lugares e sentimentos. O adjetivo dá uma característica ou qualidade ao substantivo. Ex.: em "gato preto", gato é substantivo e preto é adjetivo.', keywords: ['nome', 'nomeia', 'caracteristica', 'qualidade', 'caracteriza', 'como e'], hints: ['Um deles dá nome.', 'O outro diz como a coisa é.', 'Use um exemplo, como "gato preto".'], explanation: 'Substantivo nomeia; adjetivo caracteriza o substantivo.' },
+  ],
+  review: ['Substantivo = dá nome', 'Comum (qualquer um) × próprio (específico, maiúscula)', 'Adjetivo = dá característica ("como é?")', 'Concordância em gênero e número'],
+  sources: [{ title: 'Base Nacional Comum Curricular (BNCC) — Língua Portuguesa', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' }, AUTORAL],
+}
+
+export const verbToBe: Lesson = {
+  id: 'ing-verb-to-be',
+  subject: 'ingles',
+  title: 'Verb to be',
+  levels: ['fund1', 'fund2', 'medio'],
+  grade: '6º ano',
+  aliases: ['verb to be', 'verbo to be', 'to be', 'am is are', 'ingles basico', 'verbo ser estar ingles'],
+  summary: 'Aprenda o verbo mais usado do inglês: to be (ser/estar), nas formas afirmativa, negativa e interrogativa.',
+  intro: 'Let\'s start! O verbo "to be" significa "ser" ou "estar". Com ele você já consegue se apresentar e descrever coisas.',
+  skills: { afirmativa: 'Forma afirmativa', contracao: 'Contrações', negativa: 'Forma negativa', interrogativa: 'Perguntas e respostas curtas' },
+  blocks: [
+    {
+      id: 'b1', skill: 'afirmativa', title: 'Am, is, are',
+      text: 'O verbo to be tem três formas no presente: I am (eu sou/estou); he is, she is, it is (ele/ela é/está); you are, we are, they are (você é, nós somos, eles são).',
+      example: 'I am a student. = Eu sou estudante. · She is happy. = Ela está feliz. · They are my friends. = Eles são meus amigos.',
+      variants: {
+        simples: 'I → am. He, she, it → is. You, we, they → are. Decore essas três duplas e pronto!',
+        exemplo: 'I am 12 years old. (Eu tenho 12 anos — em inglês se usa "ser" para idade!) · My dog is small. · We are at school.',
+        outra: 'Pense em três caixas: a caixa do "am" só tem o I. A caixa do "is" tem uma pessoa ou coisa só (he, she, it). A caixa do "are" tem o resto.',
+        detalhado: 'Em inglês, "you" serve para "você" e "vocês", e sempre usa "are". "It" é usado para coisas e animais. Diferente do português, o inglês usa "to be" para idade (I am 12), fome (I am hungry) e frio (I am cold).',
+      },
+    },
+    {
+      id: 'b2', skill: 'contracao', title: 'Contrações',
+      text: 'Na fala e em textos informais, juntamos o pronome e o verbo com um apóstrofo: I\'m, you\'re, he\'s, she\'s, it\'s, we\'re, they\'re.',
+      example: 'I\'m tired = I am tired. · They\'re here = They are here.',
+      variants: {
+        simples: 'É um "atalho": tira uma letra e coloca um apóstrofo (\'). I am → I\'m.',
+        exemplo: 'Numa música ou série você vai ouvir "I\'m fine", "You\'re welcome", "It\'s OK".',
+        outra: 'O apóstrofo marca o lugar da letra que sumiu: I am → I\'m (sumiu o "a"); he is → he\'s (sumiu o "i").',
+        detalhado: 'Não confunda "it\'s" (it is) com "its" (possessivo: "dele/dela" para coisas e animais): "It\'s a dog. Its name is Rex." O mesmo vale para "they\'re" (they are) × "their" (deles).',
+      },
+    },
+    {
+      id: 'b3', skill: 'negativa', title: 'Forma negativa',
+      text: 'Para negar, coloque "not" depois do verbo: I am not, he is not, they are not. Contrações: isn\'t (is not) e aren\'t (are not). Com "I", usamos I\'m not.',
+      example: 'He isn\'t tired. = Ele não está cansado. · We aren\'t late. = Nós não estamos atrasados.',
+      variants: {
+        simples: 'É só colocar "not" depois de am, is ou are. Is not = isn\'t. Are not = aren\'t.',
+        exemplo: 'I\'m not hungry. (Não estou com fome.) · It isn\'t cold today. (Não está frio hoje.)',
+        outra: 'No português o "não" vem antes do verbo ("não está"). No inglês, o "not" vem depois do to be ("is not").',
+        detalhado: 'Existem duas contrações possíveis para a negativa: "he\'s not" ou "he isn\'t"; "they\'re not" ou "they aren\'t". Para "I am not" não existe "amn\'t" no inglês padrão — usamos "I\'m not".',
+      },
+    },
+    {
+      id: 'b4', skill: 'interrogativa', title: 'Perguntas e respostas curtas',
+      text: 'Para perguntar, troque a ordem: o verbo vem antes do pronome. You are ready → Are you ready? Nas respostas curtas, repetimos o verbo: Yes, I am. / No, I\'m not.',
+      example: 'Is she a doctor? — Yes, she is. / No, she isn\'t.',
+      variants: {
+        simples: 'Pergunta: o verbo pula para a frente. "She is" → "Is she…?"',
+        exemplo: 'Are they from Brazil? — Yes, they are. · Is it your book? — No, it isn\'t.',
+        outra: 'É como trocar duas peças de lugar: [she] [is] vira [is] [she]. E coloque o ponto de interrogação no fim.',
+        detalhado: 'Na resposta curta afirmativa não se usa contração: diz-se "Yes, she is", nunca "Yes, she\'s". Na negativa, a contração é normal: "No, she isn\'t".',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'afirmativa', prompt: 'Complete: I ___ a student.', options: ['am', 'is', 'are', 'be'], answer: 0, hints: ['Qual forma combina com "I"?', 'O "I" tem uma forma só dele.', 'A caixa que só tem o "I".'], explanation: 'Com "I" usamos "am": I am a student.' },
+    { id: 'q2', type: 'mc', difficulty: 1, skill: 'afirmativa', prompt: 'Complete: She ___ happy.', options: ['am', 'is', 'are', 'be'], answer: 1, hints: ['"She" é uma pessoa só.', 'He, she, it usam a mesma forma.', 'Tem duas letras.'], explanation: 'Com "she" usamos "is".' },
+    { id: 'q3', type: 'fill', difficulty: 1, skill: 'afirmativa', prompt: 'Complete: They ___ my friends.', answers: ['are'], hints: ['"They" é mais de uma pessoa.', 'You, we e they usam a mesma forma.', 'Tem três letras.'], explanation: 'Com "they" usamos "are".' },
+    { id: 'q4', type: 'tf', difficulty: 1, skill: 'afirmativa', prompt: 'A frase "We is at school" está correta.', answer: false, hints: ['"We" é de qual caixa?', 'We = nós (mais de uma pessoa).', 'We usa "are".'], explanation: 'Falso. O correto é "We are at school".' },
+    { id: 'q5', type: 'match', difficulty: 2, skill: 'contracao', prompt: 'Ligue cada forma à sua contração.', pairs: [['I am', "I'm"], ['You are', "You're"], ['He is', "He's"], ['They are', "They're"]], hints: ['Some uma letra do verbo.', 'Am → \'m.', 'Are → \'re e is → \'s.'], explanation: "I'm, You're, He's, They're." },
+    { id: 'q6', type: 'mc', difficulty: 2, skill: 'negativa', prompt: 'Qual é a negativa de "He is tired"?', options: ["He aren't tired.", "He isn't tired.", "He not is tired.", "He amn't tired."], answer: 1, hints: ['"Not" vem depois do verbo.', 'He usa "is".', 'Is + not = ?'], explanation: "He is not tired = He isn't tired." },
+    { id: 'q7', type: 'mc', difficulty: 2, skill: 'interrogativa', prompt: 'Qual é a forma interrogativa de "You are ready"?', options: ['You are ready?', 'Are you ready?', 'Ready you are?', 'Is you ready?'], answer: 1, hints: ['Na pergunta, duas palavras trocam de lugar.', 'O verbo vai para a frente.', 'Are + you.'], explanation: '"Are you ready?" — o verbo vem antes do pronome.' },
+    { id: 'q8', type: 'fill', difficulty: 2, skill: 'negativa', prompt: 'Complete: I ___ not sad.', answers: ['am'], hints: ['Com "I" o verbo é sempre o mesmo.', 'O "not" vem depois dele.', 'I ___ = eu sou/estou.'], explanation: 'I am not sad (I\'m not sad).' },
+    { id: 'q9', type: 'tf', difficulty: 1, skill: 'contracao', prompt: '"I\'m" é a contração de "I am".', answer: true, hints: ['O apóstrofo marca uma letra que sumiu.', 'Qual letra sumiu de "am"?', 'O "a".'], explanation: 'Verdadeiro.' },
+    { id: 'q10', type: 'mc', difficulty: 3, skill: 'interrogativa', prompt: 'Qual é a resposta curta afirmativa correta para "Is she a doctor?"', options: ["Yes, she's.", 'Yes, she is.', 'Yes, she are.', 'Yes, is she.'], answer: 1, hints: ['Repita o verbo da pergunta.', 'Na resposta curta afirmativa, sem contração.', 'She + is.'], explanation: '"Yes, she is." Não se usa contração na resposta curta afirmativa.' },
+    { id: 'q11', type: 'mc', difficulty: 3, skill: 'afirmativa', prompt: 'Qual é a tradução de "The books are on the table"?', options: ['O livro é da mesa.', 'Os livros estão na mesa.', 'Os livros são mesas.', 'A mesa está nos livros.'], answer: 1, hints: ['"Books" está no plural.', '"On the table" = em cima da mesa.', '"Are" aqui é "estão".'], explanation: '"Os livros estão na mesa."' },
+    { id: 'q12', type: 'fill', difficulty: 3, skill: 'interrogativa', prompt: 'Complete a pergunta: ___ they from Brazil?', answers: ['are'], hints: ['Na pergunta o verbo vem primeiro.', '"They" usa qual forma?', 'A mesma de "you" e "we".'], explanation: '"Are they from Brazil?"' },
+  ],
+  review: ['I am · he/she/it is · you/we/they are', "Contrações: I'm, you're, he's, they're", "Negativa: not depois do verbo (isn't, aren't, I'm not)", 'Pergunta: verbo antes do pronome (Are you…?)'],
+  sources: [{ title: 'Base Nacional Comum Curricular (BNCC) — Língua Inglesa', url: 'http://basenacionalcomum.mec.gov.br/', kind: 'curriculo' }, AUTORAL],
+}
