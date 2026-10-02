@@ -18,6 +18,7 @@ import AccountPage from './pages/Account'
 import PrivacyPage from './pages/Privacy'
 import LevelPage from './pages/Level'
 import ExamPrepPage from './pages/ExamPrep'
+import ExamHistoryPage from './pages/ExamHistory'
 import { supabase } from './lib/supabase'
 import { getState, setProfile } from './lib/store'
 import { pullAndMerge, startAutoSync } from './lib/sync'
@@ -89,6 +90,7 @@ export default function App() {
         <Route path="/colar" element={<PastePage />} />
         <Route path="/revisar" element={<ReviewPage />} />
         <Route path="/preparacao-prova" element={<ExamPrepPage />} />
+        <Route path="/preparacao-prova/historico" element={<ExamHistoryPage />} />
         <Route path="/conta" element={<AccountPage />} />
         <Route path="/privacidade" element={<PrivacyPage />} />
         <Route path="/jogos" element={<Lazy><GamesPage /></Lazy>} />
