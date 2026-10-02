@@ -8,7 +8,8 @@ import { cadeiasAlimentares, cicloAgua, sistemaDigestorio } from './lessons/cien
 import { alimentacaoNutrientes, animaisClassificacao, estadosMateria, luaFases, misturasSeparacao, plantas, preservacaoAmbiente, seresVivos } from './lessons/cie-fund1'
 import { circuitosEletricos, energiaFontes, estacoesAno, microrganismosVacinas, sistemaCirculatorio, sistemaNervoso, sistemaRespiratorio, terraCamadas } from './lessons/cie-fund2'
 import { coordenadas, revolucaoFrancesa } from './lessons/humanas'
-import { biomas, brasilColonia, independenciaBrasil, regioesBrasil, segundaGuerra } from './lessons/humanas2'
+import { biomas as biomasOriginal, brasilColonia, independenciaBrasil, regioesBrasil, segundaGuerra } from './lessons/humanas2'
+import { imperioRomano, biomas, termologia, reacoesQuimicas, citologia } from './lessons/novas-materias'
 import { substantivoAdjetivo, verbToBe } from './lessons/linguagens'
 import { cores, simplePresent, sujeitoPredicado, tiposTextuais, verbos } from './lessons/linguagens2'
 import { atomoTabela, leisDeNewton } from './lessons/natureza-medio'
@@ -41,8 +42,9 @@ export const BASE_LESSONS: Lesson[] = [
   estadosMateria, misturasSeparacao, cicloAgua, seresVivos, animaisClassificacao, plantas, fotossintese, microrganismosVacinas,
   alimentacaoNutrientes, sistemaDigestorio, sistemaRespiratorio, sistemaCirculatorio, sistemaNervoso,
   sistemaSolar, luaFases, estacoesAno, terraCamadas, preservacaoAmbiente, energiaFontes, circuitosEletricos,
-  revolucaoFrancesa, brasilColonia, independenciaBrasil, segundaGuerra,
-  coordenadas, biomas, regioesBrasil,
+  revolucaoFrancesa, imperioRomano, brasilColonia, independenciaBrasil, segundaGuerra,
+  coordenadas, biomas, biomasOriginal, regioesBrasil,
+  termologia, reacoesQuimicas, citologia,
   verbToBe, simplePresent,
   // Curso de Inglês — A1
   greetings, alphabetNumbers, countries, family, thisThat, timeDays, thereIs, canDirections,

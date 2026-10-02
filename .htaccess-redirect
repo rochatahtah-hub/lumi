@@ -1,0 +1,10 @@
+# Redirecionamento para GitHub Pages
+RewriteEngine On
+RewriteBase /
+
+# Se não for um arquivo ou diretório real
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirecionar TUDO para GitHub Pages
+RewriteRule ^(.*)$ https://rochatahtah-hub.github.io/lumi/$1 [R=301,L]
