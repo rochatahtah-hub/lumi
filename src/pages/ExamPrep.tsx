@@ -47,7 +47,7 @@ export default function ExamPrepPage() {
 
     const result: ExamResult = {
       id: `exam_${Date.now()}`,
-      userId: user.id,
+      userId: user?.id || '',
       subject: currentForm.subject,
       gradeLevel: currentForm.gradeLevel,
       contents: currentForm.contents,

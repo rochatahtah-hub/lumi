@@ -85,7 +85,7 @@ export class ExamPrepService {
           percentage: result.percentage,
           equivalent_score: result.equivalentScore,
           content_analysis: result.contentAnalysis,
-          exam_date: result.examResult?.examDate || null,
+          exam_date: new Date().toISOString(),
           created_at: result.createdAt,
           completed_at: result.completedAt
         }])

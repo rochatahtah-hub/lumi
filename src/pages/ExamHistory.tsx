@@ -23,7 +23,7 @@ export default function ExamHistoryPage() {
 
     setIsLoading(true)
     try {
-      const results = await ExamPrepService.getExamHistory(user.id)
+      const results = await ExamPrepService.getExamHistory(user?.id || '')
       setHistory(results)
     } catch (error) {
       console.error('Erro ao carregar histórico:', error)
