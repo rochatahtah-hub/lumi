@@ -334,5 +334,417 @@ export const velocidade: Lesson = {
   sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
 }
 
-// TODO: Continuar com mais tópicos...
-// Próximos: Aceleração, Gráficos, Leis de Newton, Força, Trabalho, Energia, etc.
+// ============================================================================
+// ACELERAÇÃO
+// ============================================================================
+
+export const aceleracao: Lesson = {
+  id: 'fis-aceleracao',
+  subject: 'fisica',
+  title: 'Aceleração',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano ao 3º Médio',
+  aliases: ['aceleração', 'desaceleração', 'mudança de velocidade', 'taxa de mudança', 'aceleração média', 'aceleração instantânea', 'm/s²', 'metros por segundo quadrado'],
+  summary: 'Aprenda o que é aceleração, como calcular e entenda a diferença entre acelerar e desacelerar.',
+  intro: 'Aceleração é a taxa de mudança de velocidade. Quando você pisa no acelerador ou no freio, está mudando a velocidade — ou seja, aceleração!',
+  skills: {
+    conceito: 'O que é aceleração',
+    media: 'Aceleração média',
+    calculo: 'Como calcular',
+    tipos: 'Tipos de aceleração'
+  },
+  blocks: [
+    {
+      id: 'b1',
+      skill: 'conceito',
+      title: 'O que é aceleração?',
+      text: 'Aceleração é a taxa de mudança de velocidade em relação ao tempo. Se sua velocidade muda, você está acelerando.',
+      example: 'Um carro que aumenta sua velocidade de 0 para 100 km/h está acelerando. Um carro que diminui de 100 para 0 km/h (freando) também está acelerando (aceleração negativa).',
+      variants: {
+        simples: 'Aceleração = mudança de velocidade / tempo. Se velocidade muda, há aceleração.',
+        exemplo: 'Quando você sai do repouso em um carro, sua velocidade aumenta: está aceleração. Quando pisa no freio, velocidade diminui: aceleração negativa (desaceleração).',
+        outra: 'Aceleração não é só "ficar mais rápido". É qualquer mudança de velocidade, incluindo diminuir de velocidade.',
+        detalhado: 'Aceleração é a derivada da velocidade em relação ao tempo: a = dv/dt = Δv/Δt. É um vetor, tem direção. Pode ser positiva (aumenta velocidade) ou negativa (diminui velocidade).',
+      },
+    },
+    {
+      id: 'b2',
+      skill: 'media',
+      title: 'Aceleração média',
+      text: 'Aceleração média é a mudança total de velocidade dividida pelo tempo total.',
+      example: 'Um carro aumenta sua velocidade de 0 para 100 km/h em 10 segundos. Aceleração média = (100 - 0) / 10 = 10 km/h por segundo.',
+      variants: {
+        simples: 'a_média = mudança de velocidade / tempo',
+        exemplo: 'De 20 m/s para 30 m/s em 5 segundos? a = (30-20)/5 = 2 m/s²',
+        outra: 'Fórmula: a = Δv / Δt = (v_final - v_inicial) / tempo',
+        detalhado: 'Matematicamente: a_m = (v_f - v_i) / (t_f - t_i). A unidade é m/s² (metros por segundo ao quadrado).',
+      },
+    },
+    {
+      id: 'b3',
+      skill: 'calculo',
+      title: 'Como calcular aceleração',
+      text: 'Use a fórmula: a = Δv / Δt. Subtraia a velocidade inicial da final, divida pelo tempo.',
+      example: 'Velocidade inicial: 10 m/s. Velocidade final: 30 m/s. Tempo: 4 segundos. a = (30-10)/4 = 5 m/s²',
+      variants: {
+        simples: 'a = (v_final - v_inicial) / tempo',
+        exemplo: 'Um ciclista acelera de 5 m/s para 15 m/s em 2 segundos. a = (15-5)/2 = 5 m/s²',
+        outra: 'Se a aceleração é negativa, significa desaceleração (freio).',
+        detalhado: 'Unidade: se velocidade está em m/s e tempo em s, aceleração fica em m/s². Se velocidade em km/h e tempo em s, resultado precisa conversão.',
+      },
+    },
+    {
+      id: 'b4',
+      skill: 'tipos',
+      title: 'Tipos de aceleração',
+      text: 'Aceleração tangencial muda a velocidade. Aceleração centrípeta muda a direção. Os dois podem ocorrer juntos.',
+      example: 'Um carro em uma curva: aceleração centrípeta o mantém na trajetória curva. Se também acelera/freia, tem aceleração tangencial também.',
+      variants: {
+        simples: 'Tangencial = mais rápido ou mais devagar. Centrípeta = muda de direção (curva).',
+        exemplo: 'Carro acelerando em linha reta: só tangencial. Carro em velocidade constante em uma curva: só centrípeta. Carro acelerando em uma curva: ambas.',
+        outra: 'Aceleração centrípeta = v² / r (depende da velocidade e do raio da curva)',
+        detalhado: 'Aceleração é uma grandeza vetorial. Pode ter componentes: tangencial (Δv) e centrípeta (muda direção). Aceleração total = raiz(a_tang² + a_cent²).',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'conceito', prompt: 'Um carro que freia está aceleração?', options: ['Não, só acelera quando fica mais rápido', 'Sim, desaceleração é aceleração negativa', 'Talvez', 'Depende da cor do carro'], answer: 1, hints: ['Aceleração é mudança de velocidade', 'Diminuir de velocidade é mudança'], explanation: 'Sim! Aceleração é qualquer mudança de velocidade, inclusive diminuir (desaceleração = aceleração negativa).' },
+    { id: 'q2', type: 'fill', difficulty: 1, skill: 'media', prompt: 'Um objeto vai de 10 m/s para 30 m/s em 4 segundos. Sua aceleração é ____ m/s².', answers: ['5'], hints: ['Use a = Δv/Δt', '(30-10)/4 = ?'], explanation: 'a = (30-10)/4 = 20/4 = 5 m/s²' },
+    { id: 'q3', type: 'tf', difficulty: 2, skill: 'calculo', prompt: 'Se um objeto está em repouso, sua aceleração é zero.', answer: false, hints: ['Repouso = sem movimento', 'Mas pode estar aceleração?', 'Aceleração = mudança de velocidade'], explanation: 'Falso. Um objeto em repouso pode estar com aceleração diferente de zero se está prestes a se mover ou se está em uma curva.' },
+    { id: 'q4', type: 'mc', difficulty: 2, skill: 'tipos', prompt: 'Um carro em uma curva com velocidade constante tem qual tipo de aceleração?', options: ['Tangencial', 'Centrípeta', 'Nenhuma', 'Ambas'], answer: 1, hints: ['Velocidade é constante (não muda magnitude)', 'Mas muda direção'], explanation: 'Centrípeta. A velocidade não muda de magnitude, mas muda de direção (curva), portanto há aceleração centrípeta.' },
+  ],
+  review: ['Aceleração = mudança de velocidade / tempo', 'Aceleração negativa = desaceleração (freio)', 'Unidade: m/s²', 'Aceleração tangencial: muda velocidade', 'Aceleração centrípeta: muda direção'],
+  sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
+}
+
+// ============================================================================
+// FORÇA
+// ============================================================================
+
+export const forca: Lesson = {
+  id: 'fis-forca',
+  subject: 'fisica',
+  title: 'Força',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano ao 3º Médio',
+  aliases: ['força', 'Newton', 'força resultante', 'força aplicada', 'força de atrito', 'força peso', 'força normal', 'N', 'interação'],
+  summary: 'Aprenda o conceito de força, suas unidades e como calcular força resultante.',
+  intro: 'Força é qualquer coisa que muda o movimento de um objeto — um empurrão, um puxão, a gravidade. Vamos descobrir como medir e calcular forças!',
+  skills: {
+    conceito: 'O que é força',
+    tipos: 'Tipos de força',
+    resultante: 'Força resultante',
+    unidade: 'Unidade e medida'
+  },
+  blocks: [
+    {
+      id: 'b1',
+      skill: 'conceito',
+      title: 'O que é força?',
+      text: 'Força é toda ação que causa ou tenta causar mudança no movimento de um objeto. É uma grandeza vetorial (tem direção).',
+      example: 'Um empurrão, um puxão, a gravidade puxando para baixo, o atrito entre superfícies — tudo são forças.',
+      variants: {
+        simples: 'Força = tudo que empurra ou puxa. Muda a velocidade de algo.',
+        exemplo: 'Você empurra uma bola: aplicou força. A Terra puxa a bola para baixo: força da gravidade.',
+        outra: 'Força é um vetor: tem magnitude (tamanho) e direção (para onde).',
+        detalhado: 'Em Física, força é definida como a causa de aceleração de um objeto (F = ma). É medida em Newtons (N). Um Newton é a força necessária para acelerar 1 kg a 1 m/s².',
+      },
+    },
+    {
+      id: 'b2',
+      skill: 'tipos',
+      title: 'Tipos de força',
+      text: 'Existem várias forças: peso (gravidade), normal (superfície), atrito, tração (corda), elástica (mola).',
+      example: 'Quando você pula: força do seu músculo te empurra para cima. Gravidade te puxa para baixo. O chão empurra para cima (força normal).',
+      variants: {
+        simples: 'Peso = força da gravidade. Normal = superfície empurrando. Atrito = resistência ao movimento.',
+        exemplo: 'Bola caindo: peso a puxa. Corda puxando: tração. Mola esticada: força elástica.',
+        outra: 'Força de contato: empurrão, puxão, atrito. Força de ação a distância: gravidade, eletricidade.',
+        detalhado: 'Peso W = m × g (massa × gravidade). Força normal N é perpendicular à superfície. Atrito f = μ × N (coeficiente × normal). Tração T é ao longo da corda.',
+      },
+    },
+    {
+      id: 'b3',
+      skill: 'resultante',
+      title: 'Força resultante',
+      text: 'Força resultante é a soma de todas as forças atuando em um objeto. Pode ser calculada graficamente ou matematicamente.',
+      example: 'Dois puxam uma corda: 50 N cada um, na mesma direção. Força resultante = 100 N. Se um puxa 50 N e o outro 30 N em direção oposta: resultante = 20 N.',
+      variants: {
+        simples: 'Resultante = soma de todas as forças.',
+        exemplo: 'Se duas pessoas empurram na mesma direção, as forças somam. Se empurram em direções opostas, subtraem.',
+        outra: 'Forças na mesma direção: somam. Direções opostas: subtraem. Perpendiculares: usa Pitágoras.',
+        detalhado: 'Se F1 e F2 são paralelas (mesma direção), F_r = F1 + F2. Se opostas, F_r = |F1 - F2|. Se perpendiculares, F_r = √(F1² + F2²).',
+      },
+    },
+    {
+      id: 'b4',
+      skill: 'unidade',
+      title: 'Unidade de força: Newton',
+      text: 'A unidade de força no SI é o Newton (N). Um Newton é a força necessária para acelerar 1 quilograma a 1 metro por segundo ao quadrado.',
+      example: 'Um objeto de 10 kg sob gravidade terrestre tem peso de 10 × 10 = 100 Newtons (aproximadamente).',
+      variants: {
+        simples: 'Força se mede em Newtons (N).',
+        exemplo: 'Seu peso (força que a Terra puxa você) é aproximadamente 70 N vezes sua massa em kg. Se pesa 70 kg, peso ≈ 700 N.',
+        outra: 'Newton = kg × m/s² (unidade derivada)',
+        detalhado: '1 N = 1 kg⋅m/s². Fórmula: F = m × a. Se conhece massa e aceleração, calcula força. Se conhece força e massa, calcula aceleração.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'conceito', prompt: 'O que é força?', options: ['Apenas empurrão', 'Qualquer ação que muda movimento', 'Só puxão', 'Gravidade nada mais'], answer: 1, hints: ['Pode ser empurrão OU puxão', 'Também gravidade, atrito...'], explanation: 'Força é qualquer ação que causa ou tenta causar mudança no movimento de um objeto.' },
+    { id: 'q2', type: 'fill', difficulty: 1, skill: 'tipos', prompt: 'A força que a Terra exerce sobre você é chamada ____', answers: ['peso', 'gravidade'], hints: ['Força para baixo', 'Depende da sua massa'], explanation: 'Peso é a força gravitacional da Terra sobre você: W = m × g' },
+    { id: 'q3', type: 'mc', difficulty: 2, skill: 'resultante', prompt: 'Duas forças de 30 N cada, em direções opostas. Força resultante é?', options: ['60 N', '0 N', '30 N', '90 N'], answer: 1, hints: ['Direções opostas...', 'Subtraem?', '30 - 30 = ?'], explanation: 'Quando forças são opostas, subtraem: 30 - 30 = 0 N. Objeto não acelera.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'unidade', prompt: 'Um Newton é a força para acelerar 1 kg a ____ m/s².', answers: ['1'], hints: ['Definição de Newton', '1 N = 1 kg × 1 m/s²'], explanation: '1 N = 1 kg⋅m/s² (por definição)' },
+  ],
+  review: ['Força é toda ação que muda movimento', 'Força = m × a (Fórmula fundamental)', 'Unidade: Newton (N)', 'Força resultante = soma vetorial de todas as forças', 'Tipos: peso, normal, atrito, tração, elástica'],
+  sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
+}
+
+// ============================================================================
+// PRIMEIRA LEI DE NEWTON
+// ============================================================================
+
+export const primeira_lei_newton: Lesson = {
+  id: 'fis-primeira-lei-newton',
+  subject: 'fisica',
+  title: 'Primeira Lei de Newton — Inércia',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano ao 3º Médio',
+  aliases: ['primeira lei de Newton', 'inércia', 'lei da inércia', 'repouso', 'movimento uniforme', 'corpo em repouso', 'corpo em movimento', 'força equilibrada'],
+  summary: 'Aprenda a Primeira Lei de Newton e entenda o conceito de inércia.',
+  intro: 'Um objeto em repouso quer ficar em repouso. Um objeto em movimento quer continuar em movimento — a menos que uma força o impeça. Isso é inércia!',
+  skills: {
+    enunciado: 'Enunciado da lei',
+    inercia: 'O conceito de inércia',
+    aplicacao: 'Aplicações práticas',
+    equilibrio: 'Equilíbrio de forças'
+  },
+  blocks: [
+    {
+      id: 'b1',
+      skill: 'enunciado',
+      title: 'Enunciado da Primeira Lei',
+      text: 'Se nenhuma força atua sobre um corpo, ou se a força resultante é zero, o corpo permanece em repouso ou em movimento retilíneo uniforme.',
+      example: 'Um objeto em uma mesa lisa (sem atrito) e sem forças aplicadas vai ficar parado — ou continuar se movendo em linha reta para sempre.',
+      variants: {
+        simples: '"Um corpo parado quer ficar parado. Um corpo em movimento quer continuar em movimento."',
+        exemplo: 'Quando você está em um carro que freia bruscamente, você é "jogado" para frente — porque seu corpo quer continuar em movimento.',
+        outra: 'Força resultante zero = aceleração zero',
+        detalhado: 'Matematicamente: se ΣF = 0, então a = 0, então v = constante (ou zero). O corpo não muda de velocidade.',
+      },
+    },
+    {
+      id: 'b2',
+      skill: 'inercia',
+      title: 'Inércia',
+      text: 'Inércia é a tendência de um corpo resistir a mudanças no seu movimento. Quanto maior a massa, maior a inércia.',
+      example: 'É fácil empurrar uma bola de borracha. Difícil empurrar um carro. O carro tem mais inércia porque tem mais massa.',
+      variants: {
+        simples: 'Inércia = resistência a mudança. Massa grande = muita inércia.',
+        exemplo: 'Pena cai devagar no ar (pouca inércia). Bola de ferro cai rápido (muita inércia, mas mesmo assim tem inércia).',
+        outra: 'Inércia é diretamente proporcional à massa.',
+        detalhado: 'Inércia é a propriedade de resistir ao movimento. É quantificada pela massa. Quanto maior a massa, maior a inércia, mais força é necessária para acelerar.',
+      },
+    },
+    {
+      id: 'b3',
+      skill: 'aplicacao',
+      title: 'Aplicações da Primeira Lei',
+      text: 'Cintos de segurança, air bags, freios de carro — tudo funciona porque pessoas têm inércia.',
+      example: 'Carro freia: seu corpo continua se movendo para frente (inércia). Cinto de segurança o segura.',
+      variants: {
+        simples: 'Sem força (ou força zero), corpo continua como estava.',
+        exemplo: 'Prato em uma toalha: puxe depressa e o prato fica parado (inércia). Astronauta flutuando no espaço: sem gravidade, continua se movendo em linha reta.',
+        outra: 'Patinador em gelo sem atrito: se não aplicar força, vai em linha reta para sempre.',
+        detalhado: 'Exemplos: satélite em órbita (equilibrado entre inércia e gravidade), nave no espaço vazio (movimento perpétuo sem forças), freio de emergência em trem.',
+      },
+    },
+    {
+      id: 'b4',
+      skill: 'equilibrio',
+      title: 'Equilíbrio de forças',
+      text: 'Um objeto está em equilíbrio quando a força resultante é zero. Pode estar parado ou em movimento uniforme.',
+      example: 'Um livro na mesa: força da mesa (normal) iguala força da gravidade (peso). Resultante = 0. Livro fica parado (equilíbrio estático).',
+      variants: {
+        simples: 'Equilíbrio = força resultante zero.',
+        exemplo: 'Pessoa puxando em direções iguais: equilibra. Objeto na mesa: peso é equilibrado pela normal.',
+        outra: 'Equilíbrio estático: objeto parado. Equilíbrio dinâmico: objeto em movimento constante.',
+        detalhado: 'ΣF = 0 implica que Σ(F_x) = 0 E Σ(F_y) = 0 (componentes x e y). Torna a aceleração zero.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'enunciado', prompt: 'Qual é o enunciado da Primeira Lei de Newton?', options: ['F = ma', 'Um corpo parado quer ficar parado', 'Ação e reação', 'Força muda energia'], answer: 1, hints: ['Lei da inércia', 'Sobre tendência de movimento'], explanation: 'A Primeira Lei diz que um corpo sem forças (ou com força resultante zero) mantém seu estado de repouso ou movimento.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'inercia', prompt: 'Massa grande significa muita inércia.', answer: true, hints: ['Inércia = resistência a mudança', 'Mais massa = mais resistência'], explanation: 'Verdadeiro. Inércia é proporcional à massa. Quanto mais pesado, mais inércia tem.' },
+    { id: 'q3', type: 'mc', difficulty: 2, skill: 'aplicacao', prompt: 'Por que o cinto de segurança te segura quando o carro freia?', options: ['Puxa você para frente', 'Impede sua inércia te levar para frente', 'Freia o carro', 'Nada, só segura'], answer: 1, hints: ['Corpo quer continuar em movimento', 'Cinto aplica força de volta'], explanation: 'Quando o carro freia, seu corpo continua em movimento para frente (inércia). O cinto aplica uma força que te traz de volta.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'equilibrio', prompt: 'Um livro na mesa está em equilíbrio porque força do peso é equilibrada pela força ____', answers: ['normal'], hints: ['Força que a mesa exerce', 'Perpendicular à superfície'], explanation: 'A força normal (da mesa) equilibra o peso (gravidade). Resultante = 0.' },
+  ],
+  review: ['Primeira Lei: corpo sem força mantém seu estado', 'Inércia = resistência a mudanças', 'Maior massa = maior inércia', 'Equilíbrio: força resultante = 0', 'Exemplos: cintos de segurança, air bags'],
+  sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
+}
+
+// ============================================================================
+// SEGUNDA LEI DE NEWTON
+// ============================================================================
+
+export const segunda_lei_newton: Lesson = {
+  id: 'fis-segunda-lei-newton',
+  subject: 'fisica',
+  title: 'Segunda Lei de Newton — F = ma',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano ao 3º Médio',
+  aliases: ['segunda lei de Newton', 'F=ma', 'força massa aceleração', 'lei fundamental', 'lei da dinâmica', 'força resultante', 'aceleração proporcional'],
+  summary: 'Aprenda a Segunda Lei de Newton, a fórmula F = ma e como calcular força, massa e aceleração.',
+  intro: 'A Força resultante determina como um objeto acelera. Quanto maior a força, maior a aceleração. Quanto maior a massa, menor a aceleração para mesma força.',
+  skills: {
+    enunciado: 'A fórmula F = ma',
+    relacao: 'Relação entre F, m e a',
+    calculo: 'Como calcular',
+    aplicacao: 'Aplicações'
+  },
+  blocks: [
+    {
+      id: 'b1',
+      skill: 'enunciado',
+      title: 'Enunciado: F = ma',
+      text: 'A força resultante é igual ao produto da massa pela aceleração. Fórmula: F = m × a',
+      example: 'Um carro de 1000 kg com aceleração de 2 m/s² tem força resultante de 1000 × 2 = 2000 N.',
+      variants: {
+        simples: 'F = m × a. Força = massa vezes aceleração.',
+        exemplo: 'Se massa é 10 kg e aceleração é 5 m/s², força é 50 N.',
+        outra: 'Esta é a lei mais importante da Física! Tudo em movimento depende dela.',
+        detalhado: 'ΣF = ma, onde ΣF é força resultante (soma de todas as forças), m é massa (em kg), a é aceleração (em m/s²).',
+      },
+    },
+    {
+      id: 'b2',
+      skill: 'relacao',
+      title: 'Relações entre F, m e a',
+      text: 'Força é diretamente proporcional à aceleração. Força é inversamente proporcional à massa.',
+      example: 'Mesma força em um carro leve: grande aceleração. Mesma força em um carro pesado: pequena aceleração.',
+      variants: {
+        simples: 'Mais força = mais aceleração. Mais massa = menos aceleração.',
+        exemplo: 'Bola de ping-pong vs bola de bowling: mesma força a move diferente porque têm massas diferentes.',
+        outra: 'Duplicar a força duplica a aceleração. Duplicar a massa reduz a aceleração à metade.',
+        detalhado: 'F ∝ a (diretamente proporcional). F ∝ 1/m (inversamente proporcional). Então a ∝ 1/m (mais massa = menos aceleração para mesma força).',
+      },
+    },
+    {
+      id: 'b3',
+      skill: 'calculo',
+      title: 'Como calcular usando F = ma',
+      text: 'Escolha o que quer calcular e reorganize a fórmula. Se quer F: F = ma. Se quer a: a = F/m. Se quer m: m = F/a.',
+      example: 'Força = 50 N, massa = 10 kg. Aceleração: a = 50/10 = 5 m/s². Ou: Aceleração = 3 m/s², massa = 4 kg. Força: F = 4×3 = 12 N.',
+      variants: {
+        simples: 'F = ma. Também: a = F/m, ou m = F/a.',
+        exemplo: 'Conhece F e m? Calcula a = F/m. Conhece a e m? Calcula F = ma.',
+        outra: 'Sempre use unidades corretas: força em Newtons, massa em kg, aceleração em m/s².',
+        detalhado: 'Análise dimensional: [N] = [kg]×[m/s²]. Se resultado não tem unidade certa, algo errou.',
+      },
+    },
+    {
+      id: 'b4',
+      skill: 'aplicacao',
+      title: 'Aplicações da Segunda Lei',
+      text: 'Cálculos de movimento de carros, foguetes, quedas, lançamentos — tudo usa F = ma.',
+      example: 'Quantos Newtons de força preciso para acelerar 1000 kg a 5 m/s²? F = 1000 × 5 = 5000 N.',
+      variants: {
+        simples: 'Use F = ma para calcular qualquer movimento.',
+        exemplo: 'Carro de 1500 kg precisa acelerar a 4 m/s². Força necessária: F = 1500 × 4 = 6000 N.',
+        outra: 'Conhecendo força e massa, sabe a aceleração. Conhecendo aceleração e massa, sabe a força.',
+        detalhado: 'Toda engenharia de movimento usa esta lei. Motor do carro gera força. Engenheiros calculam aceleração. Freios aplicam força oposta para desacelerar.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'enunciado', prompt: 'Qual é a fórmula da Segunda Lei de Newton?', options: ['F = m/a', 'F = ma', 'a = mF', 'F = a/m'], answer: 1, hints: ['Força = ... vezes aceleração'], explanation: 'F = ma. Força é massa vezes aceleração.' },
+    { id: 'q2', type: 'fill', difficulty: 1, skill: 'relacao', prompt: 'Se duplicar a força, a aceleração ____ (aumenta ou diminui?)', answers: ['aumenta'], hints: ['F ∝ a'], explanation: 'Se duplicar F, a aceleração também duplica (são diretamente proporcionais).' },
+    { id: 'q3', type: 'fill', difficulty: 2, skill: 'calculo', prompt: 'Uma força de 100 N é aplicada a um objeto de 20 kg. Sua aceleração é ____ m/s².', answers: ['5'], hints: ['a = F/m', '100/20 = ?'], explanation: 'a = F/m = 100/20 = 5 m/s²' },
+    { id: 'q4', type: 'mc', difficulty: 2, skill: 'aplicacao', prompt: 'Qual força é necessária para acelerar 500 kg a 2 m/s²?', options: ['250 N', '1000 N', 'Falta informação', '250 kg'], answer: 1, hints: ['Use F = ma', '500 × 2 = ?'], explanation: 'F = 500 × 2 = 1000 N' },
+  ],
+  review: ['Segunda Lei: F = ma', 'Força causa aceleração', 'Força ∝ aceleração (mesma massa)', 'Força ∝ 1/massa (mesma aceleração)', 'F = ma é a lei mais importante!'],
+  sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
+}
+
+// ============================================================================
+// TERCEIRA LEI DE NEWTON
+// ============================================================================
+
+export const terceira_lei_newton: Lesson = {
+  id: 'fis-terceira-lei-newton',
+  subject: 'fisica',
+  title: 'Terceira Lei de Newton — Ação e Reação',
+  levels: ['fund2', 'medio'],
+  grade: '8º ano ao 3º Médio',
+  aliases: ['terceira lei de Newton', 'ação e reação', 'par ação-reação', 'forças iguais', 'direções opostas', 'interação', 'impulso-propulsão'],
+  summary: 'Aprenda a Terceira Lei de Newton: ação e reação. Entenda como funcionam os foguetes, saltos e tudo que se move.',
+  intro: 'Quando você pula, você empurra o chão para baixo. O chão empurra você para cima com força igual. Isso é ação e reação!',
+  skills: {
+    enunciado: 'Ação e reação',
+    pares: 'Pares de forças',
+    exemplos: 'Exemplos práticos',
+    movimento: 'Como gera movimento'
+  },
+  blocks: [
+    {
+      id: 'b1',
+      skill: 'enunciado',
+      title: 'Enunciado: Ação e Reação',
+      text: 'Se um corpo A exerce força em um corpo B, então B exerce uma força de igual magnitude e direção oposta em A.',
+      example: 'Você empurra uma parede: parede empurra você com força igual (para trás).',
+      variants: {
+        simples: '"Para cada ação, há uma reação igual e oposta."',
+        exemplo: 'Você pula: você empurra Terra para baixo, Terra empurra você para cima com mesma força.',
+        outra: 'As forças sempre vêm em pares. Nunca existe apenas uma força.',
+        detalhado: 'Se F_AB = força de A em B, então F_BA = -F_AB (força de B em A). Têm mesma magnitude, direções opostas, atuam em corpos diferentes.',
+      },
+    },
+    {
+      id: 'b2',
+      skill: 'pares',
+      title: 'Pares de ação e reação',
+      text: 'Forças sempre vêm em pares iguais e opostos. Atuam em corpos diferentes.',
+      example: 'Você chuta uma bola: você exerce força na bola (ela sai voando). Bola exerce força em você (seu pé "dói").',
+      variants: {
+        simples: 'Duas forças: mesma magnitude, direções opostas, em corpos diferentes.',
+        exemplo: 'Puxador puxando corda: puxador puxa corda para frente, corda puxa puxador para trás.',
+        outra: 'NÃO se cancelam porque atuam em corpos diferentes! A bola e você não cancelam — você acelera um jeito, bola outro.',
+        detalhado: 'Magnitudes: |F_ação| = |F_reação|. Direções: opostas. Pontos de aplicação: em corpos diferentes. Por isso não se cancelam.',
+      },
+    },
+    {
+      id: 'b3',
+      skill: 'exemplos',
+      title: 'Exemplos de ação e reação',
+      text: 'Foguetes, pássaros voando, peixes nadando, carros acelerando — todos usam ação e reação.',
+      example: 'Foguete: expele gases para trás (ação). Gases empurram foguete para frente (reação).',
+      variants: {
+        simples: 'Qualquer movimento usa ação e reação.',
+        exemplo: 'Pássaro: bate asa para baixo (ação). Ar empurra asa para cima (reação). Resultado: voa.',
+        outra: 'Peixe: empurra água para trás. Água empurra peixe para frente. Sai nadando.',
+        detalhado: 'Carro: motor gira rodas. Rodas empurram estrada para trás (ação). Estrada empurra carro para frente (reação). Carro sai voando.',
+      },
+    },
+    {
+      id: 'b4',
+      skill: 'movimento',
+      title: 'Como ação-reação gera movimento',
+      text: 'Um objeto exerce força em algo (ação). Esse algo exerce força de volta (reação). A reação move o objeto inicial.',
+      example: 'Você está em patins em piso liso. Empurra a parede (ação). Parede empurra você (reação). Você sai andando (em patins).',
+      variants: {
+        simples: 'Você empurra, mundo empurra de volta. Resultado: você se move.',
+        exemplo: 'Em piso sem atrito, empurre parede = sai voando para trás. Só parede está parada porque prédio inteiro a segura.',
+        outra: 'Foguete: queima combustível, expele gases. Gases empurram foguete. Resultado: foguete sai voando.',
+        detalhado: 'F_ação (você na parede) causa reação (parede em você). Como parede está presa ao prédio, parede fica. Você se move. Impulso é transferido.',
+      },
+    },
+  ],
+  questions: [
+    { id: 'q1', type: 'mc', difficulty: 1, skill: 'enunciado', prompt: 'Qual é o enunciado da Terceira Lei de Newton?', options: ['F = ma', 'Para cada ação, há reação igual e oposta', 'Corpos resistem ao movimento', 'Força = energia'], answer: 1, hints: ['Ação e reação'], explanation: 'A Terceira Lei diz que forças sempre vêm em pares iguais e opostos.' },
+    { id: 'q2', type: 'tf', difficulty: 1, skill: 'pares', prompt: 'Ação e reação se cancelam porque têm mesma magnitude.', answer: false, hints: ['Atuam em corpos diferentes', 'Não se cancelam!'], explanation: 'Falso. Embora iguais em magnitude, atuam em corpos diferentes então não se cancelam. Causam movimentos diferentes.' },
+    { id: 'q3', type: 'mc', difficulty: 2, skill: 'exemplos', prompt: 'Por que um foguete sobe?', options: ['Porque é leve', 'Expele gases para baixo (ação), gases empurram foguete para cima (reação)', 'Porque a corda o puxa', 'Magia'], answer: 1, hints: ['Ação e reação'], explanation: 'Foguete expele gases para baixo (ação). Os gases empurram o foguete para cima (reação). Resultado: sobe.' },
+    { id: 'q4', type: 'fill', difficulty: 2, skill: 'movimento', prompt: 'Você está em patins em piso liso e empurra a parede. A parede empurra você com força ____', answers: ['igual', 'mesma', 'idêntica'], hints: ['Terceira Lei', 'Magnitudes iguais'], explanation: 'A parede empurra você com força de mesma magnitude da sua ação (mas direção oposta).' },
+  ],
+  review: ['Terceira Lei: ação = reação (oposta)', 'Forças sempre vêm em pares', 'Atuam em corpos diferentes', 'Não se cancelam', 'Explicam todos os movimentos'],
+  sources: [BNCC, { title: 'Conteúdo autoral LUMI', kind: 'autoral' }],
+}
