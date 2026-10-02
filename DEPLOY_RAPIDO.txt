@@ -1,0 +1,45 @@
+═══════════════════════════════════════════════════════════════════════════════
+  🚀 LUMI — Deploy Rápido para Hostinger (sem mudar plano)
+═══════════════════════════════════════════════════════════════════════════════
+
+COMO USAR (3 CLIQUES):
+
+1️⃣  Duplo-clique em: deploy-hostinger.bat
+
+2️⃣  Aguarde o build terminar (npm run build)
+   → Dois navegadores/janelas abrirão automaticamente
+
+3️⃣  ARRASTE os arquivos:
+   → Selecione TODOS em dist/ (Ctrl+A)
+   → Arraste para /public_html/ no Hostinger (lado direito)
+   → Ou clique "Upload" no Gerenciador de Arquivos
+
+4️⃣  Limpe cache:
+   → Ctrl+Shift+Delete no navegador
+   → OU abra em navegador privado (Ctrl+Shift+N)
+
+5️⃣  Pronto! Site atualizado em: https://lumiensina.app.br
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⏱️  TEMPO TOTAL: ~2-5 minutos
+
+📦 O QUE O SCRIPT FAZ:
+  ✅ Executa npm run build
+  ✅ Abre pasta dist/ no Explorador de Arquivos
+  ✅ Abre Gerenciador de Arquivos do Hostinger no navegador
+  ✅ Mostra instruções passo-a-passo
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️  IMPORTANTE:
+
+• Certifique-se que está na pasta C:\Users\Mateus\lumi\
+
+• Se .bat não funcionar, abra PowerShell/Terminal nesta pasta:
+  npm run build
+
+• Depois, abra manualmente:
+  https://hpanel.hostinger.com/websites/lumiensina.app.br/files/file-manager
+
+═══════════════════════════════════════════════════════════════════════════════
