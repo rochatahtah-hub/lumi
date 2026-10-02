@@ -1,20 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ExamPrepFormComponent from '../components/ExamPrepForm'
 import ExamSimulator from '../components/ExamSimulator'
 import ExamResults from '../components/ExamResults'
 import { ExamPrepService } from '../lib/exam-prep-service'
 import type { ExamPrepForm, ExamQuestion, ExamResult, StudentAnswer } from '../types/exam-prep'
-import { useAuth } from '../lib/auth'
+import { getState } from '../lib/store'
 
 type PageState = 'form' | 'exam' | 'results'
 
 export default function ExamPrepPage() {
-  const { user } = useAuth()
+  const [userId, setUserId] = useState<string>('')
   const [pageState, setPageState] = useState<PageState>('form')
   const [isLoading, setIsLoading] = useState(false)
   const [questions, setQuestions] = useState<ExamQuestion[]>([])
   const [examResult, setExamResult] = useState<ExamResult | null>(null)
   const [currentForm, setCurrentForm] = useState<ExamPrepForm | null>(null)
+
+  // Obter userId do estado global (localStorage)
+  useEffect(() => {
+    const profile = getState().profile
+    setUserId(profile.userId || `user_${Date.now()}`)
+  }, [])
 
   const handleFormSubmit = async (form: ExamPrepForm) => {
     setIsLoading(true)
@@ -34,7 +40,7 @@ export default function ExamPrepPage() {
   }
 
   const handleExamComplete = async (answers: StudentAnswer[]) => {
-    if (!currentForm || !user) return
+    if (!currentForm || !userId) return
 
     const correctAnswers = answers.filter(a => a.isCorrect).length
     const percentage = (correctAnswers / answers.length) * 100
@@ -47,7 +53,7 @@ export default function ExamPrepPage() {
 
     const result: ExamResult = {
       id: `exam_${Date.now()}`,
-      userId: user?.id || '',
+      userId,
       subject: currentForm.subject,
       gradeLevel: currentForm.gradeLevel,
       contents: currentForm.contents,
