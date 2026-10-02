@@ -15,7 +15,7 @@ import { getState, recordSession, recordUnitTest, skillKey, useLumi, type Sessio
 import { PASS_UNIT } from '../lib/english'
 import { logSession } from '../lib/telemetry'
 import { shuffle } from '../lib/text'
-import { recordAttempt } from '../lib/learning-integration'
+import { registerQuestionAttempt } from '../lib/learning-integration'
 import type { Lesson, Question } from '../types'
 
 export interface ResultState {
@@ -115,16 +115,19 @@ function QuizRunner({ lesson, mode }: { lesson: Lesson; mode: 'aula' | 'revisao'
     const nxt = nextQuestion(withRem)
 
     // Integração LUMI v3.0: Registrar tentativa para rastreamento de aprendizado
-    const userId = getState().profile?.id || 'anonymous'
-    recordAttempt({
-      userId,
-      lessonId: lesson.id,
-      questionId: q.id,
-      isCorrect: log.firstCorrect,
-      errorType: log.firstCorrect ? null : 'careless',
-      timeSeconds: 60, // tempo médio (ajustar se houver timer)
-      hintsUsed: log.hints,
-    }).catch(err => console.warn('Erro ao registrar tentativa:', err))
+    const userId = getState().profile?.userId
+    if (userId) {
+      registerQuestionAttempt(
+        userId,
+        lesson,
+        q,
+        log.firstCorrect,
+        60, // tempo médio (ajustar se houver timer)
+        undefined, // userAnswer
+        log.tries || 1,
+        log.hints || 0
+      ).catch(err => console.warn('Erro ao registrar tentativa:', err))
+    }
 
     if (!nxt) return finish(withRem)
     setCurrent(nxt)

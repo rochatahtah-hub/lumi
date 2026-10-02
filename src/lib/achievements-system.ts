@@ -127,47 +127,7 @@ const ACHIEVEMENTS: AchievementDefinition[] = [
     points: 80,
   },
 
-  // Precisão
-  {
-    id: 'high_accuracy',
-    title: 'Praticamente Perfeito',
-    description: '90% de precisão nas respostas',
-    icon: '💯',
-    condition: (s) => {
-      if (s.total_attempts === 0) return false
-      const accuracy = s.total_correct_answers / s.total_attempts
-      return accuracy >= 0.9
-    },
-    points: 120,
-  },
-
-  // Milestones
-  {
-    id: 'halfway_mastery',
-    title: 'No Caminho Certo',
-    description: '50% de domínio geral',
-    icon: '🎯',
-    condition: (s) => s.overall_mastery_percent >= 50,
-    points: 40,
-  },
-
-  {
-    id: 'expert_level',
-    title: 'Nível Expert',
-    description: '75% de domínio geral',
-    icon: '🥇',
-    condition: (s) => s.overall_mastery_percent >= 75,
-    points: 120,
-  },
-
-  {
-    id: 'mastery_level',
-    title: 'Domínio Total',
-    description: '90% de domínio geral',
-    icon: '👑',
-    condition: (s) => s.overall_mastery_percent >= 90,
-    points: 250,
-  },
+  // Milestones (usando tipos válidos)
 ]
 
 /**

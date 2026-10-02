@@ -13,7 +13,7 @@ interface MascotProps {
 }
 
 export function Mascot({ reaction, isVisible = true, position = 'bottom-right' }: MascotProps) {
-  const [displayMessage, setDisplayMessage] = useState<MascotReaction | null>(reaction || null)
+  const [displayMessage, setDisplayMessage] = useState<MascotReaction | undefined>(reaction)
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function Mascot({ reaction, isVisible = true, position = 'bottom-right' }
 
       const timer = setTimeout(() => {
         setIsAnimating(false)
-        setTimeout(() => setDisplayMessage(null), 300)
+        setTimeout(() => setDisplayMessage(undefined), 300)
       }, reaction.duration)
 
       return () => clearTimeout(timer)
@@ -136,13 +136,13 @@ interface MascotContextType {
 
 const MascotContext = createContext<MascotContextType | undefined>(undefined)
 
-export function MascotProvider({ children }: { children: ReactNode }) {
+export function MascotProvider({ children }: { children: React.ReactNode }) {
   const { reaction, showReaction, clearReaction } = useMascot()
 
   return (
     <MascotContext.Provider value={{ reaction, showReaction, clearReaction }}>
       {children}
-      <Mascot reaction={reaction} />
+      {reaction && <Mascot reaction={reaction} />}
     </MascotContext.Provider>
   )
 }
