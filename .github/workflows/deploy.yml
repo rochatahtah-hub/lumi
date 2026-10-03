@@ -47,58 +47,26 @@ jobs:
       - name: Listar arquivos de build
         run: ls -lah dist/ | head -20
 
-      # 7. Deploy via SFTP para Hostinger
-      - name: Deploy para Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      # 7. Upload para GitHub Release (artefato de build)
+      - name: 📦 Criar Release com build
+        uses: softprops/action-gh-release@v1
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
-          server: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          port: '2222'
-          local_path: './dist/*'
-          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete: 'true'
-
-      # 8. Deploy de arquivo .env (variáveis de produção)
-      - name: Deploy .env para Hostinger
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          local_path: './.env.production'
-          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete: 'false'
+          files: |
+            dist/**/*
+            .htaccess
+            .env.production.example
+          draft: true
+          prerelease: false
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      # 9. Deploy .htaccess (configuração Apache para SPA)
-      - name: Deploy .htaccess para Hostinger
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          local_path: './.htaccess'
-          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete: 'false'
-        continue-on-error: true
-
-      # 10. SSH para verificar deploy (opcional)
-      - name: Verificar deploy via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          script: |
-            cd ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-            echo "✅ Deploy concluído em: $(date)"
-            echo "📦 Arquivos no servidor:"
-            ls -lah | head -10
-            echo "---"
-            echo "🔍 Verificando index.html:"
-            ls -lah index.html
-        continue-on-error: true
+      # ⚠️ NOTA: Deploy SFTP para Hostinger desabilitado
+      # Motivo: GitHub Actions não consegue conectar (Network unreachable em portas 22 e 2222)
+      # Solução: Deploy manual via Hostinger cPanel ou configurar webhook Git no painel
+      # TODO: Investigar credenciais Hostinger (HOSTINGER_SERVER, USERNAME, PASSWORD podem estar incorretos)
 
       # 11. Notificação de sucesso
       - name: ✅ Deploy bem-sucedido!
