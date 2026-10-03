@@ -149,6 +149,17 @@ export class ExamPrepService {
     // Fallback quando não encontrar na Base Oficial
     const difficultyLabel = difficulty === 'easy' ? 'básico' : difficulty === 'medium' ? 'intermediário' : 'avançado'
 
+    // Definir correctAnswer baseado no tipo de questão
+    let correctAnswer: string
+    if (type === 'multiple-choice' || type === 'association') {
+      correctAnswer = 'Opção A'
+    } else if (type === 'true-false') {
+      correctAnswer = 'Verdadeiro'
+    } else {
+      // Para tipos open, complete, interpretation, problem-situation
+      correctAnswer = `Uma resposta correta sobre ${content}`
+    }
+
     return {
       id: `exam_q_${Date.now()}_${index}`,
       type,
@@ -160,7 +171,7 @@ export class ExamPrepService {
       options: type === 'multiple-choice' || type === 'association'
         ? ['Opção A', 'Opção B', 'Opção C', 'Opção D']
         : undefined,
-      correctAnswer: 'Opção A',
+      correctAnswer,
       explanation: `Este conceito se refere a ${content}. Para dominar este tema, estude a lição correspondente.`
     }
   }
