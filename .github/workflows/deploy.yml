@@ -54,6 +54,7 @@ jobs:
           server: ${{ secrets.HOSTINGER_SERVER }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
+          port: '2222'
           local_path: './dist/*'
           remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
           delete: 'true'
