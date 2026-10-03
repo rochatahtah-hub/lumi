@@ -76,3 +76,4 @@ No primeiro acesso pelo celular o LUMI mostra "📱 Quer ter o LUMI no seu celul
 ## Privacidade
 
 Sem conta: nada sai do aparelho além de estatísticas anônimas (código aleatório + acertos por questão) quando a nuvem está ativa. Com conta: só e-mail e senha (recomendado o do responsável para menores). Sem CPF, telefone, endereço, nome completo ou foto.
+
