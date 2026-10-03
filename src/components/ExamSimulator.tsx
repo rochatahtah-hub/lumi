@@ -89,28 +89,30 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
           <h3 className="text-xl font-semibold text-gray-800 mb-6">{currentQuestion.content}</h3>
 
           {/* Opções */}
-          <div className="space-y-3">
+          <div>
             {(currentQuestion.type === 'multiple-choice' || currentQuestion.type === 'association') && currentQuestion.options && (
-              currentQuestion.options.map((option, idx) => (
-                <label
-                  key={idx}
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition ${
-                    selectedAnswer === option
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="answer"
-                    value={option}
-                    checked={selectedAnswer === option}
-                    onChange={(e) => setSelectedAnswer(e.target.value)}
-                    className="mr-3"
-                  />
-                  {option}
-                </label>
-              ))
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {currentQuestion.options.map((option, idx) => (
+                  <label
+                    key={idx}
+                    className={`block p-4 border-2 rounded-lg cursor-pointer transition min-h-20 flex items-center ${
+                      selectedAnswer === option
+                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                        : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="answer"
+                      value={option}
+                      checked={selectedAnswer === option}
+                      onChange={(e) => setSelectedAnswer(e.target.value)}
+                      className="mr-3 flex-shrink-0 w-5 h-5"
+                    />
+                    <span className="text-sm sm:text-base font-medium text-gray-800 break-words">{option}</span>
+                  </label>
+                ))}
+              </div>
             )}
 
             {currentQuestion.type === 'true-false' && (
