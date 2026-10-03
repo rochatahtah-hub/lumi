@@ -17,6 +17,24 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
   }, [currentIndex])
 
   const currentQuestion = questions[currentIndex]
+
+  // Guard: se não houver questão atual, mostrar erro
+  if (!currentQuestion) {
+    return (
+      <div className="max-w-3xl mx-auto p-6">
+        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <p className="text-red-600 font-semibold mb-4">Erro: Questão não encontrada</p>
+          <p className="text-gray-600 mb-4">índice: {currentIndex}, total: {questions.length}</p>
+          <button
+            onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          >
+            ← Voltar
+          </button>
+        </div>
+      </div>
+    )
+  }
   const isLastQuestion = currentIndex === questions.length - 1
   const progressPercentage = ((currentIndex + 1) / questions.length) * 100
 

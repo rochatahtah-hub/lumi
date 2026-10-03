@@ -29,6 +29,7 @@ export default function ExamPrepPage() {
     try {
       // Gerar questões automaticamente
       const generatedQuestions = await ExamPrepService.generateExamQuestions(form)
+      console.log(`[DEBUG] Questões geradas: ${generatedQuestions.length}`, generatedQuestions)
       setQuestions(generatedQuestions)
       setPageState('exam')
     } catch (error) {
