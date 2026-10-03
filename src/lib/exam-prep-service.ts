@@ -2,6 +2,7 @@ import { supabase } from './supabase'
 import { BASE_LESSONS } from '../content/index'
 import type { ExamPrepForm, ExamQuestion, ExamResult, ContentPerformance, StudentAnswer } from '../types/exam-prep'
 import type { Lesson } from '../types'
+import { registerQuestionNotFound } from './questions-not-found'
 
 export class ExamPrepService {
   static async generateExamQuestions(form: ExamPrepForm): Promise<ExamQuestion[]> {
@@ -31,6 +32,11 @@ export class ExamPrepService {
 
         // Buscar lição na Base Oficial que combina com o conteúdo
         const matchedLesson = this.findLessonByContent(content, form.subject, form.gradeLevel)
+
+        if (!matchedLesson) {
+          // Registrar no audit quando não encontrar
+          await registerQuestionNotFound(content, form)
+        }
 
         const question = matchedLesson
           ? this.generateQuestionFromLesson(matchedLesson, content, difficulty, type, questionIndex)
