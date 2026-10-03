@@ -90,7 +90,7 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
 
           {/* Opções */}
           <div className="space-y-3">
-            {currentQuestion.type === 'multiple-choice' && currentQuestion.options && (
+            {(currentQuestion.type === 'multiple-choice' || currentQuestion.type === 'association') && currentQuestion.options && (
               currentQuestion.options.map((option, idx) => (
                 <label
                   key={idx}
@@ -148,7 +148,7 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
               </>
             )}
 
-            {(currentQuestion.type === 'complete' || currentQuestion.type === 'open' || currentQuestion.type === 'interpretation') && (
+            {(currentQuestion.type === 'complete' || currentQuestion.type === 'open' || currentQuestion.type === 'interpretation' || currentQuestion.type === 'problem-situation') && (
               <textarea
                 value={selectedAnswer}
                 onChange={(e) => setSelectedAnswer(e.target.value)}
