@@ -29,6 +29,7 @@ import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpe
 import { NOVAS_MATERIAS } from './lessons/materias-novas'
 import { MATERIAS_EXPANDIDAS } from './lessons/materias-expandidas'
 import { MATERIAS_PROFUNDAS } from './lessons/materias-profundas'
+import { MATERIAS_FINAIS } from './lessons/materias-finais'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -68,5 +69,7 @@ export const BASE_LESSONS: Lesson[] = [
   ...MATERIAS_EXPANDIDAS,
   // Matérias Profundas — Português e Matemática avançada
   ...MATERIAS_PROFUNDAS,
+  // Matérias Finais — Ciências, História, Geografia (complemento até 190 lições)
+  ...MATERIAS_FINAIS,
 ].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
   .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))
