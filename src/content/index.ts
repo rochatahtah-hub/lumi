@@ -28,6 +28,7 @@ import { collocations, conditionals, falseFriends, phrasalVerbs, presentPerfect 
 import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpeech } from './lessons/ingles-b2c1'
 import { NOVAS_MATERIAS } from './lessons/materias-novas'
 import { MATERIAS_EXPANDIDAS } from './lessons/materias-expandidas'
+import { MATERIAS_PROFUNDAS } from './lessons/materias-profundas'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -65,5 +66,7 @@ export const BASE_LESSONS: Lesson[] = [
   ...NOVAS_MATERIAS,
   // Matérias Expandidas — Cobertura completa até 190 lições
   ...MATERIAS_EXPANDIDAS,
+  // Matérias Profundas — Português e Matemática avançada
+  ...MATERIAS_PROFUNDAS,
 ].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
   .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))
