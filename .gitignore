@@ -23,8 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment variables - NUNCA versionados (credenciais sensíveis)
 .env
 .env.local
+.env.production
+.env.staging
+.env.*.local
+.env.*.production
+.env.*.staging
+
 supabase/.temp
 deploy/
 
