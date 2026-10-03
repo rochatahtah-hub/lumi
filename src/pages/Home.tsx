@@ -20,7 +20,7 @@ export default function Home() {
   const streak = useLumi((s) => currentStreak(s.studyDays))
   const lastSession = useLumi((s) => s.history.find((h) => h.mode === 'aula'))
   const hasWeak = useLumi((s) => weakSkills(s).length > 0)
-  const preferredName = useLumi((s) => s.profile.preferred_name || s.profile.nickname || 'você')
+  const preferredName = useLumi((s) => s.profile.preferred_name || s.profile.nickname || '')
   const shouldSetupName = useShouldSetupName()
   const peek = usePeekDirector(HOME_SUBJECTS.length)
 
