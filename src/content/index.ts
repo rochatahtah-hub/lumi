@@ -26,6 +26,8 @@ import { combinatoria, funcao2grau, geometriaEspacial, juros, logaritmo, progres
 import { comparatives, future, pastContinuous, presentContinuous, simplePast } from './lessons/ingles-a2'
 import { collocations, conditionals, falseFriends, phrasalVerbs, presentPerfect } from './lessons/ingles-b1'
 import { advancedConditionals, idioms, passive, readingBetweenLines, reportedSpeech } from './lessons/ingles-b2c1'
+import { NOVAS_MATERIAS } from './lessons/materias-novas'
+import { MATERIAS_EXPANDIDAS } from './lessons/materias-expandidas'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -59,5 +61,9 @@ export const BASE_LESSONS: Lesson[] = [
   celula, cadeiasAlimentares, genetica,
   modernismo, filosofiaGrega, sociologiaClassicos,
   cores,
+  // Novas Matérias — Filosofia, Sociologia, Geografia, Artes, Educação Física
+  ...NOVAS_MATERIAS,
+  // Matérias Expandidas — Cobertura completa até 190 lições
+  ...MATERIAS_EXPANDIDAS,
 ].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
   .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))
