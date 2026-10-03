@@ -79,24 +79,64 @@ export default function ExamPrepPage() {
   }
 
   const handleRecommendation = (type: 'review-errors' | 'study-difficulties' | 'new-test' | 'play-games') => {
+    if (!examResult) return
+
     switch (type) {
-      case 'review-errors':
-        // Redirecionar para revisão de erros
-        console.log('Abrir revisão de erros')
+      case 'review-errors': {
+        // Mostrar erros e redirecionar para estudar conteúdos com erro
+        const wrongAnswers = examResult.answers.filter(a => !a.isCorrect)
+        const contentsWithErrors = new Set<string>()
+
+        wrongAnswers.forEach(answer => {
+          const question = questions.find(q => q.id === answer.questionId)
+          if (question?.skillReference) {
+            contentsWithErrors.add(question.skillReference)
+          }
+        })
+
+        if (contentsWithErrors.size > 0) {
+          const query = Array.from(contentsWithErrors).join(',')
+          window.location.href = `/estudar?retry=${encodeURIComponent(query)}`
+        }
         break
-      case 'study-difficulties':
-        // Criar trilha de revisão automática
-        console.log('Criar trilha de estudo')
+      }
+
+      case 'study-difficulties': {
+        // Trilha de revisão para conteúdos com <70% acerto
+        const weakContents = examResult.contentAnalysis
+          .filter(c => c.percentage < 70)
+          .map(c => c.content)
+
+        if (weakContents.length > 0) {
+          const query = weakContents.join(',')
+          window.location.href = `/estudar?urgencia=revisao&conteudos=${encodeURIComponent(query)}`
+        }
         break
-      case 'new-test':
-        // Novo teste
+      }
+
+      case 'new-test': {
+        // Novo teste com mesmo formulário
         setPageState('form')
+        setQuestions([])
         setExamResult(null)
         break
-      case 'play-games':
-        // Jogos relacionados
-        console.log('Abrir jogos')
+      }
+
+      case 'play-games': {
+        // Filtrar jogos para conteúdos com dificuldade (<70%)
+        const gamesContents = examResult.contentAnalysis
+          .filter(c => c.percentage < 70)
+          .map(c => c.content)
+
+        if (gamesContents.length > 0) {
+          const query = gamesContents.join(',')
+          window.location.href = `/jogos?filter=${encodeURIComponent(query)}`
+        } else {
+          // Se nenhum conteúdo com dificuldade, abrir jogos gerais da matéria
+          window.location.href = `/jogos?subject=${encodeURIComponent(examResult.subject)}`
+        }
         break
+      }
     }
   }
 
