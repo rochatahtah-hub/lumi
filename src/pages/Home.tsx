@@ -121,11 +121,6 @@ export default function Home() {
               <ChevronRight size={20} />
             </Link>
           )}
-          <Link to="/preparacao-prova" className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3.5 text-grafite">
-            <FileText size={20} className="text-laranja" />
-            <span className="flex-1 text-sm font-medium">📝 Preparação para a Prova</span>
-            <ChevronRight size={20} />
-          </Link>
           <Link to="/colar" className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3.5 text-grafite">
             <FileText size={20} className="text-laranja" />
             <span className="flex-1 text-sm font-medium">📄 Tenho um conteúdo para estudar</span>

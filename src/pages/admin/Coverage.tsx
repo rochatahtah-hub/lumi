@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { BASE_LESSONS } from '../../content/index'
-import { getPendingQuestions, updateQuestionStatus, deleteQuestionRecord } from '../../lib/questions-not-found'
 import type { Lesson } from '../../types'
 
 interface CoverageReport {
@@ -13,21 +12,9 @@ interface CoverageReport {
   completionPercent: number
 }
 
-interface PendingQuestion {
-  id: string
-  question: string
-  subject: string
-  grade_level: string
-  probable_topic: string
-  timestamp: string
-  status: string
-}
-
 export default function CoveragePage() {
   const [coverage, setCoverage] = useState<CoverageReport[]>([])
-  const [pendingQuestions, setPendingQuestions] = useState<PendingQuestion[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'coverage' | 'pending'>('coverage')
 
   useEffect(() => {
     loadData()
@@ -39,10 +26,6 @@ export default function CoveragePage() {
     // Calcular cobertura por matéria/série
     const report = calculateCoverage(BASE_LESSONS)
     setCoverage(report)
-
-    // Buscar perguntas pendentes
-    const pending = await getPendingQuestions()
-    setPendingQuestions(pending as PendingQuestion[])
 
     setLoading(false)
   }
@@ -80,16 +63,6 @@ export default function CoveragePage() {
     })
   }
 
-  const handleApproveQuestion = async (questionId: string) => {
-    await updateQuestionStatus(questionId, 'approved')
-    setPendingQuestions(pendingQuestions.filter(q => q.id !== questionId))
-  }
-
-  const handleDeleteQuestion = async (questionId: string) => {
-    await deleteQuestionRecord(questionId)
-    setPendingQuestions(pendingQuestions.filter(q => q.id !== questionId))
-  }
-
   if (loading) {
     return <div className="p-4 text-center">Carregando dados de cobertura...</div>
   }
@@ -99,32 +72,7 @@ export default function CoveragePage() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">📊 Auditoria de Cobertura</h1>
 
-        {/* Abas */}
-        <div className="flex gap-4 mb-6 border-b">
-          <button
-            onClick={() => setActiveTab('coverage')}
-            className={`px-4 py-2 font-medium ${
-              activeTab === 'coverage'
-                ? 'border-b-2 border-blue-500 text-blue-600'
-                : 'text-gray-600'
-            }`}
-          >
-            Cobertura de Lições ({coverage.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('pending')}
-            className={`px-4 py-2 font-medium ${
-              activeTab === 'pending'
-                ? 'border-b-2 border-blue-500 text-blue-600'
-                : 'text-gray-600'
-            }`}
-          >
-            Perguntas Pendentes ({pendingQuestions.length})
-          </button>
-        </div>
-
-        {/* TAB 1: Cobertura */}
-        {activeTab === 'coverage' && (
+        {/* Cobertura */}
           <div className="space-y-4">
             <div className="bg-white rounded-lg shadow overflow-hidden">
               <table className="w-full">
@@ -198,69 +146,6 @@ export default function CoveragePage() {
               </div>
             </div>
           </div>
-        )}
-
-        {/* TAB 2: Perguntas Pendentes */}
-        {activeTab === 'pending' && (
-          <div className="space-y-4">
-            {pendingQuestions.length === 0 ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-8 text-center">
-                <p className="text-green-800 font-medium">✅ Todas as perguntas foram revisadas!</p>
-                <p className="text-green-600 text-sm mt-2">Cobertura da Base Oficial está completa.</p>
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-gray-100 border-b">
-                    <tr>
-                      <th className="px-4 py-3 text-left">Conteúdo</th>
-                      <th className="px-4 py-3 text-left">Matéria</th>
-                      <th className="px-4 py-3 text-left">Série</th>
-                      <th className="px-4 py-3 text-left">Tópico Provável</th>
-                      <th className="px-4 py-3 text-center">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pendingQuestions.map((q, idx) => (
-                      <tr key={q.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                        <td className="px-4 py-3 text-sm">{q.question}</td>
-                        <td className="px-4 py-3">{q.subject}</td>
-                        <td className="px-4 py-3">{q.grade_level}</td>
-                        <td className="px-4 py-3 text-sm">{q.probable_topic}</td>
-                        <td className="px-4 py-3 text-center">
-                          <div className="flex gap-2 justify-center">
-                            <button
-                              onClick={() => handleApproveQuestion(q.id)}
-                              className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600"
-                            >
-                              ✓ Revisar
-                            </button>
-                            <button
-                              onClick={() => handleDeleteQuestion(q.id)}
-                              className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
-                            >
-                              ✕ Deletar
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            {/* Instruções */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-bold text-blue-900 mb-2">📝 Como usar:</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• <strong>Revisar:</strong> Marca pergunta como analisada (criar lição se necessário)</li>
-                <li>• <strong>Deletar:</strong> Remove pergunta do audit (se for duplicate ou inválida)</li>
-                <li>• Cada pergunta que chega aqui indica um gap na Base Oficial</li>
-              </ul>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
