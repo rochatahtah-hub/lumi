@@ -65,24 +65,17 @@ export default function ExamPrepFormComponent({ onSubmit, isLoading = false }: E
             <label className="block text-sm font-medium text-gray-700 mb-2">
               📚 Matéria
             </label>
-            <input
-              list="subjects-list"
+            <select
               value={form.subject}
-              onChange={(e) => {
-                const value = e.target.value
-                if (subjects.includes(value) || value === '') {
-                  setForm({ ...form, subject: value })
-                }
-              }}
-              placeholder="Digite ou selecione uma matéria"
+              onChange={(e) => setForm({ ...form, subject: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               required
-            />
-            <datalist id="subjects-list">
+            >
+              <option value="">Selecione uma matéria</option>
               {subjects.map(subject => (
-                <option key={subject} value={subject} />
+                <option key={subject} value={subject}>{subject}</option>
               ))}
-            </datalist>
+            </select>
           </div>
 
           {/* Série/Ano */}
@@ -90,24 +83,17 @@ export default function ExamPrepFormComponent({ onSubmit, isLoading = false }: E
             <label className="block text-sm font-medium text-gray-700 mb-2">
               🎓 Série/Ano
             </label>
-            <input
-              list="grades-list"
+            <select
               value={form.gradeLevel}
-              onChange={(e) => {
-                const value = e.target.value
-                if (grades.includes(value) || value === '') {
-                  setForm({ ...form, gradeLevel: value })
-                }
-              }}
-              placeholder="Digite ou selecione sua série"
+              onChange={(e) => setForm({ ...form, gradeLevel: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               required
-            />
-            <datalist id="grades-list">
+            >
+              <option value="">Selecione sua série</option>
               {grades.map(grade => (
-                <option key={grade} value={grade} />
+                <option key={grade} value={grade}>{grade}</option>
               ))}
-            </datalist>
+            </select>
           </div>
 
           {/* Conteúdos */}
