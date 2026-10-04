@@ -9,8 +9,11 @@ export class ExamPrepService {
     // Coletar questões reais das lições relacionadas aos conteúdos
     const allQuestions: ExamQuestion[] = []
 
+    console.log('[ExamPrepService] generateExamQuestions:', { subject: form.subject, gradeLevel: form.gradeLevel, contents: form.contents })
+
     for (const content of form.contents) {
       const lesson = this.findLessonByContent(content, form.subject, form.gradeLevel)
+      console.log(`[ExamPrepService] Search for "${content}":`, lesson ? `Found ${lesson.id}` : 'NOT FOUND')
       if (lesson?.questions?.length) {
         const converted = lesson.questions.map((q, idx) =>
           this.convertLessonQuestionToExamQuestion(q, lesson, content, idx)
@@ -22,7 +25,9 @@ export class ExamPrepService {
     }
 
     // Se não houver questões suficientes, usar fallback
+    console.log(`[ExamPrepService] Total questions: ${allQuestions.length}`)
     if (allQuestions.length === 0) {
+      console.warn('[ExamPrepService] No questions found, using fallback')
       return this.generateFallbackQuestions(form)
     }
 
@@ -125,14 +130,31 @@ export class ExamPrepService {
     const normalize = (str: string) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
     const normalizedSubject = normalize(subject)
 
-    return BASE_LESSONS.find(lesson => {
+    console.log(`[findLessonByContent] Procurando: content="${content}" subject="${subject}" gradeLevel="${gradeLevel}"`)
+    console.log(`[findLessonByContent] contentLower="${contentLower}" normalizedSubject="${normalizedSubject}"`)
+    console.log(`[findLessonByContent] Total de lições em BASE_LESSONS: ${BASE_LESSONS.length}`)
+
+    const found = BASE_LESSONS.find(lesson => {
       const titleMatch = lesson.title.toLowerCase().includes(contentLower)
       const summaryMatch = lesson.summary?.toLowerCase().includes(contentLower)
       const lessonSubjectNorm = normalize(lesson.subject || '')
       const subjectMatch = lessonSubjectNorm.includes(normalizedSubject)
 
+      // Log detalhado para a lição procurada
+      if (lesson.title.toLowerCase().includes('figura')) {
+        console.log(`[findLessonByContent] Lição: "${lesson.title}" (id: ${lesson.id})`)
+        console.log(`  - titleMatch: ${titleMatch} (lesson.title.toLowerCase()="${lesson.title.toLowerCase()}")`)
+        console.log(`  - summaryMatch: ${summaryMatch}`)
+        console.log(`  - lesson.subject: "${lesson.subject}" → normalizado: "${lessonSubjectNorm}"`)
+        console.log(`  - subjectMatch: ${subjectMatch}`)
+        console.log(`  - result: ${(titleMatch || summaryMatch) && subjectMatch}`)
+      }
+
       return (titleMatch || summaryMatch) && subjectMatch
     })
+
+    console.log(`[findLessonByContent] Resultado: ${found ? `ENCONTRADA "${found.title}" (${found.id})` : 'NÃO ENCONTRADA'}`)
+    return found
   }
 
   static async saveExamResult(result: ExamResult): Promise<string | null> {
