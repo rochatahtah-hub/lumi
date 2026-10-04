@@ -89,13 +89,13 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
           <h3 className="text-xl font-semibold text-gray-800 mb-6">{currentQuestion.content}</h3>
 
           {/* Opções */}
-          <div>
+          <div className="space-y-3">
             {(currentQuestion.type === 'multiple-choice' || currentQuestion.type === 'association') && currentQuestion.options && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-3">
                 {currentQuestion.options.map((option, idx) => (
                   <label
                     key={idx}
-                    className={`block p-4 border-2 rounded-lg cursor-pointer transition min-h-20 flex items-center ${
+                    className={`block p-4 border-2 rounded-lg cursor-pointer transition min-h-auto flex items-start gap-3 ${
                       selectedAnswer === option
                         ? 'border-blue-500 bg-blue-50 shadow-md'
                         : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
@@ -107,17 +107,17 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
                       value={option}
                       checked={selectedAnswer === option}
                       onChange={(e) => setSelectedAnswer(e.target.value)}
-                      className="mr-3 flex-shrink-0 w-5 h-5"
+                      className="mt-1 flex-shrink-0 w-5 h-5"
                     />
-                    <span className="text-sm sm:text-base font-medium text-gray-800 break-words">{option}</span>
+                    <span className="text-sm sm:text-base font-medium text-gray-800 break-words flex-1">{option}</span>
                   </label>
                 ))}
               </div>
             )}
 
             {currentQuestion.type === 'true-false' && (
-              <>
-                <label className={`p-4 border-2 rounded-lg cursor-pointer transition ${
+              <div className="space-y-3">
+                <label className={`block p-4 border-2 rounded-lg cursor-pointer transition flex items-center gap-3 ${
                   selectedAnswer === 'Verdadeiro'
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
@@ -128,11 +128,11 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
                     value="Verdadeiro"
                     checked={selectedAnswer === 'Verdadeiro'}
                     onChange={(e) => setSelectedAnswer(e.target.value)}
-                    className="mr-3"
+                    className="flex-shrink-0 w-5 h-5"
                   />
-                  ✓ Verdadeiro
+                  <span className="font-medium">✓ Verdadeiro</span>
                 </label>
-                <label className={`p-4 border-2 rounded-lg cursor-pointer transition ${
+                <label className={`block p-4 border-2 rounded-lg cursor-pointer transition flex items-center gap-3 ${
                   selectedAnswer === 'Falso'
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
@@ -143,11 +143,11 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
                     value="Falso"
                     checked={selectedAnswer === 'Falso'}
                     onChange={(e) => setSelectedAnswer(e.target.value)}
-                    className="mr-3"
+                    className="flex-shrink-0 w-5 h-5"
                   />
-                  ✗ Falso
+                  <span className="font-medium">✗ Falso</span>
                 </label>
-              </>
+              </div>
             )}
 
             {(currentQuestion.type === 'complete' || currentQuestion.type === 'open' || currentQuestion.type === 'interpretation') && (

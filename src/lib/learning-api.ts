@@ -24,6 +24,15 @@ export async function recordAttempt(
   if (!supabase) return null
 
   try {
+    // 0. Calcular número de tentativa (contar tentativas anteriores para esta questão)
+    const countResult = await supabase
+      .from('question_attempts')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('question_id', questionId)
+
+    const attemptNumber = ((countResult?.count) ?? 0) + 1
+
     // 1. Registrar tentativa individual
     const { error: attemptError } = await supabase.from('question_attempts').insert({
       user_id: userId,
@@ -32,7 +41,7 @@ export async function recordAttempt(
       is_correct: isCorrect,
       time_seconds: timeSeconds,
       difficulty_rating: difficultyRating,
-      attempt_number: 1, // TODO: calcular número real
+      attempt_number: attemptNumber,
       user_answer: '', // será preenchido pelo frontend
       correct_answer: '', // será preenchido pelo frontend
     })
