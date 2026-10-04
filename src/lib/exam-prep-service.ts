@@ -1,53 +1,123 @@
 import { supabase } from './supabase'
 import { BASE_LESSONS } from '../content/index'
 import type { ExamPrepForm, ExamQuestion, ExamResult, ContentPerformance, StudentAnswer } from '../types/exam-prep'
-import type { Lesson } from '../types'
+import type { Lesson, Question } from '../types'
 import { registerQuestionNotFound } from './questions-not-found'
 
 export class ExamPrepService {
   static async generateExamQuestions(form: ExamPrepForm): Promise<ExamQuestion[]> {
-    const questions: ExamQuestion[] = []
-    const difficulties = ['easy', 'medium', 'hard'] as const
-    const questionTypes = [
-      'multiple-choice',
-      'true-false',
-      'complete',
-      'association',
-      'interpretation',
-      'problem-situation'
-    ] as const
+    // Coletar questões reais das lições relacionadas aos conteúdos
+    const allQuestions: ExamQuestion[] = []
 
-    // Distribuição de dificuldade: 20 questões (7 fáceis, 8 médias, 5 difíceis)
-    const totalQuestions = 20
-    const distributionByDifficulty = { easy: 7, medium: 8, hard: 5 }
-
-    let questionIndex = 0
-    for (const difficulty of difficulties) {
-      const count = distributionByDifficulty[difficulty]
-      for (let i = 0; i < count; i++) {
-        const contentIndex = i % form.contents.length
-        const content = form.contents[contentIndex]
-        const typeIndex = questionIndex % questionTypes.length
-        const type = questionTypes[typeIndex]
-
-        // Buscar lição na Base Oficial que combina com o conteúdo
-        const matchedLesson = this.findLessonByContent(content, form.subject, form.gradeLevel)
-
-        if (!matchedLesson) {
-          // Registrar no audit quando não encontrar
-          await registerQuestionNotFound(content, form)
-        }
-
-        const question = matchedLesson
-          ? this.generateQuestionFromLesson(matchedLesson, content, difficulty, type, questionIndex)
-          : this.generateFallbackQuestion(content, form.subject, form.gradeLevel, difficulty, type, questionIndex)
-
-        questions.push(question)
-        questionIndex++
+    for (const content of form.contents) {
+      const lesson = this.findLessonByContent(content, form.subject, form.gradeLevel)
+      if (lesson?.questions?.length) {
+        const converted = lesson.questions.map((q, idx) =>
+          this.convertLessonQuestionToExamQuestion(q, lesson, content, idx)
+        )
+        allQuestions.push(...converted)
+      } else {
+        await registerQuestionNotFound(content, form)
       }
     }
 
-    return questions
+    // Se não houver questões suficientes, usar fallback
+    if (allQuestions.length === 0) {
+      return this.generateFallbackQuestions(form)
+    }
+
+    // Distribuir por dificuldade: 20 questões (7 fáceis, 8 médias, 5 difíceis)
+    const byDifficulty = {
+      easy: allQuestions.filter(q => q.difficulty === 'easy'),
+      medium: allQuestions.filter(q => q.difficulty === 'medium'),
+      hard: allQuestions.filter(q => q.difficulty === 'hard')
+    }
+
+    const selected: ExamQuestion[] = []
+    selected.push(...this.shuffleArray(byDifficulty.easy).slice(0, 7))
+    selected.push(...this.shuffleArray(byDifficulty.medium).slice(0, 8))
+    selected.push(...this.shuffleArray(byDifficulty.hard).slice(0, 5))
+
+    return selected
+  }
+
+  private static convertLessonQuestionToExamQuestion(
+    q: Question,
+    lesson: Lesson,
+    skillRef: string,
+    idx: number
+  ): ExamQuestion {
+    const diffMap = { 1: 'easy', 2: 'medium', 3: 'hard' } as const
+
+    let options: string[] | undefined = undefined
+    let correctAnswer: string = ''
+
+    if (q.type === 'mc') {
+      options = q.options
+      correctAnswer = q.options[q.answer] || q.options[0]
+    } else if (q.type === 'tf') {
+      options = ['Verdadeiro', 'Falso']
+      correctAnswer = q.answer ? 'Verdadeiro' : 'Falso'
+    } else if (q.type === 'fill') {
+      options = q.answers
+      correctAnswer = q.answers[0] || ''
+    } else if (q.type === 'match') {
+      correctAnswer = q.pairs.map(p => `${p[0]} → ${p[1]}`).join(' · ')
+    } else if (q.type === 'order') {
+      correctAnswer = q.items.join(' → ')
+    } else if (q.type === 'open') {
+      correctAnswer = q.modelAnswer
+    }
+
+    return {
+      id: `${lesson.id}_q${idx}_${Date.now()}`,
+      type: this.mapQuestionType(q.type),
+      difficulty: diffMap[q.difficulty],
+      content: q.prompt,
+      subject: lesson.subject || 'Não especificado',
+      gradeLevel: lesson.grade || 'Fundamental',
+      skillReference: skillRef,
+      options,
+      correctAnswer,
+      explanation: q.explanation
+    }
+  }
+
+  private static mapQuestionType(type: Question['type']): ExamQuestion['type'] {
+    const map: Record<Question['type'], ExamQuestion['type']> = {
+      'mc': 'multiple-choice',
+      'tf': 'true-false',
+      'fill': 'complete',
+      'match': 'association',
+      'open': 'open',
+      'order': 'interpretation'
+    }
+    return map[type]
+  }
+
+  private static generateFallbackQuestions(form: ExamPrepForm): ExamQuestion[] {
+    // Se não houver conteúdo na Base Oficial
+    const q: ExamQuestion = {
+      id: `fallback_${Date.now()}`,
+      type: 'open',
+      difficulty: 'medium',
+      content: `Questão sobre ${form.contents.join(', ')} em ${form.subject}`,
+      subject: form.subject,
+      gradeLevel: form.gradeLevel,
+      skillReference: form.contents[0] || 'não especificado',
+      correctAnswer: 'Resposta não disponível. Consulte o material didático.',
+      explanation: 'Este conteúdo precisa ser adicionado à Base Oficial. Favor contactar administração.'
+    }
+    return [q]
+  }
+
+  private static shuffleArray<T>(arr: T[]): T[] {
+    const copy = [...arr]
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]]
+    }
+    return copy
   }
 
   private static findLessonByContent(content: string, subject: string, gradeLevel: string): Lesson | undefined {
@@ -60,120 +130,6 @@ export class ExamPrepService {
 
       return (titleMatch || summaryMatch) && subjectMatch
     })
-  }
-
-  private static generateQuestionFromLesson(
-    lesson: Lesson,
-    content: string,
-    difficulty: 'easy' | 'medium' | 'hard',
-    type: ExamQuestion['type'],
-    index: number
-  ): ExamQuestion {
-    // Extrair conteúdo da lição
-    const blockExample = lesson.blocks?.[0]?.example || lesson.blocks?.[0]?.text || ''
-    const blockText = lesson.blocks?.[0]?.text || ''
-    const explanation = lesson.summary || blockText || `Conceito importante: ${content}`
-    const examples = lesson.blocks?.map(b => b.example || b.text).filter(Boolean) || []
-
-    const baseQuestion = {
-      id: `exam_q_${Date.now()}_${index}`,
-      type,
-      difficulty,
-      subject: lesson.subject || 'Não especificado',
-      gradeLevel: lesson.grade || 'Fundamental',
-      skillReference: content
-    }
-
-    // Variar tipo de questão
-    if (type === 'multiple-choice' || type === 'association') {
-      const correctOption = examples[Math.floor(Math.random() * examples.length)] || content
-      return {
-        ...baseQuestion,
-        content: `Qual é a definição ou exemplo correto para "${content}"?`,
-        options: [
-          correctOption,
-          `Conceito relacionado a ${content}`,
-          `Ideia incorreta sobre ${content}`,
-          `Aplicação errada de ${content}`
-        ],
-        correctAnswer: correctOption,
-        explanation
-      }
-    } else if (type === 'true-false') {
-      return {
-        ...baseQuestion,
-        content: `Verdadeiro ou Falso: ${examples[0] || content}`,
-        correctAnswer: 'Verdadeiro',
-        explanation
-      }
-    } else if (type === 'complete') {
-      return {
-        ...baseQuestion,
-        content: `Complete: "${content}" é um conceito que significa __________.`,
-        correctAnswer: explanation.substring(0, 50),
-        explanation
-      }
-    } else if (type === 'interpretation') {
-      return {
-        ...baseQuestion,
-        content: `Com base no conceito de ${content}, qual é a interpretação correta? ${examples[0] || ''}`,
-        correctAnswer: `A interpretação correta envolve entender ${content} como ${explanation}`,
-        explanation
-      }
-    } else if (type === 'problem-situation') {
-      return {
-        ...baseQuestion,
-        content: `Situação-problema: Um aluno está estudando ${content}. Qual seria a abordagem correta?`,
-        correctAnswer: `Estudar ${content} requer compreender ${explanation}`,
-        explanation
-      }
-    } else {
-      // open question
-      return {
-        ...baseQuestion,
-        content: `Explique o conceito de ${content} e como ele se aplica.`,
-        correctAnswer: explanation,
-        explanation
-      }
-    }
-  }
-
-  private static generateFallbackQuestion(
-    content: string,
-    subject: string,
-    gradeLevel: string,
-    difficulty: 'easy' | 'medium' | 'hard',
-    type: ExamQuestion['type'],
-    index: number
-  ): ExamQuestion {
-    // Fallback quando não encontrar na Base Oficial
-    const difficultyLabel = difficulty === 'easy' ? 'básico' : difficulty === 'medium' ? 'intermediário' : 'avançado'
-
-    // Definir correctAnswer baseado no tipo de questão
-    let correctAnswer: string
-    if (type === 'multiple-choice' || type === 'association') {
-      correctAnswer = 'Opção A'
-    } else if (type === 'true-false') {
-      correctAnswer = 'Verdadeiro'
-    } else {
-      // Para tipos open, complete, interpretation, problem-situation
-      correctAnswer = `Uma resposta correta sobre ${content}`
-    }
-
-    return {
-      id: `exam_q_${Date.now()}_${index}`,
-      type,
-      difficulty,
-      content: `Questão sobre ${content} (nível ${difficultyLabel})`,
-      subject,
-      gradeLevel,
-      skillReference: content,
-      options: type === 'multiple-choice' || type === 'association'
-        ? ['Opção A', 'Opção B', 'Opção C', 'Opção D']
-        : undefined,
-      correctAnswer,
-      explanation: `Este conceito se refere a ${content}. Para dominar este tema, estude a lição correspondente.`
-    }
   }
 
   static async saveExamResult(result: ExamResult): Promise<string | null> {
