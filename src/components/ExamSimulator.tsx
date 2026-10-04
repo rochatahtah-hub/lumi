@@ -150,7 +150,7 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
               </>
             )}
 
-            {(currentQuestion.type === 'complete' || currentQuestion.type === 'open' || currentQuestion.type === 'interpretation' || currentQuestion.type === 'problem-situation') && (
+            {(currentQuestion.type === 'complete' || currentQuestion.type === 'open' || currentQuestion.type === 'interpretation') && (
               <textarea
                 value={selectedAnswer}
                 onChange={(e) => setSelectedAnswer(e.target.value)}
@@ -158,6 +158,12 @@ export default function ExamSimulator({ questions, onComplete }: ExamSimulatorPr
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none"
                 rows={4}
               />
+            )}
+
+            {!currentQuestion.options && (currentQuestion.type !== 'complete' && currentQuestion.type !== 'open' && currentQuestion.type !== 'interpretation') && (
+              <div className="bg-red-50 p-4 rounded-lg text-red-700">
+                ⚠️ Tipo de questão não suportado: {currentQuestion.type}
+              </div>
             )}
           </div>
         </div>

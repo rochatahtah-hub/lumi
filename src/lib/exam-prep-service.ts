@@ -129,31 +129,31 @@ export class ExamPrepService {
     const contentLower = content.toLowerCase()
     const normalize = (str: string) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
     const normalizedSubject = normalize(subject)
+    const normalizedContent = normalize(content)
 
-    console.log(`[findLessonByContent] Procurando: content="${content}" subject="${subject}" gradeLevel="${gradeLevel}"`)
-    console.log(`[findLessonByContent] contentLower="${contentLower}" normalizedSubject="${normalizedSubject}"`)
-    console.log(`[findLessonByContent] Total de lições em BASE_LESSONS: ${BASE_LESSONS.length}`)
+    console.log(`[findLessonByContent] Procurando: content="${content}" subject="${subject}"`)
+    console.log(`[findLessonByContent] Normalizados: content="${normalizedContent}" subject="${normalizedSubject}"`)
 
     const found = BASE_LESSONS.find(lesson => {
       const titleMatch = lesson.title.toLowerCase().includes(contentLower)
       const summaryMatch = lesson.summary?.toLowerCase().includes(contentLower)
+      const aliasMatch = (lesson as any).aliases?.some((alias: string) =>
+        alias.toLowerCase().includes(contentLower) ||
+        normalize(alias).includes(normalizedContent)
+      )
       const lessonSubjectNorm = normalize(lesson.subject || '')
       const subjectMatch = lessonSubjectNorm.includes(normalizedSubject)
 
-      // Log detalhado para a lição procurada
-      if (lesson.title.toLowerCase().includes('figura')) {
-        console.log(`[findLessonByContent] Lição: "${lesson.title}" (id: ${lesson.id})`)
-        console.log(`  - titleMatch: ${titleMatch} (lesson.title.toLowerCase()="${lesson.title.toLowerCase()}")`)
-        console.log(`  - summaryMatch: ${summaryMatch}`)
-        console.log(`  - lesson.subject: "${lesson.subject}" → normalizado: "${lessonSubjectNorm}"`)
-        console.log(`  - subjectMatch: ${subjectMatch}`)
-        console.log(`  - result: ${(titleMatch || summaryMatch) && subjectMatch}`)
+      const contentMatched = titleMatch || summaryMatch || aliasMatch
+
+      if (contentMatched) {
+        console.log(`[findLessonByContent] Match: "${lesson.title}" (subject=${lesson.subject}, titleMatch=${titleMatch}, aliasMatch=${aliasMatch})`)
       }
 
-      return (titleMatch || summaryMatch) && subjectMatch
+      return contentMatched && subjectMatch
     })
 
-    console.log(`[findLessonByContent] Resultado: ${found ? `ENCONTRADA "${found.title}" (${found.id})` : 'NÃO ENCONTRADA'}`)
+    console.log(`[findLessonByContent] Resultado: ${found ? `✓ ENCONTRADA "${found.title}"` : '✗ NÃO ENCONTRADA'}`)
     return found
   }
 
