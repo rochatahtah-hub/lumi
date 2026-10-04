@@ -9,7 +9,7 @@ export interface ExamPrepForm {
 
 export interface ExamQuestion {
   id: string
-  type: 'multiple-choice' | 'true-false' | 'complete' | 'association' | 'interpretation' | 'problem-situation' | 'open'
+  type: 'multiple-choice' | 'true-false' | 'complete' | 'association' | 'interpretation' | 'open'
   difficulty: 'easy' | 'medium' | 'hard'
   content: string
   subject: string
