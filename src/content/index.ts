@@ -30,6 +30,12 @@ import { NOVAS_MATERIAS } from './lessons/materias-novas'
 import { MATERIAS_EXPANDIDAS } from './lessons/materias-expandidas'
 import { MATERIAS_PROFUNDAS } from './lessons/materias-profundas'
 import { MATERIAS_FINAIS } from './lessons/materias-finais'
+import { HISTORIA_LOTE4 } from './lessons/historia'
+import { GEOGRAFIA_LOTE5 } from './lessons/geografia'
+import { BIOLOGIA_LOTE6 } from './lessons/biologia'
+import { FISICA_LOTE7 } from './lessons/fisica'
+import { QUIMICA_LOTE8 } from './lessons/quimica'
+import { FILOSOFIA_LOTE9, SOCIOLOGIA_LOTE10, REDACAO_LOTE12, ARTES_LOTE13, EDFISICA_LOTE14, LITERATURA_LOTE15 } from './lessons/outros-lotes'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -71,5 +77,20 @@ export const BASE_LESSONS: Lesson[] = [
   ...MATERIAS_PROFUNDAS,
   // Matérias Finais — Ciências, História, Geografia (complemento até 190 lições)
   ...MATERIAS_FINAIS,
+  // Lote 4 (NEW) — História completa Fund I-III Médio
+  ...HISTORIA_LOTE4,
+  // Lote 5 (NEW) — Geografia completa Fund I-III Médio
+  ...GEOGRAFIA_LOTE5,
+  // Lote 6 (NEW) — Biologia completa Fund I-III Médio
+  ...BIOLOGIA_LOTE6,
+  // Lote 7-15 (NEW) — Física, Química, Filosofia, Sociologia, Redação, Artes, Ed Física, Literatura
+  ...FISICA_LOTE7,
+  ...QUIMICA_LOTE8,
+  ...FILOSOFIA_LOTE9,
+  ...SOCIOLOGIA_LOTE10,
+  ...REDACAO_LOTE12,
+  ...ARTES_LOTE13,
+  ...EDFISICA_LOTE14,
+  ...LITERATURA_LOTE15,
 ].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
   .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))
