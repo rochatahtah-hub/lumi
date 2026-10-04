@@ -36,6 +36,7 @@ import { BIOLOGIA_LOTE6 } from './lessons/biologia'
 import { FISICA_LOTE7 } from './lessons/fisica'
 import { QUIMICA_LOTE8 } from './lessons/quimica'
 import { FILOSOFIA_LOTE9, SOCIOLOGIA_LOTE10, REDACAO_LOTE12, ARTES_LOTE13, EDFISICA_LOTE14, LITERATURA_LOTE15 } from './lessons/outros-lotes'
+import { ENEM_AREA } from './lessons/enem-questions'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
 export const BASE_LESSONS: Lesson[] = [
@@ -92,5 +93,7 @@ export const BASE_LESSONS: Lesson[] = [
   ...ARTES_LOTE13,
   ...EDFISICA_LOTE14,
   ...LITERATURA_LOTE15,
+  // ENEM — 25 questões contextualizadas multi-disciplinares
+  ...ENEM_AREA,
 ].map((l) => applyUpgrade({ ...LESSON_META[l.id], ...l, ...ENGLISH_EXTRA[l.id], ...(GAME_EXTRA[l.id] ? { games: { ...l.games, ...GAME_EXTRA[l.id] } } : {}) }, UPGRADES[l.id]))
   .map((l) => ({ ...l, origin: 'base' as const, status: 'published' as const }))
