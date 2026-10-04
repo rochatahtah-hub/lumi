@@ -122,11 +122,14 @@ export class ExamPrepService {
 
   private static findLessonByContent(content: string, subject: string, gradeLevel: string): Lesson | undefined {
     const contentLower = content.toLowerCase()
+    const normalize = (str: string) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    const normalizedSubject = normalize(subject)
 
     return BASE_LESSONS.find(lesson => {
       const titleMatch = lesson.title.toLowerCase().includes(contentLower)
       const summaryMatch = lesson.summary?.toLowerCase().includes(contentLower)
-      const subjectMatch = lesson.subject?.toLowerCase().includes(subject.toLowerCase())
+      const lessonSubjectNorm = normalize(lesson.subject || '')
+      const subjectMatch = lessonSubjectNorm.includes(normalizedSubject)
 
       return (titleMatch || summaryMatch) && subjectMatch
     })
