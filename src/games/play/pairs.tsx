@@ -168,7 +168,8 @@ export function MatchGame(p: GameProps) {
   return (
     <GameShell {...p} progress={[links.length, pairs.length]} hint={hint}>
       {(api) => (
-        <div ref={box} className="relative grid grid-cols-2 gap-x-8 gap-y-2 sm:gap-x-14">
+        <div className="space-y-4">
+          <div ref={box} className="relative grid grid-cols-2 gap-x-8 gap-y-2 sm:gap-x-14">
           <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" aria-hidden>
             {lines.map((l, k) => <path key={k} d={`M${l.x1},${l.y1} C${(l.x1 + l.x2) / 2},${l.y1} ${(l.x1 + l.x2) / 2},${l.y2} ${l.x2},${l.y2}`} stroke="#FF8A1F" strokeWidth="2.5" fill="none" style={{ filter: 'drop-shadow(0 0 4px rgba(255,138,31,.7))' }} />)}
           </svg>
@@ -190,8 +191,9 @@ export function MatchGame(p: GameProps) {
               </button>
             ))}
           </div>
+          {done && <div className="text-center py-3"><p className="text-2xl">🎉🔗</p><p className="text-sm font-semibold text-laranja">Todos ligados!</p><p className="text-xs text-offwhite/70">{firstTries} de {pairs.length} na primeira!</p></div>}
+          </div>
         </div>
-        {done && <div style={{textAlign:'center',margin:'12px',padding:'12px'}}><p style={{fontSize:'20px'}}>🎉🔗</p><p style={{fontSize:'14px',fontWeight:'600',color:'#FF8A1F'}}>Todos ligados!</p><p style={{fontSize:'12px',color:'rgba(248,250,252,0.7)'}}>{firstTries} de {pairs.length} na primeira!</p></div>}
       )}
     </GameShell>
   )
