@@ -66,12 +66,25 @@ export function ChoiceGame({ items, grid, ...p }: GameProps & { items: ChoiceIte
     api.say('Próxima!', 'smile')
   }
 
+  const progressPercent = ((i + 1) / items.length) * 100
+  const isComplete = i + 1 >= items.length && status === 'right'
+
   return (
     <GameShell {...p} progress={[i + 1, items.length]} hint={hint}>
       {(api) => (
-        <div key={i} className="animate-rise">
-          {item.lead}
-          <div className="whitespace-pre-line text-lg font-medium leading-snug">{item.prompt}</div>
+        <div key={i} className="space-y-4">
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-xs text-offwhite/70">
+              <span>Questão</span>
+              <span>{i + 1} de {items.length}</span>
+            </div>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: progressPercent + '%' }} />
+            </div>
+          </div>
+          <div className="animate-rise">
+            {item.lead}
+            <div className="whitespace-pre-line text-lg font-medium leading-snug">{item.prompt}</div>
           <div className={`mt-4 ${grid ? 'grid grid-cols-2 gap-2' : 'grid gap-2'}`}>
             {item.options.map((o, k) => k === hidden ? null : (
               <OptionButton key={k} label={grid ? undefined : LETTERS[k]} text={o}
@@ -80,9 +93,11 @@ export function ChoiceGame({ items, grid, ...p }: GameProps & { items: ChoiceIte
                 onClick={() => setPicked(k)} />
             ))}
           </div>
-          {status === 'answering'
-            ? <ConfirmButton onClick={() => confirm(api)} disabled={picked === null}>Confirmar</ConfirmButton>
-            : <ConfirmButton onClick={() => next(api)}>{i + 1 >= items.length ? 'Ver resultado' : 'Continuar'}</ConfirmButton>}
+            {status === 'answering'
+              ? <ConfirmButton onClick={() => confirm(api)} disabled={picked === null}>Confirmar</ConfirmButton>
+              : <ConfirmButton onClick={() => next(api)}>{i + 1 >= items.length ? 'Ver resultado' : 'Continuar'}</ConfirmButton>}
+          </div>
+          {isComplete && <div className="text-center space-y-2 py-3"><p className="text-2xl">🎉🏆</p><p className="text-sm font-semibold text-laranja">Excelente!</p><p className="text-xs text-offwhite/70">Você respondeu todas as questões corretamente!</p></div>}
         </div>
       )}
     </GameShell>
