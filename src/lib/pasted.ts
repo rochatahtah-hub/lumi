@@ -39,6 +39,7 @@ const SUBJECT_HINTS: Record<SubjectId, string[]> = {
   artes: ['arte', 'pintura', 'cor', 'escultura', 'musica', 'artista', 'desenho'],
   redacao: ['redacao', 'tese', 'argumento', 'argumentos', 'conectivo', 'dissertativo', 'paragrafo', 'intervencao', 'coesao', 'coerencia'],
   edfisica: ['esporte', 'exercicio', 'atividade', 'corpo', 'futebol', 'volei', 'basquete', 'aquecimento', 'alongamento', 'jogo'],
+  atualidades: ['climatica', 'aquecimento', 'global', 'politica', 'economia', 'tecnologia', 'sustentabilidade', 'saude', 'social', 'midia', 'atual', 'noticia'],
 }
 
 function detectSubject(text: string): SubjectId | undefined {

@@ -1,7 +1,7 @@
 export type SubjectId =
   | 'matematica' | 'portugues' | 'ciencias' | 'historia' | 'geografia' | 'ingles' | 'espanhol' | 'frances' | 'italiano'
   | 'fisica' | 'quimica' | 'biologia' | 'literatura' | 'filosofia' | 'sociologia' | 'artes'
-  | 'redacao' | 'edfisica'
+  | 'redacao' | 'edfisica' | 'atualidades'
 
 /** fund1 = 1º ao 5º ano · fund2 = 6º ao 9º ano · medio = Ensino Médio */
 export type LevelId = 'fund1' | 'fund2' | 'medio'

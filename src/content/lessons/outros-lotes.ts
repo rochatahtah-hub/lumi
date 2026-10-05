@@ -33,6 +33,17 @@ export const SOCIOLOGIA_LOTE10: Lesson[] = [
   makeLesson('soc-008', 'sociologia', 'Globalização', 'Mundo cada vez mais conectado, inter-dependente'),
 ]
 
+export const ATUALIDADES_LOTE11: Lesson[] = [
+  makeLesson('atu-001', 'atualidades', 'Aquecimento Global', 'Mudanças climáticas, efeito estufa, ações humanas'),
+  makeLesson('atu-002', 'atualidades', 'Política Internacional', 'Relações diplomáticas, conflitos, organizações globais'),
+  makeLesson('atu-003', 'atualidades', 'Economia Brasileira', 'Inflação, desemprego, comércio internacional'),
+  makeLesson('atu-004', 'atualidades', 'Tecnologia e IA', 'Impacto na sociedade, ética, oportunidades'),
+  makeLesson('atu-005', 'atualidades', 'Sustentabilidade', 'ODS, energia renovável, consumo consciente'),
+  makeLesson('atu-006', 'atualidades', 'Saúde Pública', 'Epidemias, vacinação, acesso à saúde'),
+  makeLesson('atu-007', 'atualidades', 'Movimentos Sociais', 'Direitos humanos, igualdade, justiça social'),
+  makeLesson('atu-008', 'atualidades', 'Mídia e Desinformação', 'Fake news, literacia digital, pensamento crítico'),
+]
+
 export const REDACAO_LOTE12: Lesson[] = [
   makeLesson('red-001', 'redacao', 'Elementos da Redação', 'Coerência, coesão, clareza, objetividade'),
   makeLesson('red-002', 'redacao', 'Tipos de Texto', 'Narrativo, descritivo, expositivo, argumentativo'),

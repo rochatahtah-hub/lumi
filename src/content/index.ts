@@ -35,7 +35,7 @@ import { GEOGRAFIA_LOTE5 } from './lessons/geografia'
 import { BIOLOGIA_LOTE6 } from './lessons/biologia'
 import { FISICA_LOTE7 } from './lessons/fisica'
 import { QUIMICA_LOTE8 } from './lessons/quimica'
-import { FILOSOFIA_LOTE9, SOCIOLOGIA_LOTE10, REDACAO_LOTE12, ARTES_LOTE13, EDFISICA_LOTE14, LITERATURA_LOTE15 } from './lessons/outros-lotes'
+import { FILOSOFIA_LOTE9, SOCIOLOGIA_LOTE10, ATUALIDADES_LOTE11, REDACAO_LOTE12, ARTES_LOTE13, EDFISICA_LOTE14, LITERATURA_LOTE15 } from './lessons/outros-lotes'
 import { ENEM_AREA } from './lessons/enem-questions'
 
 /** Base de conhecimento embutida: funciona offline e sem backend. É também o conteúdo do seed do banco. */
@@ -84,11 +84,12 @@ export const BASE_LESSONS: Lesson[] = [
   ...GEOGRAFIA_LOTE5,
   // Lote 6 (NEW) — Biologia completa Fund I-III Médio
   ...BIOLOGIA_LOTE6,
-  // Lote 7-15 (NEW) — Física, Química, Filosofia, Sociologia, Redação, Artes, Ed Física, Literatura
+  // Lote 7-15 (NEW) — Física, Química, Filosofia, Sociologia, Atualidades, Redação, Artes, Ed Física, Literatura
   ...FISICA_LOTE7,
   ...QUIMICA_LOTE8,
   ...FILOSOFIA_LOTE9,
   ...SOCIOLOGIA_LOTE10,
+  ...ATUALIDADES_LOTE11,
   ...REDACAO_LOTE12,
   ...ARTES_LOTE13,
   ...EDFISICA_LOTE14,

@@ -29,6 +29,7 @@ export const SUBJECTS: Subject[] = [
   { id: 'artes', name: 'Arte', emoji: '🎨', color: '#F97316', levels: ['fund1', 'fund2', 'medio'], suggestions: ['Cores primárias', 'Arte rupestre'] },
   { id: 'redacao', name: 'Redação', emoji: '✍️', color: '#0F766E', levels: ['fund2', 'medio'], suggestions: ['Estrutura da redação', 'Proposta de intervenção'] },
   { id: 'edfisica', name: 'Educação Física', emoji: '🏃', color: '#DC2626', levels: ['fund1', 'fund2', 'medio'], suggestions: ['Aquecimento', 'Regras do vôlei'] },
+  { id: 'atualidades', name: 'Atualidades', emoji: '📰', color: '#EA580C', levels: ['fund2', 'medio'], suggestions: ['Aquecimento Global', 'Economia', 'Tecnologia'] },
 ]
 
 /** as 9 matérias que aparecem na tela inicial (item 7 do briefing) */

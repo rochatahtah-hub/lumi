@@ -36,6 +36,14 @@ export const LESSON_META: Record<string, { topic: string; subtopic: string; rela
   'fil-socrates-platao-aristoteles': { topic: 'Filosofia antiga', subtopic: 'Período clássico', relatedQuestions: ['Quem foi Sócrates?', 'O que é o mito da caverna?', 'O que Aristóteles pensava sobre a virtude?', 'O que é maiêutica?'] },
   'soc-classicos-sociologia': { topic: 'Teoria sociológica', subtopic: 'Clássicos da Sociologia', relatedQuestions: ['O que é fato social?', 'O que é ação social para Weber?', 'O que é luta de classes?', 'O que é mais-valia?'] },
   'art-cores': { topic: 'Artes visuais', subtopic: 'Teoria das cores', relatedQuestions: ['Quais são as cores primárias?', 'Que cor dá azul com amarelo?', 'O que são cores quentes e frias?', 'O que são cores complementares?'] },
+  'atu-001': { topic: 'Meio Ambiente', subtopic: 'Mudança climática', relatedQuestions: ['O que causa aquecimento global?', 'O que é efeito estufa?', 'Como o ser humano contribui para a mudança climática?', 'Quais são as consequências da mudança climática?'] },
+  'atu-002': { topic: 'Política', subtopic: 'Relações internacionais', relatedQuestions: ['Quais são os principais conflitos internacionais?', 'O que é a ONU?', 'Qual é o papel dos diplomatas?', 'Como funcionam as alianças entre países?'] },
+  'atu-003': { topic: 'Economia', subtopic: 'Economia brasileira', relatedQuestions: ['O que é inflação?', 'O que causa desemprego?', 'Qual é o câmbio do dólar?', 'Como funciona o comércio internacional?'] },
+  'atu-004': { topic: 'Tecnologia', subtopic: 'IA e inovação', relatedQuestions: ['O que é inteligência artificial?', 'Como a IA muda a sociedade?', 'Quais são os riscos da IA?', 'O que é deep learning?'] },
+  'atu-005': { topic: 'Sustentabilidade', subtopic: 'Desenvolvimento sustentável', relatedQuestions: ['Quais são os ODS?', 'O que é energia renovável?', 'Como reduzir o consumo?', 'O que é economia circular?'] },
+  'atu-006': { topic: 'Saúde', subtopic: 'Saúde pública', relatedQuestions: ['O que causa uma epidemia?', 'Para que serve a vacinação?', 'Como prevenir doenças infecciosas?', 'O que é saúde pública?'] },
+  'atu-007': { topic: 'Sociedade', subtopic: 'Movimentos sociais', relatedQuestions: ['O que são movimentos sociais?', 'Como as pessoas lutam por direitos?', 'O que é justiça social?', 'Como combater a discriminação?'] },
+  'atu-008': { topic: 'Comunicação', subtopic: 'Mídia e informação', relatedQuestions: ['O que é fake news?', 'Como identificar informação falsa?', 'Qual é o papel da mídia?', 'O que é pensamento crítico?'] },
 }
 
 /**
