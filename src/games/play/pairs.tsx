@@ -162,6 +162,9 @@ export function MatchGame(p: GameProps) {
     return `O par de “${pr.a}” é “${pr.b}”. Toque nele para ligar.`
   }
 
+  const done = links.length === pairs.length
+  const firstTries = pairs.length - missed.current.size
+
   return (
     <GameShell {...p} progress={[links.length, pairs.length]} hint={hint}>
       {(api) => (
@@ -188,6 +191,7 @@ export function MatchGame(p: GameProps) {
             ))}
           </div>
         </div>
+        {done && <div style={{textAlign:'center',margin:'12px',padding:'12px'}}><p style={{fontSize:'20px'}}>🎉🔗</p><p style={{fontSize:'14px',fontWeight:'600',color:'#FF8A1F'}}>Todos ligados!</p><p style={{fontSize:'12px',color:'rgba(248,250,252,0.7)'}}>{firstTries} de {pairs.length} na primeira!</p></div>}
       )}
     </GameShell>
   )
