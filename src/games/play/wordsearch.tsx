@@ -76,6 +76,9 @@ export function WordSearchGame(p: GameProps) {
   }
 
   const foundCells = new Set(placed.filter((w) => found.includes(w.word)).flatMap((w) => w.cells))
+  const done = found.length === placed.length
+  const progressPercent = (found.length / placed.length) * 100
+
   const hint = (lv: 1 | 2 | 3) => {
     const w = placed.find((x) => !found.includes(x.word))
     if (!w) return undefined
@@ -89,7 +92,16 @@ export function WordSearchGame(p: GameProps) {
   return (
     <GameShell {...p} progress={[found.length, placed.length]} hint={hint}>
       {(api) => (
-        <>
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-xs text-offwhite/70">
+              <span>Encontradas</span>
+              <span>{found.length} de {placed.length}</span>
+            </div>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: `${progressPercent}%` }} />
+            </div>
+          </div>
           <div className="mx-auto grid max-w-md select-none gap-[3px]" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
             {grid.map((ch, i) => (
               <button key={i} onClick={() => tap(i, api)} aria-label={`Letra ${ch}`}
@@ -98,13 +110,22 @@ export function WordSearchGame(p: GameProps) {
               </button>
             ))}
           </div>
-          <p className="mt-4 text-sm font-semibold text-offwhite/80">Palavras para encontrar:</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {placed.map((w) => (
-              <span key={w.word} className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide ${found.includes(w.word) ? 'border-laranja bg-laranja/20 text-laranja-claro line-through' : 'border-white/20'}`}>{w.show}</span>
-            ))}
+          <div>
+            <p className="text-xs font-semibold text-offwhite/80 uppercase tracking-wide">Palavras para encontrar:</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {placed.map((w) => (
+                <span key={w.word} className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide ${found.includes(w.word) ? 'border-laranja bg-laranja/20 text-laranja-claro line-through' : 'border-white/20'}`}>{w.show}</span>
+              ))}
+            </div>
           </div>
-        </>
+          {done && (
+            <div className="text-center space-y-2 py-3">
+              <p className="text-2xl">🎉</p>
+              <p className="text-sm font-semibold text-laranja">Todas encontradas!</p>
+              <p className="text-xs text-offwhite/70">{p.lesson.summary}</p>
+            </div>
+          )}
+        </div>
       )}
     </GameShell>
   )
