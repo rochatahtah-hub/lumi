@@ -74,10 +74,22 @@ export function MapGame(p: GameProps) {
   }
   const hint = (lv: 1 | 2 | 3) => lv === 1 ? (t.clue ?? 'Pense no continente e nos vizinhos desse lugar.') : lv === 2 ? `Tem ${t.label.length} letras e começa com “${t.label[0]}”.` : `A resposta é ${t.label}.`
 
+  const progressPercent = ((i + 1) / rounds.length) * 100
+  const isComplete = i + 1 >= rounds.length && solved
+
   return (
     <GameShell {...p} progress={[i + 1, rounds.length]} hint={hint}>
       {(api) => (
         <div className="animate-rise">
+          <div className="space-y-1 mb-3">
+            <div className="flex justify-between items-center text-xs text-offwhite/70">
+              <span>Local</span>
+              <span>{i + 1} de {rounds.length}</span>
+            </div>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: progressPercent + '%' }} />
+            </div>
+          </div>
           <p className="text-lg font-medium">{m.prompt}</p>
           <p className="mt-1 text-sm font-semibold text-laranja-claro">{ask}</p>
           <div className={`mt-3 ${mode === 'options' ? 'grid gap-3 sm:grid-cols-[1fr_200px]' : ''}`}>
@@ -102,6 +114,7 @@ export function MapGame(p: GameProps) {
           </div>
           {solved ? <ConfirmButton onClick={() => next(api)}>{i + 1 >= rounds.length ? 'Ver resultado' : 'Continuar'}</ConfirmButton>
             : mode === 'options' ? <ConfirmButton onClick={() => confirm(api)} disabled={picked === null}>Confirmar</ConfirmButton> : null}
+          {isComplete && <div style={{textAlign:'center',marginTop:'16px'}}><p style={{fontSize:'20px',marginBottom:'8px'}}>🗺️🌍</p><p style={{fontSize:'14px',fontWeight:'600',color:'#FF8A1F'}}>Geógrafo!</p><p style={{fontSize:'12px',color:'rgba(248,250,252,0.7)'}}>Você encontrou todos os lugares! 🏆</p></div>}
         </div>
       )}
     </GameShell>
