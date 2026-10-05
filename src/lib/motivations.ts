@@ -3,7 +3,7 @@
 export const DAILY_MOTIVATIONS = [
   '🌱 Cada novo aprendizado é uma sementinha crescendo dentro de você.',
   '✨ Um pouquinho de estudo hoje pode transformar o seu amanhã.',
-  '🌷 Aprender também é descobrir coisas novas sobre o mundo e sobre você.',
+  'Aprender também é descobrir coisas novas sobre o mundo e sobre você. 🌷',
   '💛 Você não precisa ser perfeito. Só precisa continuar tentando.',
   '🌟 Cada erro pode ensinar algo novo. Continue.',
   '☀️ Seu esforço de hoje merece um pouquinho de orgulho.',
