@@ -18,12 +18,13 @@ export function MemoryGame(p: GameProps) {
   ])), [pairs])
   const [open, setOpen] = useState<number[]>([])
   const [matched, setMatched] = useState<number[]>([])
+  const [moves, setMoves] = useState(0)
   const [peek, setPeek] = useState(false)
   const busy = useRef(false)
   const apiRef = useRef<GameApi | null>(null)
-  // terminou (inclusive pela dica 3, que revela um par): encerra a partida
+
   useEffect(() => {
-    if (pairs.length && matched.length === pairs.length) { const t = setTimeout(() => apiRef.current?.done(pairs.length), 700); return () => clearTimeout(t) }
+    if (pairs.length && matched.length === pairs.length) { const t = setTimeout(() => apiRef.current?.done(pairs.length), 1200); return () => clearTimeout(t) }
   }, [matched, pairs.length])
 
   const flip = (c: CardT, api: GameApi) => {
@@ -33,6 +34,7 @@ export function MemoryGame(p: GameProps) {
     setOpen(now)
     if (now.length < 2) return
     api.move()
+    setMoves(m => m + 1)
     const [x, y] = now.map((id) => cards.find((k) => k.id === id)!)
     if (x.pair === y.pair) {
       const pr = pairs[x.pair]
@@ -40,7 +42,7 @@ export function MemoryGame(p: GameProps) {
       const m = [...matched, x.pair]
       setMatched(m)
       setOpen([])
-      api.say(`Isso aí! Você encontrou um par! 🎉\n${pr.a} = ${pr.b}`, 'smile')
+      api.say(`Perfeito! ${pr.a} = ${pr.b} 🎉`, 'smile')
     } else {
       busy.current = true
       setTimeout(() => { setOpen([]); busy.current = false }, 950)
@@ -48,34 +50,55 @@ export function MemoryGame(p: GameProps) {
   }
 
   const hint = (lv: 1 | 2 | 3) => {
-    if (lv === 1) return pairs.some((x) => x.speak) ? 'As cartas com 🔊 são as palavras em inglês; as outras trazem o significado.' : 'Cada termo tem um par com o seu significado. Guarde a posição das cartas que você já viu.'
-    if (lv === 2) { setPeek(true); setTimeout(() => setPeek(false), 1300); return 'Olhe bem: vou mostrar todas as cartas por um instante!' }
+    if (lv === 1) return pairs.some((x) => x.speak) ? 'Cartas com 🔊 = palavras em inglês' : 'Memorize as posições!'
+    if (lv === 2) { setPeek(true); setTimeout(() => setPeek(false), 1500); return 'Olhando bem para memorizar...' }
     const left = pairs.findIndex((_, i) => !matched.includes(i))
     if (left >= 0) setMatched((m) => [...m, left])
-    return left >= 0 ? `Encontrei um par para você: ${pairs[left].a} = ${pairs[left].b}.` : undefined
+    return left >= 0 ? `Dica: ${pairs[left].a} = ${pairs[left].b}` : undefined
   }
 
   const cols = cards.length <= 8 ? 'grid-cols-4 sm:grid-cols-4' : cards.length <= 12 ? 'grid-cols-3 sm:grid-cols-4' : 'grid-cols-4'
+  const progressPercent = (matched.length / pairs.length) * 100
+  const done = matched.length === pairs.length
+
   return (
     <GameShell {...p} progress={[matched.length, pairs.length]} hint={hint}>
       {(api) => {
         apiRef.current = api
         return (
-          <div className={`grid ${cols} gap-2`}>
-            {cards.map((c) => {
-              const up = peek || open.includes(c.id) || matched.includes(c.pair)
-              const done = matched.includes(c.pair)
-              return (
-                <button key={c.id} onClick={() => flip(c, api)} aria-label={up ? c.text : 'Carta virada'}
-                  className={`relative grid aspect-[4/5] place-items-center rounded-2xl border p-1.5 text-center text-[13px] font-semibold leading-tight transition sm:text-sm ${up
-                    ? c.side === 'a' ? 'border-laranja/60 bg-laranja-suave text-grafite' : 'border-sky-300/60 bg-sky-100 text-grafite'
-                    : 'border-white/10 bg-grafite hover:border-laranja/50'} ${done ? 'opacity-80 ring-2 ring-sucesso/60' : ''}`}>
-                  {up ? (
-                    <span className="flex flex-col items-center gap-1">{c.text}{c.speak && <Volume2 size={16} className="text-laranja" aria-hidden />}</span>
-                  ) : <span className="opacity-80"><LumiMark size={30} pageColor="#F8FAFC" /></span>}
-                </button>
-              )
-            })}
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <div className="flex justify-between items-center text-xs text-offwhite/70">
+                <span>Encontrados</span>
+                <span>{matched.length} de {pairs.length} | Movimentos: {moves}</span>
+              </div>
+              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: `${progressPercent}%` }} />
+              </div>
+            </div>
+            <div className={`grid ${cols} gap-2`}>
+              {cards.map((c) => {
+                const up = peek || open.includes(c.id) || matched.includes(c.pair)
+                const done = matched.includes(c.pair)
+                return (
+                  <button key={c.id} onClick={() => flip(c, api)} aria-label={up ? c.text : 'Carta virada'}
+                    className={`relative grid aspect-[4/5] place-items-center rounded-2xl border p-1.5 text-center text-[13px] font-semibold leading-tight transition-all sm:text-sm ${up
+                      ? c.side === 'a' ? 'border-laranja/60 bg-laranja-suave text-grafite scale-105' : 'border-sky-300/60 bg-sky-100 text-grafite scale-105'
+                      : 'border-white/10 bg-grafite hover:border-laranja/50 cursor-pointer'} ${done ? 'opacity-70 ring-2 ring-sucesso/60' : ''}`}>
+                    {up ? (
+                      <span className="flex flex-col items-center gap-1">{c.text}{c.speak && <Volume2 size={16} className="text-laranja" aria-hidden />}</span>
+                    ) : <span className="opacity-80"><LumiMark size={30} pageColor="#F8FAFC" /></span>}
+                  </button>
+                )
+              })}
+            </div>
+            {done && (
+              <div className="text-center space-y-2 py-3 animate-pulse">
+                <p className="text-2xl">🎉✨🏆</p>
+                <p className="text-sm font-semibold text-laranja">Excelente!</p>
+                <p className="text-xs text-offwhite/70">Você completou em {moves} movimentos!</p>
+              </div>
+            )}
           </div>
         )
       }}
