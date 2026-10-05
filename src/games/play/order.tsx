@@ -70,11 +70,24 @@ export function OrderGame(p: GameProps) {
 
   const nextRound = (api: GameApi) => (r + 1 >= rounds.length ? api.done(rounds.length) : (reset(r + 1), api.say('Mais uma sequência!', 'smile')))
 
+  const progressPercent = ((r + 1) / rounds.length) * 100
+  const isComplete = r + 1 >= rounds.length && solved
+
   return (
     <GameShell {...p} progress={[r + 1, rounds.length]} hint={hint}>
       {(api) => (
-        <div key={r} className="animate-rise">
-          <p className="text-lg font-medium">{seq.prompt}</p>
+        <div key={r} className="space-y-4">
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-xs text-offwhite/70">
+              <span>Sequência</span>
+              <span>{r + 1} de {rounds.length}</span>
+            </div>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: progressPercent + '%' }} />
+            </div>
+          </div>
+          <div className="animate-rise">
+            <p className="text-lg font-medium">{seq.prompt}</p>
           {words ? (
             <>
               <div className="mt-4 flex min-h-16 flex-wrap gap-2 rounded-2xl border-2 border-dashed border-white/20 p-2">
@@ -105,9 +118,11 @@ export function OrderGame(p: GameProps) {
               ))}
             </ol>
           )}
-          {solved
-            ? <ConfirmButton onClick={() => nextRound(api)}>{r + 1 >= rounds.length ? 'Ver resultado' : 'Continuar'}</ConfirmButton>
-            : <ConfirmButton onClick={() => confirm(api)} disabled={words && pool.length > 0}>Confirmar</ConfirmButton>}
+            {solved
+              ? <ConfirmButton onClick={() => nextRound(api)}>{r + 1 >= rounds.length ? 'Ver resultado' : 'Continuar'}</ConfirmButton>
+              : <ConfirmButton onClick={() => confirm(api)} disabled={words && pool.length > 0}>Confirmar</ConfirmButton>}
+          </div>
+          {isComplete && <div className="text-center space-y-2 py-3"><p className="text-2xl">🎉✨</p><p className="text-sm font-semibold text-laranja">Todas as sequências!</p><p className="text-xs text-offwhite/70">Parabéns! Você dominou! 🏆</p></div>}
         </div>
       )}
     </GameShell>
