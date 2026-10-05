@@ -52,7 +52,8 @@ async function mapSvg(l: Lesson): Promise<{ svg: string; ratio: string }> {
 }
 
 export function PuzzleGame(p: GameProps) {
-  const n = { 1: 3, 2: 4, 3: 5 }[p.difficulty]
+  // Dificuldade inteligente: fácil tem menos peças
+  const n = { 1: 2, 2: 3, 3: 4 }[p.difficulty]
   const [img, setImg] = useState<string | null>(null)
   const [ratio, setRatio] = useState('1 / 1')
   useEffect(() => {
@@ -62,11 +63,16 @@ export function PuzzleGame(p: GameProps) {
   const tray = useMemo(() => shuffle(Array.from({ length: n * n }, (_, i) => i)), [n])
   const [placed, setPlaced] = useState<(number | null)[]>(() => Array(n * n).fill(null))
   const [sel, setSel] = useState<number | null>(null)
+  const [draggedPiece, setDraggedPiece] = useState<{ k: number; x: number; y: number } | null>(null)
   const [ghost, setGhost] = useState(false)
   const [bad, setBad] = useState<number | null>(null)
+  const [useDragMode, setUseDragMode] = useState(true)
+  const [showPreview, setShowPreview] = useState(false)
   const done = placed.every((x) => x !== null)
   const apiRef = useRef<GameApi | null>(null)
-  useEffect(() => { if (done) { const t = setTimeout(() => apiRef.current?.done(n * n), 1600); return () => clearTimeout(t) } }, [done, n])
+  const boardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { if (done) { const t = setTimeout(() => apiRef.current?.done(n * n), 2000); return () => clearTimeout(t) } }, [done, n])
 
   const piece = (k: number) => ({ backgroundImage: img ?? undefined, backgroundSize: `${n * 100}% ${n * 100}%`, backgroundPosition: `${((k % n) / (n - 1)) * 100}% ${(Math.floor(k / n) / (n - 1)) * 100}%` })
 
@@ -78,44 +84,128 @@ export function PuzzleGame(p: GameProps) {
       const pl = [...placed]; pl[slot] = sel
       setPlaced(pl); setSel(null)
       const left = pl.filter((x) => x === null).length
-      api.say(left ? (left <= 2 ? 'Quase lá! Faltam só mais algumas peças.' : 'Isso! Peça no lugar. 🧩') : `Pronto! Você montou a imagem. 🎉\n${p.lesson.summary}`, left ? 'smile' : 'medium')
+      api.say(left ? (left <= 2 ? 'Quase lá! 🎯' : 'Perfeito! Peça encaixada. 🧩') : `Sensacional! Você montou a imagem! 🎉\n${p.lesson.summary}`, left ? 'smile' : 'medium')
     } else {
       api.hit(false)
       setBad(slot); setTimeout(() => setBad(null), 450)
-      api.say('Essa peça não é daqui. Observe as bordas e as cores que continuam na peça vizinha.', 'look')
+      api.say('Essa peça não é daqui. Veja as bordas!', 'look')
     }
   }
-  const hint = (lv: 1 | 2 | 3) => {
-    if (lv === 1) return 'Comece pelos cantos e pelas bordas: elas têm um lado reto.'
-    if (lv === 2) { setGhost(true); setTimeout(() => setGhost(false), 2500); return 'Vou mostrar a imagem inteira por alguns segundos.' }
-    const k = placed.findIndex((x) => x === null)
-    if (k >= 0) { const pl = [...placed]; pl[k] = k; setPlaced(pl) }
-    return 'Coloquei uma peça para você.'
+
+  const handleDragStart = (e: React.DragEvent, k: number) => {
+    if (!useDragMode) return
+    e.dataTransfer!.effectAllowed = 'move'
+    setDraggedPiece({ k, x: e.clientX, y: e.clientY })
   }
 
+  const handleDragOver = (e: React.DragEvent) => {
+    if (!useDragMode) return
+    e.preventDefault()
+    e.dataTransfer!.dropEffect = 'move'
+  }
+
+  const handleDrop = (e: React.DragEvent, slot: number, api: GameApi) => {
+    if (!useDragMode || !draggedPiece) return
+    e.preventDefault()
+    setDraggedPiece(null)
+    drop(slot, api)
+  }
+
+  const hint = (lv: 1 | 2 | 3) => {
+    if (lv === 1) return 'Comece pelos cantos! Eles têm um lado reto.'
+    if (lv === 2) { setShowPreview(true); setTimeout(() => setShowPreview(false), 3000); return 'Olha só! A imagem apareceu.' }
+    const k = placed.findIndex((x) => x === null)
+    if (k >= 0) { const pl = [...placed]; pl[k] = k; setPlaced(pl) }
+    return 'Pronto! Coloquei uma peça. 😉'
+  }
+
+  const totalPieces = n * n
+  const placedCount = placed.filter((x) => x !== null).length
+  const progressPercent = (placedCount / totalPieces) * 100
+
   return (
-    <GameShell {...p} progress={[placed.filter((x) => x !== null).length, n * n]} hint={hint}>
-      {(api) => { apiRef.current = api; return !img ? <p className="py-10 text-center text-sm text-offwhite/60">Preparando a imagem…</p> : (
-        <>
-          <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-white/10" style={{ aspectRatio: ratio }}>
-            {(ghost || done) && <div className="absolute inset-0 transition-opacity" style={{ backgroundImage: img, backgroundSize: '100% 100%', opacity: done ? 1 : 0.3 }} />}
+    <GameShell {...p} progress={[placedCount, totalPieces]} hint={hint}>
+      {(api) => { apiRef.current = api; return !img ? <p className="py-10 text-center text-sm text-offwhite/60">Preparando…</p> : (
+        <div className="space-y-4">
+          {/* Barra de progresso */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-xs text-offwhite/70">
+              <span>Progresso</span>
+              <span>{placedCount} de {totalPieces}</span>
+            </div>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-laranja to-orange-400 transition-all" style={{ width: `${progressPercent}%` }} />
+            </div>
+          </div>
+
+          {/* Botões de controle */}
+          <div className="flex gap-2 flex-wrap justify-center">
+            {p.difficulty > 1 && (
+              <button onClick={() => setUseDragMode(!useDragMode)} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-white/5 transition">
+                {useDragMode ? '✋ Modo Seleção' : '🖱️ Modo Arrasto'}
+              </button>
+            )}
+            {p.difficulty === 1 && (
+              <button onClick={() => { setShowPreview(true); setTimeout(() => setShowPreview(false), 2500) }} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-white/5 transition">
+                👀 Ver Imagem
+              </button>
+            )}
+          </div>
+
+          {/* Tabuleiro */}
+          <div ref={boardRef} className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border-2 border-laranja/30 bg-white/5" style={{ aspectRatio: ratio }}>
+            {/* Preview/Ghost image */}
+            {(showPreview || done) && (
+              <div className="absolute inset-0 transition-opacity" style={{ backgroundImage: img, backgroundSize: '100% 100%', opacity: done ? 1 : 0.25 }} />
+            )}
+
+            {/* Grid de slots */}
             <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${n}, 1fr)` }}>
               {placed.map((k, slot) => (
-                <button key={slot} onClick={() => drop(slot, api)} aria-label={`Espaço ${slot + 1}`}
-                  className={`border border-white/10 ${k === null ? (sel !== null ? 'bg-white/5 hover:bg-laranja/20' : 'bg-transparent') : ''} ${bad === slot ? 'bg-erro/40' : ''}`}
-                  style={k !== null && !done ? piece(k) : undefined} />
+                <button
+                  key={slot}
+                  onClick={() => !useDragMode && drop(slot, api)}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, slot, api)}
+                  aria-label={`Espaço ${slot + 1}`}
+                  className={`border border-white/20 transition-all ${k === null ? (sel !== null && useDragMode ? 'bg-white/5 hover:bg-laranja/20' : 'bg-transparent') : 'bg-opacity-80'} ${bad === slot ? 'bg-erro/40 scale-95' : ''}`}
+                  style={k !== null && !done ? piece(k) : undefined}
+                />
               ))}
             </div>
           </div>
+
+          {/* Tray de peças */}
           {!done && (
-            <div className="mt-4 grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(n + 1, 6)}, minmax(0, 1fr))` }}>
-              {tray.filter((k) => !placed.includes(k)).map((k) => (
-                <button key={k} onClick={() => setSel(k)} aria-label="Peça" style={{ ...piece(k), aspectRatio: ratio }}
-                  className={`rounded-lg border-2 transition ${sel === k ? 'scale-105 border-laranja shadow-[0_0_14px_rgba(255,138,31,.6)]' : 'border-white/15'}`} />
-              ))}
+            <div className="mt-4 space-y-2">
+              <p className="text-xs text-offwhite/60 text-center">Peças disponíveis</p>
+              <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(n + 1, 5)}, minmax(0, 1fr))` }}>
+                {tray.filter((k) => !placed.includes(k)).map((k) => (
+                  <button
+                    key={k}
+                    draggable={useDragMode}
+                    onDragStart={(e) => handleDragStart(e, k)}
+                    onClick={() => !useDragMode && setSel(sel === k ? null : k)}
+                    aria-label="Peça"
+                    style={{ ...piece(k), aspectRatio: ratio }}
+                    className={`rounded-lg border-2 transition transform cursor-grab active:cursor-grabbing ${
+                      sel === k && !useDragMode ? 'scale-110 border-laranja shadow-[0_0_14px_rgba(255,138,31,.6)]' : 'border-white/20 hover:scale-105'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           )}
-        </>
+
+          {/* Comemoração */}
+          {done && (
+            <div className="text-center space-y-2 py-4">
+              <p className="text-2xl">🎉🎉🎉</p>
+              <p className="text-sm font-semibold text-laranja">Incrível! Você completou!</p>
+              <p className="text-xs text-offwhite/70">{p.lesson.summary}</p>
+            </div>
+          )}
+        </div>
       ) }}
     </GameShell>
   )
