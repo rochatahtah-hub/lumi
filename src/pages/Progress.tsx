@@ -12,6 +12,28 @@ export default function ProgressPage() {
     const s = useLumi((st) => st)
     if (!s) return <ErrorFallback message="Carregando dados..." />
 
+    // Validar que os dados existem
+    if (!s.points !== undefined && !s.lessons && !s.questionsAnswered && !s.studyDays?.length) {
+      // Se NENHUM dado, mostrar estado vazio apropriado
+      return (
+        <div className="min-h-dvh">
+          <header className="safe-top bg-grafite pb-6 text-offwhite">
+            <div className="mx-auto max-w-2xl px-4">
+              <h1 className="pt-2 text-2xl font-bold">📊 Meu progresso</h1>
+            </div>
+          </header>
+          <div className="min-h-[60vh] flex flex-col items-center justify-center p-6">
+            <p className="text-6xl mb-4">🌱</p>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Nenhum progresso registrado</h2>
+            <p className="text-center text-gray-600 mb-6 max-w-md">Comece a estudar e seu progresso aparecerá aqui! Cada aula que você completa será registrada.</p>
+            <Link to="/" className="px-6 py-3 bg-laranja text-white rounded-2xl font-semibold hover:bg-laranja-escuro transition">
+              Começar a estudar
+            </Link>
+          </div>
+        </div>
+      )
+    }
+
     const bySubject = subjectProgress(s) || []
     const weak = weakSkills(s)?.slice(0, 4) || []
     const streak = currentStreak(s.studyDays || [])
@@ -22,12 +44,12 @@ export default function ProgressPage() {
       <header className="safe-top bg-grafite pb-6 text-offwhite">
         <div className="mx-auto max-w-2xl px-4">
           <h1 className="pt-2 text-2xl font-bold">📊 Meu progresso</h1>
-          <p className="text-offwhite/80">Tudo fica salvo neste aparelho{s.profile.userId ? ' e na sua conta' : ''}.</p>
+          <p className="text-offwhite/80">Tudo fica salvo neste aparelho{s.profile?.userId ? ' e na sua conta' : ''}.</p>
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Stat icon={<Star size={18} className="text-laranja-claro" />} value={s.points} label="pontos" />
+            <Stat icon={<Star size={18} className="text-laranja-claro" />} value={s.points || 0} label="pontos" />
             <Stat icon={<Flame size={18} className="text-laranja" />} value={streak} label={streak === 1 ? 'dia seguido' : 'dias seguidos'} />
-            <Stat icon={<BookCheck size={18} className="text-laranja-claro" />} value={Object.keys(s.lessons).length} label="conteúdos concluídos" />
-            <Stat icon={<PencilLine size={18} className="text-laranja-claro" />} value={s.questionsAnswered} label={`questões · ${accuracy}% de acerto`} />
+            <Stat icon={<BookCheck size={18} className="text-laranja-claro" />} value={Object.keys(s.lessons || {}).length} label="conteúdos concluídos" />
+            <Stat icon={<PencilLine size={18} className="text-laranja-claro" />} value={s.questionsAnswered || 0} label={`questões · ${accuracy}% de acerto`} />
           </div>
         </div>
       </header>

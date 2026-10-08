@@ -49,7 +49,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', {
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://lumiensina.app.br',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
@@ -61,6 +61,26 @@ serve(async (req) => {
   }
 
   try {
+    // 🔐 AUTENTICAÇÃO: Validar token Bearer
+    const authHeader = req.headers.get('Authorization')
+    const token = authHeader?.replace('Bearer ', '')
+
+    if (!token) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized: Missing token' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Verificar se token é válido (service role key ou scheduled job token)
+    const validToken = Deno.env.get('SEND_NOTIFICATIONS_SECRET_KEY')
+    if (!validToken || token !== validToken) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized: Invalid token' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') || '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || ''
@@ -72,6 +92,14 @@ serve(async (req) => {
     if (!title || !body) {
       return new Response(
         JSON.stringify({ error: 'title e body são obrigatórios' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Sanitizar entradas
+    if (title.length > 100 || body.length > 300) {
+      return new Response(
+        JSON.stringify({ error: 'title ou body muito longo' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       )
     }

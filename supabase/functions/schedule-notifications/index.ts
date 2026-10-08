@@ -69,14 +69,14 @@ serve(async (req) => {
 
     for (const subscription of subscriptionsToNotify) {
       try {
-        // Chamar send-push-notifications
+        // Chamar send-push-notifications com autenticação segura
         const pushResponse = await fetch(
           `${Deno.env.get('SUPABASE_URL')}/functions/v1/send-push-notifications`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+              'Authorization': `Bearer ${Deno.env.get('SEND_NOTIFICATIONS_SECRET_KEY')}`,
             },
             body: JSON.stringify({
               title: randomMessage.title,
