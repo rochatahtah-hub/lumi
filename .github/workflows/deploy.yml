@@ -1,4 +1,4 @@
-name: Build e Deploy LUMI → Hostinger
+name: CI Check (Vercel faz deploy)
 
 on:
   push:
@@ -11,66 +11,33 @@ env:
   NODE_VERSION: '22'
 
 jobs:
-  build-and-deploy:
+  check:
     runs-on: ubuntu-latest
+    name: Lint + Build
 
     steps:
-      # 1. Checkout do código
-      - name: Checkout código
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Configurar Node.js
-      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+      - name: Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      # 3. Instalar dependências
-      - name: Instalar dependências
+      - name: Install deps
         run: npm ci
 
-      # 4. Lint
-      - name: Verificar código (lint)
+      - name: Lint (opcional)
         run: npm run lint --if-present
         continue-on-error: true
 
-      # 5. Build de produção
-      - name: Build para produção
+      - name: Build
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           NODE_ENV: production
 
-      # 6. Listar arquivos
-      - name: Listar arquivos de build
-        run: ls -lah dist/ | head -20
-
-      # 7. Deploy SFTP para Hostinger (MÉTODO QUE FUNCIONA)
-      - name: Deploy para Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          local_path: './dist/*'
-          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete_remote_files: 'true'
-
-      # 8. Deploy .htaccess (SPA routing)
-      - name: Deploy .htaccess para Hostinger
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.HOSTINGER_SERVER }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
-          local_path: './.htaccess'
-          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete_remote_files: 'false'
-        continue-on-error: true
-
-      # 9. Sucesso
-      - name: Deploy concluído
-        if: success()
-        run: echo "✅ LUMI atualizado com sucesso em lumiensina.app.br"
+      - name: "✅ Build OK - Vercel fará deploy automático"
+        run: echo "LUMI será atualizado automaticamente no Vercel em https://lumiensina.app.br"
