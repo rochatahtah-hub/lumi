@@ -13,7 +13,7 @@ export default function ProgressPage() {
   if (!s) return <ErrorFallback message="Carregando dados..." />
 
   // Calcular antes de qualquer condicional
-  const hasNoProgress = !s.points && !s.lessons && !s.questionsAnswered && !s.studyDays?.length
+  const hasNoProgress = !s.points && !Object.keys(s.lessons || {}).length && !s.questionsAnswered && !s.studyDays?.length
 
   if (hasNoProgress) {
     // Se NENHUM dado, mostrar estado vazio apropriado
