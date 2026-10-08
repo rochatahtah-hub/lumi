@@ -30,7 +30,7 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      # 4. Lint (opcional, remover se não quiser)
+      # 4. Lint
       - name: Verificar código (lint)
         run: npm run lint --if-present
         continue-on-error: true
@@ -43,79 +43,34 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           NODE_ENV: production
 
-      # 6. Preparar pasta dist para deploy
+      # 6. Listar arquivos
       - name: Listar arquivos de build
         run: ls -lah dist/ | head -20
 
-      # 7. Upload para GitHub Release (artefato de build)
-      - name: 📦 Criar Release com build
-        uses: softprops/action-gh-release@v1
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      # 7. Deploy SFTP para Hostinger (MÉTODO QUE FUNCIONA)
+      - name: Deploy para Hostinger via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          files: |
-            dist/**/*
-            .htaccess
-            .env.production.example
-          draft: true
-          prerelease: false
-          fail_on_unmatched_files: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          server: ${{ secrets.HOSTINGER_SERVER }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          local_path: './dist/*'
+          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
+          delete: 'true'
+
+      # 8. Deploy .htaccess (SPA routing)
+      - name: Deploy .htaccess para Hostinger
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.HOSTINGER_SERVER }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          local_path: './.htaccess'
+          remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
+          delete: 'false'
         continue-on-error: true
 
-      # 8. Deploy FTP para Hostinger (Python)
-      - name: 🚀 Deploy para Hostinger (FTP)
+      # 9. Sucesso
+      - name: Deploy concluído
         if: success()
-        run: |
-          python3 << 'EOF'
-          import ftplib
-          import os
-          from pathlib import Path
-
-          ftp_host = "${{ secrets.HOSTINGER_SERVER }}"
-          ftp_user = "${{ secrets.HOSTINGER_USER }}"
-          ftp_pass = "${{ secrets.HOSTINGER_PASS }}"
-          remote_path = "${{ secrets.HOSTINGER_PATH }}"
-
-          print(f"🔌 Conectando a {ftp_host}...")
-          ftp = ftplib.FTP(ftp_host)
-          ftp.login(ftp_user, ftp_pass)
-          print("✅ Conectado!")
-
-          # Navegar para pasta remota
-          ftp.cwd(remote_path)
-          print(f"📁 Acessando {remote_path}")
-
-          # Upload dos arquivos
-          dist_path = Path("dist")
-          uploaded = 0
-          for root, dirs, files in os.walk(dist_path):
-            for file in files:
-              local = Path(root) / file
-              remote = str(local.relative_to(dist_path)).replace("\\", "/")
-              try:
-                with open(local, 'rb') as f:
-                  ftp.storbinary(f'STOR {remote}', f)
-                  uploaded += 1
-                  print(f"✓ {remote}")
-              except Exception as e:
-                print(f"✗ {remote}: {e}")
-
-          ftp.quit()
-          print(f"\n✅ Deploy concluído! {uploaded} arquivos enviados.")
-          EOF
-        continue-on-error: false
-
-      # 11. Notificação de sucesso
-      - name: ✅ Deploy bem-sucedido!
-        if: success()
-        run: |
-          echo "🚀 LUMI foi atualizado com sucesso!"
-          echo "📍 Verifique em: https://${{ secrets.HOSTINGER_DOMAIN }}"
-
-      # 12. Notificação de erro
-      - name: ❌ Erro no deploy
-        if: failure()
-        run: |
-          echo "⚠️ Houve um erro durante o deploy."
-          echo "🔗 Verifique os logs acima e as configurações de secrets."
+        run: echo "✅ LUMI atualizado com sucesso em lumiensina.app.br"
