@@ -63,10 +63,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      # ⚠️ NOTA: Deploy SFTP para Hostinger desabilitado
-      # Motivo: GitHub Actions não consegue conectar (Network unreachable em portas 22 e 2222)
-      # Solução: Deploy manual via Hostinger cPanel ou configurar webhook Git no painel
-      # TODO: Investigar credenciais Hostinger (HOSTINGER_SERVER, USERNAME, PASSWORD podem estar incorretos)
+      # 8. Deploy SFTP para Hostinger
+      - name: 🚀 Deploy para Hostinger (SFTP)
+        uses: contention/rsync-deployments@v2
+        if: success()
+        with:
+          deploy_key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          known_hosts: ${{ secrets.HOSTINGER_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ secrets.HOSTINGER_SERVER }}
+          DEPLOY_USER: ${{ secrets.HOSTINGER_USER }}
+          DEPLOY_PATH: ${{ secrets.HOSTINGER_PATH }}
+          FLAGS: '-avzr --delete'
+          EXCLUSIONS: '.git,node_modules,.env,.env.*,*.local,.github'
+          SOURCE: 'dist/'
+        continue-on-error: true
 
       # 11. Notificação de sucesso
       - name: ✅ Deploy bem-sucedido!
