@@ -764,7 +764,12 @@ export function PuzzleGame(p: GameProps) {
                 </div>
                 <div className="pt-2 space-y-1">
                   <p className="text-2xl font-bold text-laranja">⭐ +{n * n * 10} pontos!</p>
-                  <p className="text-xs text-offwhite/70">Incrível desempenho! LUMI está muito orgulhoso de você!</p>
+                  <div className="flex justify-center gap-1 mt-2">
+                    {[...Array(Math.min(Math.ceil(n * n / 2), 5))].map((_, i) => (
+                      <span key={i} className="text-lg animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}>⭐</span>
+                    ))}
+                  </div>
+                  <p className="text-xs text-offwhite/70 mt-2">Incrível desempenho! LUMI está muito orgulhoso de você!</p>
                 </div>
               </div>
             </div>
