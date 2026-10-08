@@ -65,13 +65,16 @@ function educationalIllustration(topic: string, subject: string, lessonId?: stri
 
   // ============ BIOLOGIA ============
   if (s.includes('biologia')) {
-    if (t.includes('célula') || t.includes('animal')) {
-      const variants = [cellAnimalSvg(), cellPlantSvg(), cellPlantSvg()]
+    if (t.includes('célula') && t.includes('animal')) {
+      const variants = [cellAnimalSvg(), cellPlantSvg(), organicStructureSvg()]
       return selectVariant(variants)
     }
     if (t.includes('célula') && t.includes('vegetal')) {
-      const variants = [cellPlantSvg(), cellAnimalSvg(), cellPlantSvg()]
+      const variants = [cellPlantSvg(), cellAnimalSvg(), moleculeSvg()]
       return selectVariant(variants)
+    }
+    if (t.includes('célula') || t.includes('animal')) {
+      return cellAnimalSvg()
     }
     if (t.includes('dna') || t.includes('genética')) {
       const variants = [dnaSvg(), moleculeSvg(), organicStructureSvg()]

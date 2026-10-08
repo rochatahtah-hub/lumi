@@ -52,3 +52,48 @@ create table if not exists notification_log (
 
 create index if not exists idx_notification_log_subscription on notification_log(subscription_id);
 create index if not exists idx_notification_log_sent_at on notification_log(sent_at);
+
+-- ===== ROW LEVEL SECURITY (RLS) =====
+
+-- Habilitar RLS
+alter table push_subscriptions enable row level security;
+alter table notification_log enable row level security;
+
+-- Política pública para INSERT (qualquer um pode se inscrever)
+create policy "anyone_can_insert_push_subscription"
+  on push_subscriptions for insert
+  with check (true);
+
+-- Política para SELECT (ver próprias subscriptions)
+create policy "users_can_view_own_subscriptions"
+  on push_subscriptions for select
+  using (
+    auth.uid() = user_id
+    or user_id is null  -- não autenticados também podem ver (por device_id)
+  );
+
+-- Política para UPDATE (atualizar próprias subscriptions)
+create policy "users_can_update_own_subscriptions"
+  on push_subscriptions for update
+  using (
+    auth.uid() = user_id
+    or user_id is null
+  );
+
+-- Política pública para notification_log (para logging)
+create policy "system_can_log_notifications"
+  on notification_log for insert
+  with check (true);
+
+create policy "users_can_view_own_notifications"
+  on notification_log for select
+  using (
+    exists (
+      select 1 from push_subscriptions
+      where push_subscriptions.id = notification_log.subscription_id
+      and (
+        auth.uid() = push_subscriptions.user_id
+        or push_subscriptions.user_id is null
+      )
+    )
+  );
