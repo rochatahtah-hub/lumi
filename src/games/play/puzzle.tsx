@@ -707,35 +707,45 @@ export function PuzzleGame(p: GameProps) {
             </div>
           )}
 
-          {/* Comemoração com animações e celebração */}
+          {/* Comemoração com LUMI participando */}
           {done && (
             <div className="space-y-4">
+              {/* LUMI celebrando */}
+              <div className="text-center">
+                <p className="text-6xl animate-bounce" style={{ animationDuration: '0.8s' }}>🎨</p>
+                <p className="text-xs text-offwhite/60 mt-1">Olha que incrível! 👀</p>
+              </div>
+
               {/* Confete/Celebração visual */}
               <div className="relative h-16 flex items-center justify-center overflow-hidden">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="absolute text-2xl animate-bounce" style={{
-                    left: `${(i % 3) * 40 + 20}%`,
-                    animationDelay: `${i * 0.1}s`,
-                    animationDuration: `${0.6 + i * 0.1}s`
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="absolute text-2xl" style={{
+                    left: `${(i % 4) * 25 + 12}%`,
+                    animation: `bounce ${0.6 + i * 0.05}s ease-in-out infinite`,
+                    animationDelay: `${i * 0.08}s`
                   }}>
-                    {['🎉', '⭐', '🌟', '✨'][i % 4]}
+                    {['🎉', '⭐', '🌟', '✨', '💫', '🎊'][i % 6]}
                   </div>
                 ))}
               </div>
 
               <div className="text-center space-y-3 py-6 px-4 rounded-2xl bg-gradient-to-br from-laranja/30 to-orange-400/20 border-2 border-laranja/50 shadow-lg shadow-laranja/20">
-                <p className="text-4xl animate-bounce" style={{ animationDuration: '0.7s' }}>🎉</p>
+                <div className="flex items-center justify-center gap-2">
+                  <p className="text-4xl animate-bounce" style={{ animationDuration: '0.7s' }}>🎉</p>
+                  <p className="text-3xl">🎨</p>
+                  <p className="text-4xl animate-bounce" style={{ animationDuration: '0.7s', animationDelay: '0.1s' }}>🎉</p>
+                </div>
                 <div>
                   <p className="text-lg font-bold text-laranja">Perfeito! Você montou tudo!</p>
-                  <p className="text-xs text-offwhite/80 mt-1">{p.lesson.summary}</p>
+                  <p className="text-xs text-offwhite/80 mt-1 italic">"Que trabalho lindo!" — LUMI</p>
                 </div>
                 <div className="pt-3 border-t border-white/20">
-                  <p className="text-xs text-offwhite/90 font-semibold mb-2">📚 Pergunta rápida:</p>
-                  <p className="text-sm text-offwhite/95 font-medium">{p.lesson.blocks?.[0]?.title || 'Parabéns por completar!'}</p>
+                  <p className="text-xs text-offwhite/90 font-semibold mb-2">📚 Curiosidade:</p>
+                  <p className="text-sm text-offwhite/95">{p.lesson.blocks?.[0]?.title || 'Parabéns por completar!'}</p>
                 </div>
                 <div className="pt-2 space-y-1">
-                  <p className="text-2xl font-bold text-laranja" style={{ animation: 'bounce 1s ease-in-out infinite' }}>⭐ +{n * n * 10} pontos!</p>
-                  <p className="text-xs text-offwhite/70">Incrível desempenho!</p>
+                  <p className="text-2xl font-bold text-laranja">⭐ +{n * n * 10} pontos!</p>
+                  <p className="text-xs text-offwhite/70">Incrível desempenho! LUMI está muito orgulhoso de você!</p>
                 </div>
               </div>
             </div>
