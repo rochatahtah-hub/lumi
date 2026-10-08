@@ -63,20 +63,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      # 8. Deploy SFTP para Hostinger
-      - name: 🚀 Deploy para Hostinger (SFTP)
-        uses: contention/rsync-deployments@v2
+      # 8. Deploy FTP para Hostinger
+      - name: 🚀 Deploy para Hostinger (FTP)
+        uses: milanmk/actions-file-deployer@master
         if: success()
         with:
-          deploy_key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          known_hosts: ${{ secrets.HOSTINGER_KNOWN_HOSTS }}
-          DEPLOY_HOST: ${{ secrets.HOSTINGER_SERVER }}
-          DEPLOY_USER: ${{ secrets.HOSTINGER_USER }}
-          DEPLOY_PATH: ${{ secrets.HOSTINGER_PATH }}
-          FLAGS: '-avzr --delete'
-          EXCLUSIONS: '.git,node_modules,.env,.env.*,*.local,.github'
-          SOURCE: 'dist/'
-        continue-on-error: true
+          remote-url: ${{ secrets.HOSTINGER_SERVER }}
+          remote-user: ${{ secrets.HOSTINGER_USER }}
+          remote-password: ${{ secrets.HOSTINGER_PASS }}
+          local-path: ./dist/
+          remote-path: ${{ secrets.HOSTINGER_PATH }}/
+          cleanup: true
+        continue-on-error: false
 
       # 11. Notificação de sucesso
       - name: ✅ Deploy bem-sucedido!
