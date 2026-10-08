@@ -5,6 +5,9 @@ import { GameShell, type GameApi } from '../GameShell'
 import type { GameProps } from './choice'
 import { loadMap, regionsOf } from './map'
 
+// Encaixe automático: distância máxima (em pixels) para snap
+const SNAP_DISTANCE = 45
+
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 function wrap(text: string, max: number, lines = 3): string[] {
   const out: string[] = []
@@ -84,11 +87,18 @@ export function PuzzleGame(p: GameProps) {
       const pl = [...placed]; pl[slot] = sel
       setPlaced(pl); setSel(null)
       const left = pl.filter((x) => x === null).length
-      api.say(left ? (left <= 2 ? 'Quase lá! 🎯' : 'Perfeito! Peça encaixada. 🧩') : `Sensacional! Você montou a imagem! 🎉\n${p.lesson.summary}`, left ? 'smile' : 'medium')
+      // Mensagens contextuais
+      if (left === 0) {
+        api.say('🎉 Perfeito! Você montou tudo!', 'medium')
+      } else if (left <= 2) {
+        api.say('Quase lá! Só faltam ' + left + '! 🎯', 'smile')
+      } else {
+        api.say('Excelente! Peça encaixada. 🧩', 'smile')
+      }
     } else {
       api.hit(false)
       setBad(slot); setTimeout(() => setBad(null), 450)
-      api.say('Essa peça não é daqui. Veja as bordas!', 'look')
+      api.say('Essa peça não combina aqui. Veja as bordas! ❌', 'look')
     }
   }
 
@@ -140,17 +150,17 @@ export function PuzzleGame(p: GameProps) {
 
           {/* Botões de controle */}
           <div className="flex gap-2 flex-wrap justify-center">
+            <button onClick={() => { setShowPreview(true); setTimeout(() => setShowPreview(false), 2500) }} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-laranja/30 transition font-semibold text-offwhite/90">
+              👀 Ver Imagem (3s)
+            </button>
             {p.difficulty > 1 && (
-              <button onClick={() => setUseDragMode(!useDragMode)} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-white/5 transition">
-                {useDragMode ? '✋ Modo Seleção' : '🖱️ Modo Arrasto'}
-              </button>
-            )}
-            {p.difficulty === 1 && (
-              <button onClick={() => { setShowPreview(true); setTimeout(() => setShowPreview(false), 2500) }} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-white/5 transition">
-                👀 Ver Imagem
+              <button onClick={() => setUseDragMode(!useDragMode)} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-laranja/20 transition font-semibold text-offwhite/90">
+                {useDragMode ? '✋ Toque' : '🖱️ Arrasto'}
               </button>
             )}
           </div>
+          {/* Instrução */}
+          <p className="text-xs text-center text-offwhite/60">{useDragMode ? '⬆️ Arrasta a peça para encaixar' : '👉 Toque na peça depois no lugar'}</p>
 
           {/* Tabuleiro */}
           <div ref={boardRef} className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border-2 border-laranja/30 bg-white/5" style={{ aspectRatio: ratio }}>
@@ -168,7 +178,7 @@ export function PuzzleGame(p: GameProps) {
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, slot, api)}
                   aria-label={`Espaço ${slot + 1}`}
-                  className={`border border-white/20 transition-all ${k === null ? (sel !== null && useDragMode ? 'bg-white/5 hover:bg-laranja/20' : 'bg-transparent') : 'bg-opacity-80'} ${bad === slot ? 'bg-erro/40 scale-95' : ''}`}
+                  className={`border-2 transition-all ${k === null ? `border-white/20 ${sel !== null && useDragMode ? 'bg-laranja/20 shadow-[inset_0_0_8px_rgba(255,138,31,0.3)]' : 'bg-white/5'}` : 'border-laranja/60 shadow-[inset_0_0_10px_rgba(255,138,31,0.2)]'} ${bad === slot ? 'bg-erro/40 scale-95 border-erro' : ''}`}
                   style={k !== null && !done ? piece(k) : undefined}
                 />
               ))}
@@ -178,7 +188,10 @@ export function PuzzleGame(p: GameProps) {
           {/* Tray de peças */}
           {!done && (
             <div className="mt-4 space-y-2">
-              <p className="text-xs text-offwhite/60 text-center">Peças disponíveis</p>
+              <div className="flex justify-between items-center px-2">
+                <p className="text-xs text-offwhite/60 font-semibold">🧩 Peças ({tray.filter((k) => !placed.includes(k)).length})</p>
+                <p className="text-xs text-offwhite/50">{placedCount} de {totalPieces}</p>
+              </div>
               <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(n + 1, 5)}, minmax(0, 1fr))` }}>
                 {tray.filter((k) => !placed.includes(k)).map((k) => (
                   <button
@@ -189,7 +202,7 @@ export function PuzzleGame(p: GameProps) {
                     aria-label="Peça"
                     style={{ ...piece(k), aspectRatio: ratio }}
                     className={`rounded-lg border-2 transition transform cursor-grab active:cursor-grabbing ${
-                      sel === k && !useDragMode ? 'scale-110 border-laranja shadow-[0_0_14px_rgba(255,138,31,.6)]' : 'border-white/20 hover:scale-105'
+                      sel === k && !useDragMode ? 'scale-110 border-laranja shadow-[0_0_14px_rgba(255,138,31,.6)] ring-2 ring-laranja/40' : 'border-white/30 hover:scale-105 hover:border-white/60'
                     }`}
                   />
                 ))}
@@ -199,10 +212,17 @@ export function PuzzleGame(p: GameProps) {
 
           {/* Comemoração */}
           {done && (
-            <div className="text-center space-y-2 py-4">
-              <p className="text-2xl">🎉🎉🎉</p>
-              <p className="text-sm font-semibold text-laranja">Incrível! Você completou!</p>
-              <p className="text-xs text-offwhite/70">{p.lesson.summary}</p>
+            <div className="text-center space-y-3 py-6 px-4 rounded-2xl bg-gradient-to-br from-laranja/20 to-orange-400/10 border border-laranja/30">
+              <p className="text-3xl animate-bounce">🎉</p>
+              <div>
+                <p className="text-lg font-bold text-laranja">Perfeito! Você montou tudo!</p>
+                <p className="text-xs text-offwhite/70 mt-1">{p.lesson.summary}</p>
+              </div>
+              <div className="pt-2 border-t border-white/10">
+                <p className="text-xs text-offwhite/80 font-semibold mb-2">📚 Pergunta rápida:</p>
+                <p className="text-sm text-offwhite">{p.lesson.blocks?.[0]?.title || 'Parabéns por completar!'}</p>
+              </div>
+              <p className="text-lg pt-2">⭐ +{n * n * 10} pontos</p>
             </div>
           )}
         </div>

@@ -8,11 +8,14 @@ import { GAMES } from '../games/registry'
 import { buildTrail, wordsLearned } from '../lib/english'
 
 export default function ProgressPage() {
-  const s = useLumi((st) => st)
-  const bySubject = subjectProgress(s)
-  const weak = weakSkills(s).slice(0, 4)
-  const streak = currentStreak(s.studyDays)
-  const accuracy = s.questionsAnswered ? Math.round((s.correctAnswers / s.questionsAnswered) * 100) : 0
+  try {
+    const s = useLumi((st) => st)
+    if (!s) return <ErrorFallback message="Carregando dados..." />
+
+    const bySubject = subjectProgress(s) || []
+    const weak = weakSkills(s)?.slice(0, 4) || []
+    const streak = currentStreak(s.studyDays || [])
+    const accuracy = s.questionsAnswered ? Math.round((s.correctAnswers / s.questionsAnswered) * 100) : 0
 
   return (
     <div className="min-h-dvh">
@@ -98,27 +101,58 @@ export default function ProgressPage() {
       </Page>
     </div>
   )
+  } catch (err) {
+    console.error('Erro em ProgressPage:', err)
+    return <ErrorFallback message={`Erro ao carregar progresso: ${err instanceof Error ? err.message : 'erro desconhecido'}`} />
+  }
+}
+
+function ErrorFallback({ message }: { message: string }) {
+  return (
+    <div className="min-h-dvh flex flex-col items-center justify-center bg-grafite text-offwhite p-4">
+      <p className="text-5xl mb-4">⚠️</p>
+      <h1 className="text-2xl font-bold mb-2">Algo deu errado</h1>
+      <p className="text-offwhite/70 mb-6">{message}</p>
+      <Link to="/" className="px-4 py-2 bg-laranja text-white rounded-lg font-semibold hover:bg-laranja-escuro transition">
+        Voltar ao início
+      </Link>
+      <details className="mt-6 text-xs text-offwhite/50 max-w-md">
+        <summary>Detalhes técnicos</summary>
+        <p>Se o problema persistir, tente limpar o cache (Ctrl+Shift+Del) ou use navegador privado.</p>
+      </details>
+    </div>
+  )
 }
 
 /** jogos realizados/concluídos, acertos, erros, tempo e por tipo de jogo */
 function GamesCard() {
-  const games = useLumi((st) => st.games)
-  if (!games.length) return null
-  const done = games.filter((g) => g.completed)
-  const right = games.reduce((a, g) => a + g.correct, 0), wrong = games.reduce((a, g) => a + g.wrong, 0)
-  const mins = Math.round(games.reduce((a, g) => a + g.ms, 0) / 60000)
-  const byType = GAMES.map((t) => ({ t, n: games.filter((g) => g.game === t.id).length })).filter((x) => x.n)
-  return (
-    <Card className="mt-4">
-      <div className="flex items-center justify-between"><h2 className="font-semibold">🎮 Jogos</h2><Link to="/jogos" className="text-sm font-semibold text-laranja">jogar</Link></div>
-      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm">
-        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{done.length}</p><p className="text-xs text-cinza-texto">concluídos</p></div>
-        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{right + wrong ? Math.round((100 * right) / (right + wrong)) : 0}%</p><p className="text-xs text-cinza-texto">de acerto</p></div>
-        <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{mins} min</p><p className="text-xs text-cinza-texto">jogando</p></div>
-      </div>
-      <p className="mt-3 flex flex-wrap gap-1.5 text-xs">{byType.map(({ t, n }) => <span key={t.id} className="rounded-full bg-laranja-suave px-2 py-1 text-laranja-escuro">{t.emoji} {t.name}: {n}</span>)}</p>
-    </Card>
-  )
+  try {
+    const games = useLumi((st) => st.games)
+    if (!games || !games.length) return null
+
+    const done = games.filter((g) => g.completed) || []
+    const right = games.reduce((a, g) => a + (g.correct || 0), 0)
+    const wrong = games.reduce((a, g) => a + (g.wrong || 0), 0)
+    const mins = Math.round(games.reduce((a, g) => a + (g.ms || 0), 0) / 60000)
+    const byType = GAMES.map((t) => ({ t, n: games.filter((g) => g.game === t.id).length })).filter((x) => x.n > 0)
+
+    return (
+      <Card className="mt-4">
+        <div className="flex items-center justify-between"><h2 className="font-semibold">🎮 Jogos</h2><Link to="/jogos" className="text-sm font-semibold text-laranja">jogar</Link></div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm">
+          <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{done.length}</p><p className="text-xs text-cinza-texto">concluídos</p></div>
+          <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{right + wrong ? Math.round((100 * right) / (right + wrong)) : 0}%</p><p className="text-xs text-cinza-texto">de acerto</p></div>
+          <div className="rounded-2xl bg-offwhite p-2"><p className="text-lg font-bold">{mins} min</p><p className="text-xs text-cinza-texto">jogando</p></div>
+        </div>
+        {byType.length > 0 && (
+          <p className="mt-3 flex flex-wrap gap-1.5 text-xs">{byType.map(({ t, n }) => <span key={t.id} className="rounded-full bg-laranja-suave px-2 py-1 text-laranja-escuro">{t.emoji} {t.name}: {n}</span>)}</p>
+        )}
+      </Card>
+    )
+  } catch (err) {
+    console.error('Erro em GamesCard:', err)
+    return null
+  }
 }
 
 function Stat({ icon, value, label }: { icon: React.ReactNode; value: number; label: string }) {
