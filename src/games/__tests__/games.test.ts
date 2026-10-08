@@ -63,7 +63,8 @@ describe('Game Tests', () => {
         commonErrors: [],
         prerequisites: [],
         next: [],
-        levels: ['fund1']
+        levels: ['fund1'],
+        aliases: []
       }
 
       const errors = validateLessonContent(lesson)
@@ -93,7 +94,8 @@ describe('Game Tests', () => {
         commonErrors: [],
         prerequisites: [],
         next: [],
-        levels: ['fund1']
+        levels: ['fund1'],
+        aliases: []
       }
 
       const errors = validateLessonContent(lesson)

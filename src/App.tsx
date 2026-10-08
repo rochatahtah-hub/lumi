@@ -22,6 +22,7 @@ import { getState, setProfile } from './lib/store'
 import { pullAndMerge, startAutoSync } from './lib/sync'
 import { refreshCloudLessons } from './lib/repo'
 import { InstallInvite } from './components/InstallInvite'
+import { NotificationRequest } from './components/NotificationRequest'
 import './lib/english' // registra a avaliação de unidade e a revisão de Inglês (montadas na hora)
 import { closeInvite, inviteRequested, shouldInvite, useInstallState } from './lib/install'
 
@@ -105,6 +106,7 @@ export default function App() {
       </Routes>
       {NAV_ROUTES.includes(pathname) && <BottomNav />}
       <InstallInvite open={autoInvite || inviteRequested()} onClose={() => { setAutoInvite(false); closeInvite() }} />
+      <NotificationRequest />
     </div>
   )
 }
