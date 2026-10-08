@@ -1,10 +1,21 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
+import { checkRateLimit, rateLimitResponse } from '../_shared/rate-limit.ts'
 
 serve(async (req) => {
   // Apenas POST permitido
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 })
+  }
+
+  // 🔐 RATE LIMITING: 5 requisições por minuto (scheduler cron é confiável)
+  const rateLimitCheck = checkRateLimit(req, {
+    windowMs: 60 * 1000,
+    maxRequests: 5,
+  })
+
+  if (!rateLimitCheck.allowed) {
+    return rateLimitResponse(rateLimitCheck.retryAfter)
   }
 
   try {

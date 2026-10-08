@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
+import { checkRateLimit, rateLimitResponse } from '../_shared/rate-limit.ts'
 
 const VAPID_PUBLIC_KEY = Deno.env.get('VAPID_PUBLIC_KEY') || ''
 const VAPID_PRIVATE_KEY = Deno.env.get('VAPID_PRIVATE_KEY') || ''
@@ -58,6 +59,16 @@ serve(async (req) => {
 
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 })
+  }
+
+  // 🔐 RATE LIMITING: 10 requisições por minuto por IP
+  const rateLimitCheck = checkRateLimit(req, {
+    windowMs: 60 * 1000, // 1 minuto
+    maxRequests: 10, // máximo 10 requisições
+  })
+
+  if (!rateLimitCheck.allowed) {
+    return rateLimitResponse(rateLimitCheck.retryAfter, 'Muitas requisições. Tente novamente em alguns segundos.')
   }
 
   try {
