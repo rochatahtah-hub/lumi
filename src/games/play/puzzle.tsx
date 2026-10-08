@@ -46,6 +46,68 @@ export function posterSvg(l: Lesson): string {
   </svg>`
 }
 
+// Ilustrações educacionais: célula, DNA, célula + núcleo, célula animal
+function educationalIllustration(topic: string, subject: string): string {
+  // Célula (biologia)
+  if (subject === 'biologia' || topic?.includes('célula')) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+      <defs><radialGradient id="cg" cx="40%" cy="40%"><stop offset="0%" stop-color="#FFE5B4"/><stop offset="100%" stop-color="#FFD700"/></radialGradient></defs>
+      <circle cx="300" cy="300" r="220" fill="url(#cg)" stroke="#2E8B57" stroke-width="4"/>
+      <circle cx="300" cy="300" r="90" fill="#FF69B4" stroke="#DC143C" stroke-width="2"/>
+      <circle cx="300" cy="300" r="50" fill="#FFD700" stroke="#FF8C00" stroke-width="2"/>
+      <ellipse cx="220" cy="240" rx="40" ry="50" fill="#87CEEB" opacity="0.7"/>
+      <circle cx="360" cy="240" r="35" fill="#90EE90" opacity="0.7"/>
+      <circle cx="280" cy="360" r="40" fill="#FFB6C1" opacity="0.7"/>
+      <text x="300" y="500" font-size="24" fill="#2E8B57" text-anchor="middle" font-weight="bold">CÉLULA</text>
+    </svg>`
+  }
+  // DNA (genética)
+  if (subject === 'biologia' || topic?.includes('DNA')) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+      <defs><linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF1493"/><stop offset="100%" stop-color="#0099FF"/></linearGradient></defs>
+      <path d="M 300 80 Q 250 150 300 220 Q 350 150 300 80" fill="none" stroke="url(#dg)" stroke-width="6"/>
+      <path d="M 300 220 Q 250 290 300 360 Q 350 290 300 220" fill="none" stroke="url(#dg)" stroke-width="6"/>
+      <path d="M 300 360 Q 250 430 300 500 Q 350 430 300 360" fill="none" stroke="url(#dg)" stroke-width="6"/>
+      <circle cx="280" cy="150" r="12" fill="#FFD700"/><circle cx="320" cy="150" r="12" fill="#00FF00"/>
+      <circle cx="270" cy="290" r="12" fill="#FFD700"/><circle cx="330" cy="290" r="12" fill="#00FF00"/>
+      <circle cx="280" cy="430" r="12" fill="#FFD700"/><circle cx="320" cy="430" r="12" fill="#00FF00"/>
+      <text x="300" y="560" font-size="20" fill="#FF1493" text-anchor="middle" font-weight="bold">DNA</text>
+    </svg>`
+  }
+  // Planeta (geografia)
+  if (subject === 'geografia' || topic?.includes('planeta')) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+      <defs><radialGradient id="pg" cx="35%" cy="35%"><stop offset="0%" stop-color="#87CEEB"/><stop offset="70%" stop-color="#4169E1"/><stop offset="100%" stop-color="#000080"/></radialGradient></defs>
+      <circle cx="300" cy="300" r="180" fill="url(#pg)" stroke="#FFD700" stroke-width="3"/>
+      <path d="M 200 250 Q 250 220 300 240 T 400 250" fill="#228B22" opacity="0.8"/>
+      <path d="M 180 320 Q 220 350 280 340" fill="#228B22" opacity="0.8"/>
+      <ellipse cx="350" cy="340" rx="50" ry="30" fill="#FFA500" opacity="0.6"/>
+      <circle cx="450" cy="180" r="60" fill="#FFD700" opacity="0.9"/>
+      <text x="300" y="520" font-size="24" fill="#4169E1" text-anchor="middle" font-weight="bold">TERRA</text>
+    </svg>`
+  }
+  // Átomo (física/química)
+  if (subject === 'quimica' || subject === 'fisica' || topic?.includes('átomo')) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+      <circle cx="300" cy="300" r="30" fill="#FF0000" stroke="#8B0000" stroke-width="2"/>
+      <ellipse cx="300" cy="300" rx="120" ry="80" fill="none" stroke="#0099FF" stroke-width="3" opacity="0.7"/>
+      <ellipse cx="300" cy="300" rx="80" ry="120" fill="none" stroke="#00FF00" stroke-width="3" opacity="0.7" transform="rotate(60 300 300)"/>
+      <circle cx="300" cy="170" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+      <circle cx="380" cy="280" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+      <circle cx="300" cy="430" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+      <circle cx="220" cy="280" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+      <text x="300" y="520" font-size="24" fill="#FF0000" text-anchor="middle" font-weight="bold">ÁTOMO</text>
+    </svg>`
+  }
+  // Padrão: imagem colorida genérica
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <defs><linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A1F"/><stop offset="100%" stop-color="#FFD700"/></linearGradient></defs>
+    <circle cx="150" cy="150" r="80" fill="#FF6B9D"/><circle cx="450" cy="150" r="80" fill="#4ECDC4"/><circle cx="150" cy="450" r="80" fill="#95E1D3"/><circle cx="450" cy="450" r="80" fill="#F9D56E"/>
+    <rect x="200" y="200" width="200" height="200" fill="url(#gg)" rx="20"/>
+    <text x="300" y="520" font-size="20" fill="#2C3E50" text-anchor="middle" font-weight="bold">APRENDER</text>
+  </svg>`
+}
+
 async function mapSvg(l: Lesson): Promise<{ svg: string; ratio: string }> {
   const m = l.games!.map!
   const data = await loadMap(m.map)
@@ -61,7 +123,12 @@ export function PuzzleGame(p: GameProps) {
   const [ratio, setRatio] = useState('1 / 1')
   useEffect(() => {
     if (p.lesson.games?.map) void mapSvg(p.lesson).then((m) => { setImg(toUrl(m.svg)); setRatio(m.ratio) })
-    else setImg(toUrl(posterSvg(p.lesson)))
+    else {
+      // Usar ilustração educacional se disponível, senão usar cartaz
+      const useEducational = ['biologia', 'quimica', 'fisica', 'geografia'].includes(p.lesson.subject)
+      const imgSvg = useEducational ? educationalIllustration(p.lesson.topic || '', p.lesson.subject) : posterSvg(p.lesson)
+      setImg(toUrl(imgSvg))
+    }
   }, [p.lesson])
   const tray = useMemo(() => shuffle(Array.from({ length: n * n }, (_, i) => i)), [n])
   const [placed, setPlaced] = useState<(number | null)[]>(() => Array(n * n).fill(null))
