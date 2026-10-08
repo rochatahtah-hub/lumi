@@ -46,34 +46,52 @@ export function posterSvg(l: Lesson): string {
   </svg>`
 }
 
+// Hash simples para seleção determinística
+function hashString(str: string): number {
+  let h = 0
+  for (let i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i) | 0
+  return Math.abs(h)
+}
+
 // Ilustrações educacionais EXPANSAS para todas as matérias
-// Cada tema tem SVG específico e visual único
-function educationalIllustration(topic: string, subject: string): string {
+// Cada tema tem MÚLTIPLAS variações para não repetir a mesma imagem
+function educationalIllustration(topic: string, subject: string, lessonId?: string): string {
   const t = topic?.toLowerCase() || ''
   const s = subject?.toLowerCase() || ''
+  const variantIndex = lessonId ? hashString(lessonId) : 0
+
+  // Função helper para selecionar variante
+  const selectVariant = (variants: string[]): string => variants[variantIndex % variants.length]
 
   // ============ BIOLOGIA ============
   if (s.includes('biologia')) {
     if (t.includes('célula') || t.includes('animal')) {
-      return cellAnimalSvg()
+      const variants = [cellAnimalSvg(), cellPlantSvg(), cellPlantSvg()]
+      return selectVariant(variants)
     }
     if (t.includes('célula') && t.includes('vegetal')) {
-      return cellPlantSvg()
+      const variants = [cellPlantSvg(), cellAnimalSvg(), cellPlantSvg()]
+      return selectVariant(variants)
     }
     if (t.includes('dna') || t.includes('genética')) {
-      return dnaSvg()
+      const variants = [dnaSvg(), moleculeSvg(), organicStructureSvg()]
+      return selectVariant(variants)
     }
     if (t.includes('respiratório')) {
-      return systemRespirarySvg()
+      const variants = [systemRespirarySvg(), systemCircularySvg(), humanBodySvg()]
+      return selectVariant(variants)
     }
     if (t.includes('circulatório') || t.includes('coração')) {
-      return systemCircularySvg()
+      const variants = [systemCircularySvg(), systemRespirarySvg(), humanBodySvg()]
+      return selectVariant(variants)
     }
     if (t.includes('evolução')) {
-      return evolutionSvg()
+      const variants = [evolutionSvg(), foodChainSvg(), animalsSvg()]
+      return selectVariant(variants)
     }
     if (t.includes('ecossistema') || t.includes('cadeia alimentar')) {
-      return ecosystemSvg()
+      const variants = [ecosystemSvg(), foodChainSvg(), biomaSvg()]
+      return selectVariant(variants)
     }
   }
 
@@ -534,7 +552,7 @@ export function PuzzleGame(p: GameProps) {
     else {
       // Usar ilustração educacional se disponível, senão usar cartaz
       const useEducational = ['biologia', 'quimica', 'fisica', 'geografia'].includes(p.lesson.subject)
-      const imgSvg = useEducational ? educationalIllustration(p.lesson.topic || '', p.lesson.subject) : posterSvg(p.lesson)
+      const imgSvg = useEducational ? educationalIllustration(p.lesson.topic || '', p.lesson.subject, p.lesson.id) : posterSvg(p.lesson)
       setImg(toUrl(imgSvg))
     }
   }, [p.lesson])
