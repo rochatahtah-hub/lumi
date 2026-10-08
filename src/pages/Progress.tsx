@@ -18,28 +18,28 @@ export default function ProgressPage() {
   if (hasNoProgress) {
     // Se NENHUM dado, mostrar estado vazio apropriado
     return (
-        <div className="min-h-dvh">
-          <header className="safe-top bg-grafite pb-6 text-offwhite">
-            <div className="mx-auto max-w-2xl px-4">
-              <h1 className="pt-2 text-2xl font-bold">📊 Meu progresso</h1>
-            </div>
-          </header>
-          <div className="min-h-[60vh] flex flex-col items-center justify-center p-6">
-            <p className="text-6xl mb-4">🌱</p>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Nenhum progresso registrado</h2>
-            <p className="text-center text-gray-600 mb-6 max-w-md">Comece a estudar e seu progresso aparecerá aqui! Cada aula que você completa será registrada.</p>
-            <Link to="/" className="px-6 py-3 bg-laranja text-white rounded-2xl font-semibold hover:bg-laranja-escuro transition">
-              Começar a estudar
-            </Link>
+      <div className="min-h-dvh">
+        <header className="safe-top bg-grafite pb-6 text-offwhite">
+          <div className="mx-auto max-w-2xl px-4">
+            <h1 className="pt-2 text-2xl font-bold">📊 Meu progresso</h1>
           </div>
+        </header>
+        <div className="min-h-[60vh] flex flex-col items-center justify-center p-6">
+          <p className="text-6xl mb-4">🌱</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Nenhum progresso registrado</h2>
+          <p className="text-center text-gray-600 mb-6 max-w-md">Comece a estudar e seu progresso aparecerá aqui! Cada aula que você completa será registrada.</p>
+          <Link to="/" className="px-6 py-3 bg-laranja text-white rounded-2xl font-semibold hover:bg-laranja-escuro transition">
+            Começar a estudar
+          </Link>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 
-    const bySubject = subjectProgress(s) || []
-    const weak = weakSkills(s)?.slice(0, 4) || []
-    const streak = currentStreak(s.studyDays || [])
-    const accuracy = s.questionsAnswered ? Math.round((s.correctAnswers / s.questionsAnswered) * 100) : 0
+  const bySubject = subjectProgress(s) || []
+  const weak = weakSkills(s)?.slice(0, 4) || []
+  const streak = currentStreak(s.studyDays || [])
+  const accuracy = s.questionsAnswered ? Math.round((s.correctAnswers / s.questionsAnswered) * 100) : 0
 
   return (
     <div className="min-h-dvh">
