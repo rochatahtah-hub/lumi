@@ -15,10 +15,9 @@ export default function ProgressPage() {
   // Calcular antes de qualquer condicional
   const hasNoProgress = !s.points && !s.lessons && !s.questionsAnswered && !s.studyDays?.length
 
-  try {
-    if (hasNoProgress) {
-      // Se NENHUM dado, mostrar estado vazio apropriado
-      return (
+  if (hasNoProgress) {
+    // Se NENHUM dado, mostrar estado vazio apropriado
+    return (
         <div className="min-h-dvh">
           <header className="safe-top bg-grafite pb-6 text-offwhite">
             <div className="mx-auto max-w-2xl px-4">
@@ -126,10 +125,6 @@ export default function ProgressPage() {
       </Page>
     </div>
   )
-  } catch (err) {
-    console.error('Erro em ProgressPage:', err)
-    return <ErrorFallback message={`Erro ao carregar progresso: ${err instanceof Error ? err.message : 'erro desconhecido'}`} />
-  }
 }
 
 function ErrorFallback({ message }: { message: string }) {
@@ -151,8 +146,9 @@ function ErrorFallback({ message }: { message: string }) {
 
 /** jogos realizados/concluídos, acertos, erros, tempo e por tipo de jogo */
 function GamesCard() {
+  const games = useLumi((st) => st.games)
+
   try {
-    const games = useLumi((st) => st.games)
     if (!games || !games.length) return null
 
     const done = games.filter((g) => g.completed) || []
