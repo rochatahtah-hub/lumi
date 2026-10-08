@@ -10,11 +10,13 @@ import { buildTrail, wordsLearned } from '../lib/english'
 export default function ProgressPage() {
   const s = useLumi((st) => st)
 
-  try {
-    if (!s) return <ErrorFallback message="Carregando dados..." />
+  if (!s) return <ErrorFallback message="Carregando dados..." />
 
-    // Validar que os dados existem
-    if (!s.points !== undefined && !s.lessons && !s.questionsAnswered && !s.studyDays?.length) {
+  // Calcular antes de qualquer condicional
+  const hasNoProgress = !s.points && !s.lessons && !s.questionsAnswered && !s.studyDays?.length
+
+  try {
+    if (hasNoProgress) {
       // Se NENHUM dado, mostrar estado vazio apropriado
       return (
         <div className="min-h-dvh">
