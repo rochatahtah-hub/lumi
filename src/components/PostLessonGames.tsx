@@ -3,7 +3,7 @@ import type { Lesson } from '../types'
 import { GAMES } from '../games/registry'
 
 export function PostLessonGames({ lesson }: { lesson: Lesson }) {
-  const availableGames = GAMES.filter(g => lesson.games?.[g.id] || g.id === 'quiz')
+  const availableGames = GAMES.filter(g => (lesson.games as any)?.[g.id] || g.id === 'quiz')
 
   if (availableGames.length === 0) return null
 
