@@ -63,17 +63,47 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      # 8. Deploy FTP para Hostinger
+      # 8. Deploy FTP para Hostinger (Python)
       - name: 🚀 Deploy para Hostinger (FTP)
-        uses: milanmk/actions-file-deployer@master
         if: success()
-        with:
-          remote-url: ${{ secrets.HOSTINGER_SERVER }}
-          remote-user: ${{ secrets.HOSTINGER_USER }}
-          remote-password: ${{ secrets.HOSTINGER_PASS }}
-          local-path: ./dist/
-          remote-path: ${{ secrets.HOSTINGER_PATH }}/
-          cleanup: true
+        run: |
+          python3 << 'EOF'
+          import ftplib
+          import os
+          from pathlib import Path
+
+          ftp_host = "${{ secrets.HOSTINGER_SERVER }}"
+          ftp_user = "${{ secrets.HOSTINGER_USER }}"
+          ftp_pass = "${{ secrets.HOSTINGER_PASS }}"
+          remote_path = "${{ secrets.HOSTINGER_PATH }}"
+
+          print(f"🔌 Conectando a {ftp_host}...")
+          ftp = ftplib.FTP(ftp_host)
+          ftp.login(ftp_user, ftp_pass)
+          print("✅ Conectado!")
+
+          # Navegar para pasta remota
+          ftp.cwd(remote_path)
+          print(f"📁 Acessando {remote_path}")
+
+          # Upload dos arquivos
+          dist_path = Path("dist")
+          uploaded = 0
+          for root, dirs, files in os.walk(dist_path):
+            for file in files:
+              local = Path(root) / file
+              remote = str(local.relative_to(dist_path)).replace("\\", "/")
+              try:
+                with open(local, 'rb') as f:
+                  ftp.storbinary(f'STOR {remote}', f)
+                  uploaded += 1
+                  print(f"✓ {remote}")
+              except Exception as e:
+                print(f"✗ {remote}: {e}")
+
+          ftp.quit()
+          print(f"\n✅ Deploy concluído! {uploaded} arquivos enviados.")
+          EOF
         continue-on-error: false
 
       # 11. Notificação de sucesso
