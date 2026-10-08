@@ -1,0 +1,19 @@
+name: Schedule Push Notifications
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # A cada hora
+  
+  workflow_dispatch:  # Permite disparo manual
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger schedule-notifications
+        run: |
+          curl -X POST \
+            "https://khmozcolgdpkvlgctqgk.supabase.co/functions/v1/schedule-notifications" \
+            -H "Content-Type: application/json" \
+            -d '{}'
