@@ -545,6 +545,12 @@ async function mapSvg(l: Lesson): Promise<{ svg: string; ratio: string }> {
 export function PuzzleGame(p: GameProps) {
   // Dificuldade inteligente: fácil tem menos peças
   const n = { 1: 2, 2: 3, 3: 4 }[p.difficulty]
+
+  // Experiência adaptada por idade
+  const isYoung = p.lesson.grade?.includes('1º') || p.lesson.grade?.includes('2º') || p.lesson.grade?.includes('3º')
+  const fontSize = isYoung ? 'text-xs' : 'text-sm'
+  const spacing = isYoung ? 'gap-1' : 'gap-2'
+  const pieceSize = isYoung ? 'p-2' : 'p-3'
   const [img, setImg] = useState<string | null>(null)
   const [ratio, setRatio] = useState('1 / 1')
   useEffect(() => {
@@ -645,9 +651,9 @@ export function PuzzleGame(p: GameProps) {
             </div>
           </div>
 
-          {/* Botões de controle */}
-          <div className="flex gap-2 flex-wrap justify-center">
-            <button onClick={() => { setShowPreview(true); setTimeout(() => setShowPreview(false), 2500) }} className="text-xs px-3 py-1 rounded-full border border-white/20 hover:bg-laranja/30 transition font-semibold text-offwhite/90">
+          {/* Botões de controle - adaptados para idade */}
+          <div className={`flex ${spacing} flex-wrap justify-center`}>
+            <button onClick={() => { setShowPreview(true); setTimeout(() => setShowPreview(false), 2500) }} className={`${fontSize} px-3 py-1 rounded-full border border-white/20 hover:bg-laranja/30 transition font-semibold text-offwhite/90`}>
               👀 Ver Imagem (3s)
             </button>
             {p.difficulty > 1 && (
@@ -656,8 +662,12 @@ export function PuzzleGame(p: GameProps) {
               </button>
             )}
           </div>
-          {/* Instrução */}
-          <p className="text-xs text-center text-offwhite/60">{useDragMode ? '⬆️ Arrasta a peça para encaixar' : '👉 Toque na peça depois no lugar'}</p>
+          {/* Instrução - adaptada por idade */}
+          <p className={`${fontSize} text-center text-offwhite/60`}>
+            {isYoung
+              ? (useDragMode ? '⬆️ Arrasta a peça bem grande!' : '👉 Toque na peça depois no lugar!')
+              : (useDragMode ? '⬆️ Arrasta a peça para encaixar' : '👉 Toque na peça depois no lugar')}
+          </p>
 
           {/* Tabuleiro */}
           <div ref={boardRef} className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border-2 border-laranja/30 bg-white/5" style={{ aspectRatio: ratio }}>
