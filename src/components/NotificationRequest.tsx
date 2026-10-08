@@ -9,15 +9,20 @@ export function NotificationRequest() {
 
   useEffect(() => {
     // Mostrar apenas se:
-    // 1. PWA está instalado
+    // 1. PWA está instalado OU em modo de desenvolvimento
     // 2. Notificações não foram ainda habilitadas
     // 3. Usuário não recusou (verificar localStorage)
     const checkShowPrompt = async () => {
       const isPWA = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true
+      const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       const hasDecided = localStorage.getItem('lumi_notification_decision')
       const alreadyEnabled = await isPushEnabled()
 
-      if (isPWA && !hasDecided && !alreadyEnabled) {
+      // Mostrar em PWA instalado, em desenvolvimento, ou forçar com ?notif-test=1
+      const forceShow = new URLSearchParams(window.location.search).get('notif-test') === '1'
+      const shouldShow = (isPWA || isDev || forceShow) && !hasDecided && !alreadyEnabled
+
+      if (shouldShow) {
         // Aguardar 2 segundos para não ser intrusivo
         setTimeout(() => setShow(true), 2000)
       }
