@@ -102,6 +102,20 @@ export function GameShell({ game, lesson, difficulty, progress, hint, children, 
   const clock = `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`
   const back = () => (history.length > 1 ? nav(-1) : nav('/jogos'))
 
+  // Escala de dificuldade progressiva
+  const getNextDifficulty = (): 1 | 2 | 3 => {
+    if (!finish) return difficulty
+    const total = finish.correct + finish.wrong
+    if (total === 0) return difficulty
+    const accuracy = (finish.correct / total) * 100
+
+    // Se >80% de acerto e não é nível máximo, sugerir próximo nível
+    if (accuracy > 80 && difficulty < 3) return (difficulty + 1) as 1 | 2 | 3
+    // Se <60% de acerto e não é nível mínimo, sugerir nível anterior
+    if (accuracy < 60 && difficulty > 1) return (difficulty - 1) as 1 | 2 | 3
+    return difficulty
+  }
+
   return (
     <div className="min-h-dvh bg-grafite pb-10 text-offwhite">
       <div aria-hidden className="pointer-events-none fixed -right-24 top-10 h-56 w-56 rounded-full bg-laranja/15 blur-3xl" />
@@ -121,7 +135,7 @@ export function GameShell({ game, lesson, difficulty, progress, hint, children, 
         </div>
 
         {finish ? (
-          <FinishCard f={finish} difficulty={difficulty} onRestart={onRestart} onOther={() => nav(`/jogos?aula=${lesson.id}`)} onLesson={() => nav(lesson.origin === 'base' || lesson.origin === 'nuvem' ? `/aula/${lesson.id}` : '/')} />
+          <FinishCard f={finish} difficulty={difficulty} nextDifficulty={getNextDifficulty()} onRestart={onRestart} onOther={() => nav(`/jogos?aula=${lesson.id}`)} onLesson={() => nav(lesson.origin === 'base' || lesson.origin === 'nuvem' ? `/aula/${lesson.id}` : '/')} />
         ) : (
           <>
             <section className="lumi-game-card mt-4 rounded-3xl border border-white/10 bg-grafite-2 p-3 sm:p-4">{children(api)}</section>
@@ -141,8 +155,9 @@ export function GameShell({ game, lesson, difficulty, progress, hint, children, 
   )
 }
 
-function FinishCard({ f, difficulty, onRestart, onOther, onLesson }: { f: Finish; difficulty: 1 | 2 | 3; onRestart: () => void; onOther: () => void; onLesson: () => void }) {
+function FinishCard({ f, difficulty, nextDifficulty, onRestart, onOther, onLesson }: { f: Finish; difficulty: 1 | 2 | 3; nextDifficulty: 1 | 2 | 3; onRestart: () => void; onOther: () => void; onLesson: () => void }) {
   const acc = f.correct + f.wrong ? Math.round((100 * f.correct) / (f.correct + f.wrong)) : 100
+  const difficultyAdvice = nextDifficulty > difficulty ? 'Que tal tentar o nível seguinte?' : nextDifficulty < difficulty ? 'Que tal praticar mais neste nível?' : ''
   const secs = Math.round(f.ms / 1000)
   return (
     <section className="animate-rise mt-4 overflow-hidden rounded-3xl border border-white/10 bg-grafite-2 text-center">
@@ -159,6 +174,7 @@ function FinishCard({ f, difficulty, onRestart, onOther, onLesson }: { f: Finish
           <Stat label="Tempo" value={`${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`} />
         </div>
         <p className="mt-3 text-sm text-cinza-texto">{f.moves} {f.moves === 1 ? 'tentativa' : 'tentativas'} · {f.wrong} {f.wrong === 1 ? 'erro' : 'erros'} · {f.hints} {f.hints === 1 ? 'dica' : 'dicas'} · <b className="text-laranja-escuro">+{f.points} pontos</b></p>
+        {difficultyAdvice && <p className="mt-2 text-xs text-laranja-escuro font-semibold">💡 {difficultyAdvice}</p>}
         {f.unlocked.length > 0 && (
           <div className="mt-3 rounded-2xl bg-laranja-suave p-3 text-left">
             <p className="font-semibold">🏆 Nova conquista!</p>
