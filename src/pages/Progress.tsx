@@ -9,10 +9,16 @@ import { buildTrail, wordsLearned } from '../lib/english'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function ProgressPageInner() {
-  try {
-    const s = useLumi((st) => st)
+  let s: any = null
 
-    if (!s) return <ErrorFallback message="Carregando dados..." />
+  try {
+    s = useLumi((st) => st)
+  } catch (err) {
+    console.error('Erro ao chamar useLumi:', err)
+    return <ErrorFallback message={`Erro ao carregar dados: ${err}`} />
+  }
+
+  if (!s) return <ErrorFallback message="Carregando dados..." />
 
     // Garantir dados default para safety
     const safeState = {
@@ -68,9 +74,10 @@ function ProgressPageInner() {
     console.error('Erro ao calcular stats:', err)
   }
 
-  return (
-    <div className="min-h-dvh">
-      <header className="safe-top bg-grafite pb-6 text-offwhite">
+  try {
+    return (
+      <div className="min-h-dvh">
+        <header className="safe-top bg-grafite pb-6 text-offwhite">
         <div className="mx-auto max-w-2xl px-4">
           <h1 className="pt-2 text-2xl font-bold">📊 Meu progresso</h1>
           <p className="text-offwhite/80">Tudo fica salvo neste aparelho{safeState.profile?.userId ? ' e na sua conta' : ''}.</p>
@@ -153,8 +160,8 @@ function ProgressPageInner() {
     </div>
     )
   } catch (err) {
-    console.error('Erro em ProgressPage:', err)
-    return <ErrorFallback message={`Erro ao carregar progresso: ${err}`} />
+    console.error('Erro ao renderizar Progress:', err)
+    return <ErrorFallback message={`Erro: ${err instanceof Error ? err.message : String(err)}`} />
   }
 }
 
