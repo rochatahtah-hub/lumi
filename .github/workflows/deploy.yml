@@ -56,7 +56,7 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           local_path: './dist/*'
           remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete: 'true'
+          delete_remote_files: 'true'
 
       # 8. Deploy .htaccess (SPA routing)
       - name: Deploy .htaccess para Hostinger
@@ -67,7 +67,7 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           local_path: './.htaccess'
           remote_path: ${{ secrets.HOSTINGER_DEPLOY_PATH || '/public_html' }}
-          delete: 'false'
+          delete_remote_files: 'false'
         continue-on-error: true
 
       # 9. Sucesso
