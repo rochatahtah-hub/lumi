@@ -625,11 +625,20 @@ export function PuzzleGame(p: GameProps) {
   }
 
   const hint = (lv: 1 | 2 | 3) => {
-    if (lv === 1) return 'Comece pelos cantos! Eles têm um lado reto.'
-    if (lv === 2) { setShowPreview(true); setTimeout(() => setShowPreview(false), 3000); return 'Olha só! A imagem apareceu.' }
+    if (lv === 1) return '💡 Comece pelos cantos! Eles têm um lado reto. Procure as bolas nos cantos!'
+    if (lv === 2) {
+      setShowPreview(true)
+      setTimeout(() => setShowPreview(false), 4000)
+      return '👀 Olha só! A imagem apareceu por 4 segundos. Tente se lembrar do padrão!'
+    }
     const k = placed.findIndex((x) => x === null)
-    if (k >= 0) { const pl = [...placed]; pl[k] = k; setPlaced(pl) }
-    return 'Pronto! Coloquei uma peça. 😉'
+    if (k >= 0) {
+      const pl = [...placed]
+      pl[k] = k
+      setPlaced(pl)
+      apiRef.current?.say('🎁 Coloquei uma peça para você! Continue!', 'smile')
+    }
+    return '🎁 Coloquei uma peça! Você consegue com as outras!'
   }
 
   const totalPieces = n * n
