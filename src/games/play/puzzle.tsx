@@ -580,13 +580,17 @@ export function PuzzleGame(p: GameProps) {
       const pl = [...placed]; pl[slot] = sel
       setPlaced(pl); setSel(null)
       const left = pl.filter((x) => x === null).length
-      // Mensagens contextuais
+      // Mensagens contextuais com feedback progressivo
       if (left === 0) {
-        api.say('🎉 Perfeito! Você montou tudo!', 'medium')
-      } else if (left <= 2) {
-        api.say('Quase lá! Só faltam ' + left + '! 🎯', 'smile')
+        api.say('🎉 PERFEITO! Você montou tudo! Excelente trabalho!', 'medium')
+      } else if (left === 1) {
+        api.say('Quase lá! Só falta 1 peça! 🎯', 'smile')
+      } else if (left <= 3) {
+        api.say(`Muito bom! Faltam ${left} peças! 💪`, 'smile')
+      } else if (left <= 6) {
+        api.say('Excelente! Peça encaixada! 🧩', 'smile')
       } else {
-        api.say('Excelente! Peça encaixada. 🧩', 'smile')
+        api.say('Bom trabalho! Continue! 👍', 'smile')
       }
     } else {
       api.hit(false)
@@ -703,19 +707,37 @@ export function PuzzleGame(p: GameProps) {
             </div>
           )}
 
-          {/* Comemoração */}
+          {/* Comemoração com animações e celebração */}
           {done && (
-            <div className="text-center space-y-3 py-6 px-4 rounded-2xl bg-gradient-to-br from-laranja/20 to-orange-400/10 border border-laranja/30">
-              <p className="text-3xl animate-bounce">🎉</p>
-              <div>
-                <p className="text-lg font-bold text-laranja">Perfeito! Você montou tudo!</p>
-                <p className="text-xs text-offwhite/70 mt-1">{p.lesson.summary}</p>
+            <div className="space-y-4">
+              {/* Confete/Celebração visual */}
+              <div className="relative h-16 flex items-center justify-center overflow-hidden">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="absolute text-2xl animate-bounce" style={{
+                    left: `${(i % 3) * 40 + 20}%`,
+                    animationDelay: `${i * 0.1}s`,
+                    animationDuration: `${0.6 + i * 0.1}s`
+                  }}>
+                    {['🎉', '⭐', '🌟', '✨'][i % 4]}
+                  </div>
+                ))}
               </div>
-              <div className="pt-2 border-t border-white/10">
-                <p className="text-xs text-offwhite/80 font-semibold mb-2">📚 Pergunta rápida:</p>
-                <p className="text-sm text-offwhite">{p.lesson.blocks?.[0]?.title || 'Parabéns por completar!'}</p>
+
+              <div className="text-center space-y-3 py-6 px-4 rounded-2xl bg-gradient-to-br from-laranja/30 to-orange-400/20 border-2 border-laranja/50 shadow-lg shadow-laranja/20">
+                <p className="text-4xl animate-bounce" style={{ animationDuration: '0.7s' }}>🎉</p>
+                <div>
+                  <p className="text-lg font-bold text-laranja">Perfeito! Você montou tudo!</p>
+                  <p className="text-xs text-offwhite/80 mt-1">{p.lesson.summary}</p>
+                </div>
+                <div className="pt-3 border-t border-white/20">
+                  <p className="text-xs text-offwhite/90 font-semibold mb-2">📚 Pergunta rápida:</p>
+                  <p className="text-sm text-offwhite/95 font-medium">{p.lesson.blocks?.[0]?.title || 'Parabéns por completar!'}</p>
+                </div>
+                <div className="pt-2 space-y-1">
+                  <p className="text-2xl font-bold text-laranja" style={{ animation: 'bounce 1s ease-in-out infinite' }}>⭐ +{n * n * 10} pontos!</p>
+                  <p className="text-xs text-offwhite/70">Incrível desempenho!</p>
+                </div>
               </div>
-              <p className="text-lg pt-2">⭐ +{n * n * 10} pontos</p>
             </div>
           )}
         </div>
