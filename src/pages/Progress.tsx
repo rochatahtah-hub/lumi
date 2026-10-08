@@ -6,28 +6,30 @@ import { subjectById } from '../content/subjects'
 import { currentStreak, subjectProgress, useLumi, weakSkills } from '../lib/store'
 import { GAMES } from '../games/registry'
 import { buildTrail, wordsLearned } from '../lib/english'
+import { ErrorBoundary } from '../components/ErrorBoundary'
 
-export default function ProgressPage() {
-  const s = useLumi((st) => st)
+function ProgressPageInner() {
+  try {
+    const s = useLumi((st) => st)
 
-  if (!s) return <ErrorFallback message="Carregando dados..." />
+    if (!s) return <ErrorFallback message="Carregando dados..." />
 
-  // Garantir dados default para safety
-  const safeState = {
-    ...s,
-    lessons: s.lessons || {},
-    english: s.english || { placement: undefined, placements: {}, views: {}, unitTests: {}, activities: [], vocab: {} },
-    games: s.games || [],
-    history: s.history || [],
-    studyDays: s.studyDays || [],
-  }
+    // Garantir dados default para safety
+    const safeState = {
+      ...s,
+      lessons: s.lessons || {},
+      english: s.english || { placement: undefined, placements: {}, views: {}, unitTests: {}, activities: [], vocab: {} },
+      games: s.games || [],
+      history: s.history || [],
+      studyDays: s.studyDays || [],
+    }
 
-  // Calcular antes de qualquer condicional
-  const hasNoProgress = !safeState.points && !Object.keys(safeState.lessons).length && !safeState.questionsAnswered && !safeState.studyDays?.length
+    // Calcular antes de qualquer condicional
+    const hasNoProgress = !safeState.points && !Object.keys(safeState.lessons).length && !safeState.questionsAnswered && !safeState.studyDays?.length
 
-  if (hasNoProgress) {
-    // Se NENHUM dado, mostrar estado vazio apropriado
-    return (
+    if (hasNoProgress) {
+      // Se NENHUM dado, mostrar estado vazio apropriado
+      return (
       <div className="min-h-dvh">
         <header className="safe-top bg-grafite pb-6 text-offwhite">
           <div className="mx-auto max-w-2xl px-4">
@@ -46,10 +48,25 @@ export default function ProgressPage() {
     )
   }
 
-  const bySubject = subjectProgress(safeState) || []
-  const weak = weakSkills(safeState)?.slice(0, 4) || []
-  const streak = currentStreak(safeState.studyDays || [])
-  const accuracy = safeState.questionsAnswered ? Math.round((safeState.correctAnswers / safeState.questionsAnswered) * 100) : 0
+  let bySubject: any[] = []
+  let weak: any[] = []
+  let streak: number = 0
+  let accuracy: number = 0
+  let englishLevel: string = 'A1'
+  let wordsCount: number = 0
+  let unitsCount: number = 0
+
+  try {
+    bySubject = subjectProgress(safeState) || []
+    weak = weakSkills(safeState)?.slice(0, 4) || []
+    streak = currentStreak(safeState.studyDays || [])
+    accuracy = safeState.questionsAnswered ? Math.round((safeState.correctAnswers / safeState.questionsAnswered) * 100) : 0
+    englishLevel = buildTrail(safeState)?.level || 'A1'
+    wordsCount = wordsLearned(safeState) ?? 0
+    unitsCount = Object.values(safeState.english?.unitTests || {}).filter((t) => t?.best >= 70).length
+  } catch (err) {
+    console.error('Erro ao calcular stats:', err)
+  }
 
   return (
     <div className="min-h-dvh">
@@ -93,10 +110,10 @@ export default function ProgressPage() {
 
         <GamesCard />
 
-        {(safeState.english.placement || Object.keys(safeState.english.views || {}).length > 0) && (
+        {(safeState.english?.placement || Object.keys(safeState.english?.views || {}).length > 0) && (
           <Link to="/idiomas/aprendizado" className="mt-4 flex items-center gap-3 rounded-3xl border border-cinza bg-white p-4 hover:border-laranja">
             <span className="text-3xl" aria-hidden>🌎</span>
-            <span className="flex-1"><span className="block font-semibold">Idiomas · Inglês {buildTrail(safeState).level}</span><span className="block text-sm text-cinza-texto">{wordsLearned(safeState)} palavras aprendidas · {Object.values(safeState.english.unitTests || {}).filter((t) => t.best >= 70).length} unidades dominadas</span></span>
+            <span className="flex-1"><span className="block font-semibold">Idiomas · Inglês {englishLevel}</span><span className="block text-sm text-cinza-texto">{wordsCount} palavras aprendidas · {unitsCount} unidades dominadas</span></span>
             <ChevronRight size={18} className="text-cinza-texto" />
           </Link>
         )}
@@ -134,7 +151,11 @@ export default function ProgressPage() {
         )}
       </Page>
     </div>
-  )
+    )
+  } catch (err) {
+    console.error('Erro em ProgressPage:', err)
+    return <ErrorFallback message={`Erro ao carregar progresso: ${err}`} />
+  }
 }
 
 function ErrorFallback({ message }: { message: string }) {
@@ -151,6 +172,14 @@ function ErrorFallback({ message }: { message: string }) {
         <p>Se o problema persistir, tente limpar o cache (Ctrl+Shift+Del) ou use navegador privado.</p>
       </details>
     </div>
+  )
+}
+
+export default function ProgressPage() {
+  return (
+    <ErrorBoundary>
+      <ProgressPageInner />
+    </ErrorBoundary>
   )
 }
 
@@ -186,10 +215,10 @@ function GamesCard() {
   }
 }
 
-function Stat({ icon, value, label }: { icon: React.ReactNode; value: number; label: string }) {
+function Stat({ icon, value, label }: { icon: React.ReactNode; value?: number; label: string }) {
   return (
     <div className="rounded-2xl bg-white/10 p-3">
-      <div className="flex items-center gap-1.5 text-xl font-bold">{icon}{value}</div>
+      <div className="flex items-center gap-1.5 text-xl font-bold">{icon}{value ?? 0}</div>
       <p className="text-xs text-offwhite/75">{label}</p>
     </div>
   )
