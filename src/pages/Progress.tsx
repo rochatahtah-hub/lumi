@@ -8,8 +8,9 @@ import { GAMES } from '../games/registry'
 import { buildTrail, wordsLearned } from '../lib/english'
 
 export default function ProgressPage() {
+  const s = useLumi((st) => st)
+
   try {
-    const s = useLumi((st) => st)
     if (!s) return <ErrorFallback message="Carregando dados..." />
 
     // Validar que os dados existem
